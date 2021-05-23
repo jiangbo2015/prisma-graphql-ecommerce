@@ -7,7 +7,10 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {},
+  "scripts": {
+    "start": "yarn workspace server dev && yarn workspace admin dev",
+    "heroku-postbuild": "bash ./script/heroku-build.sh"
+  },
   "devDependencies": {
     "husky": "4.3.8",
     "lerna": "^4.0.0",

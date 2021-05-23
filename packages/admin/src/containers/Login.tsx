@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Card, CardContent, Typography, CardActions, Button } from '@material-ui/core'
+import { Card, CardContent, Typography, Button, Box } from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
@@ -55,13 +55,11 @@ export default function InputWithIcon() {
                         ),
                     }}
                 />
-                <CardActions>
-                    <Grid container justify="center">
-                        <Button variant="contained" color="primary">
-                            Submit
-                        </Button>
-                    </Grid>
-                </CardActions>
+                <Box display="flex" justifyContent="center" mt={3}>
+                    <Button variant="contained" color="primary">
+                        Submit
+                    </Button>
+                </Box>
             </Card>
         </Grid>
     )
