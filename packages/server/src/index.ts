@@ -15,7 +15,6 @@ const app = async () => {
     })
 
     new ApolloServer({
-        schema,
         context,
         cors: true,
     }).listen({ port: 4000 }, (url: any) => {

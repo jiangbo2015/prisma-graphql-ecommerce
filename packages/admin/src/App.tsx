@@ -1,12 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import Home from './containers/Home'
-import Collection from './containers/Collection'
-import Product from './containers/Product'
+
 import HomeIcon from '@material-ui/icons/Home'
 import CategoryIcon from '@material-ui/icons/Category'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import { SvgIconProps } from '@material-ui/core'
+
+import Home from './containers/Home'
+import Collection from './containers/Collection'
+import Product from './containers/Product'
+import Login from './containers/Login'
 
 export interface IMenu {
     title: string
@@ -48,6 +51,9 @@ export default function App() {
     return (
         <Router>
             <Switch>
+                <Route path="/login">
+                    <Login></Login>
+                </Route>
                 {menus.map((menu) => (
                     <Route path={menu.path}>
                         <menu.component />
