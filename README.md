@@ -1,4 +1,4 @@
-# Share-Graphql-Ecommerce
+# Sharp-Graphql-Ecommerce
 
 Full Stack ecommerce system. built with `Apollo` + `Graphql` + `typescript`
 

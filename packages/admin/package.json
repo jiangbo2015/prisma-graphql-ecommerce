@@ -1,0 +1,54 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "fix": "eslint ./src/components/*.tsx --fix",
+    "schema": "apollo client:codegen --target typescript",
+    "generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.19",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "graphql": "^15.5.0",
+    "prop-types": "^15.7.2",
+    "ra-data-json-server": "^3.15.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "server": "^0.1.0",
+    "type-graphql": "^1.1.1",
+    "web-vitals": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.20.13",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "@types/react-router-dom": "^5.1.7",
+    "typescript": "^4.2.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
