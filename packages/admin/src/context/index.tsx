@@ -5,9 +5,7 @@ type GlobalContext = {
     dispatch: React.Dispatch<Action>
 }
 
-type State = {
-    data?: object
-}
+type State = typeof initialState
 
 type Action = { type: 'start' } | { type: 'end' }
 

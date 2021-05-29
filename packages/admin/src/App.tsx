@@ -24,14 +24,14 @@ export const menus: IMenu[] = [
         path: '/collection',
         icon: CategoryIcon,
         component: Collection,
-        children: [
-            {
-                title: 'ColectionAdd',
-                path: '/collection-add',
-                icon: CategoryIcon,
-                component: Collection,
-            },
-        ],
+        // children: [
+        //     {
+        //         title: 'ColectionAdd',
+        //         path: '/collection-add',
+        //         icon: CategoryIcon,
+        //         component: Collection,
+        //     },
+        // ],
     },
     {
         title: 'Product',

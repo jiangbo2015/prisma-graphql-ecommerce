@@ -9,7 +9,8 @@
     "eject": "react-scripts eject",
     "fix": "eslint ./src/components/*.tsx --fix",
     "schema": "apollo client:codegen --target typescript",
-    "generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql"
+    "download": "apollo service:download",
+    "generate": "yarn download && apollo codegen:generate --localSchemaFile=schema.json ./src/__generated__/ --target=typescript --tagName=gql --outputFlat"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",

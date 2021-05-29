@@ -1,4 +1,5 @@
 import 'reflect-metadata'
+import { Prisma } from '@prisma/client'
 import { Resolver, Query, Mutation, Arg, Ctx, InputType, Field } from 'type-graphql'
 import { omit } from 'lodash'
 import Collection from '../models/Collection'
@@ -11,9 +12,18 @@ export class CollectionCreateInput {
 
     @Field()
     slug: string
+}
+
+@InputType()
+export class CollectionUpdateInput implements Partial<Collection> {
+    @Field()
+    id: number
 
     @Field()
-    id?: number
+    name?: string
+
+    @Field()
+    slug?: string
 }
 
 @Resolver(Collection)
@@ -38,7 +48,7 @@ export default class CollectionResolver {
     }
 
     @Mutation(() => Collection)
-    async updateCollection(@Arg('data') data: CollectionCreateInput, @Ctx() ctx: Context) {
+    async updateCollection(@Arg('data') data: CollectionUpdateInput, @Ctx() ctx: Context) {
         return ctx.prisma.collection.update({
             where: {
                 id: data.id,

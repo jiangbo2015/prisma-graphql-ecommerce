@@ -6,25 +6,30 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { CollectionCreateInput, CollectionUpdateInput } from '../__generated__/globalTypes'
 
 type ModalProps = {
     open: boolean
+    editData: CollectionUpdateInput | null
     handleClose: DialogProps['onClose']
     handleConfirm: Function
-}
-
-type ValueProps = {
-    name: string
-    slug: string
+    handleConfirmUpdate: Function
 }
 
 type ErrorProps = {
-    [P in keyof ValueProps]: boolean
+    [P in keyof CollectionCreateInput]: boolean
 }
 
-export default function FormDialog({ open, handleClose, handleConfirm }: ModalProps) {
-    const [name, setName] = useState('')
-    const [slug, setSlug] = useState('')
+export default function FormDialog({
+    open,
+    handleClose,
+    handleConfirm,
+    handleConfirmUpdate,
+    editData,
+}: ModalProps) {
+    console.log(editData, 'editData')
+    const [name, setName] = useState(editData?.name || '')
+    const [slug, setSlug] = useState(editData?.slug || '')
     const [errors, setErrors] = useState<ErrorProps>({
         name: false,
         slug: false,
@@ -34,6 +39,15 @@ export default function FormDialog({ open, handleClose, handleConfirm }: ModalPr
             setErrors({
                 name: Boolean(name),
                 slug: Boolean(slug),
+            })
+            return
+        }
+
+        if (editData) {
+            handleConfirmUpdate({
+                id: editData.id,
+                name,
+                slug,
             })
             return
         }

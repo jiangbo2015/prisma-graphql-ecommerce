@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import React, { useState } from 'react'
+import { useQuery } from '@apollo/client'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -11,6 +12,14 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CollectionModal from '../components/CollectionModal'
+import { CollectionCreateInput, CollectionUpdateInput } from '../__generated__/globalTypes'
+import {
+    useCreateCollection,
+    useUpdateCollection,
+    useDelCollection,
+    GET_ALL_COLLECTIONS,
+} from '../graphql/Collection'
+import { AllCollections } from '../__generated__/AllCollections'
 
 const useStyles = makeStyles({
     table: {
@@ -21,39 +30,65 @@ const useStyles = makeStyles({
     },
 })
 
-const rows = [
-    {
-        name: '001',
-        slug: '001',
-    },
-    {
-        name: '001',
-        slug: '001',
-    },
-    {
-        name: '001',
-        slug: '001',
-    },
-]
-
 export default function BasicTable() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
+    const [editData, setEditData] = useState<CollectionUpdateInput | null>(null)
 
-    const handleConfim = (values: object) => {
-        console.log(values)
+    const { mutate } = useCreateCollection()
+    const { mutate: mutateDel } = useDelCollection()
+    const { mutate: mutateUpdate } = useUpdateCollection()
+    const { data } = useQuery<AllCollections>(GET_ALL_COLLECTIONS)
+
+    const handleConfim = (values: CollectionCreateInput) => {
         setOpen(false)
+        mutate({
+            variables: {
+                data: values,
+            },
+        })
+    }
+
+    const handleConfirmUpdate = (values: CollectionUpdateInput) => {
+        setOpen(false)
+        mutateUpdate({
+            variables: {
+                data: values,
+            },
+        })
+    }
+
+    const handleDel = (id: number) => {
+        mutateDel({
+            variables: {
+                id,
+            },
+        })
+    }
+
+    const handleUpdate = (row: CollectionUpdateInput) => {
+        setEditData(row)
+        setOpen(true)
+    }
+
+    const handleAdd = () => {
+        setEditData(null)
+        setOpen(true)
     }
 
     return (
         <Layout>
-            <CollectionModal
-                open={open}
-                handleClose={() => setOpen(false)}
-                handleConfirm={() => {}}
-            ></CollectionModal>
+            {open && (
+                <CollectionModal
+                    open={open}
+                    handleClose={() => setOpen(false)}
+                    handleConfirm={handleConfim}
+                    handleConfirmUpdate={handleConfirmUpdate}
+                    editData={editData}
+                ></CollectionModal>
+            )}
             <Grid container justify="flex-end" className={classes.operation}>
-                <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+                <Button variant="contained" color="primary" onClick={handleAdd}>
                     Add
                 </Button>
             </Grid>
@@ -67,13 +102,16 @@ export default function BasicTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {data?.allCollections?.map((row) => (
                             <TableRow key={row.name}>
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="right">{row.slug}</TableCell>
-                                <TableCell align="right">删除</TableCell>
+                                <TableCell align="right">
+                                    <Button onClick={() => handleDel(row.id)}>删除</Button>
+                                    <Button onClick={() => handleUpdate(row)}>编辑</Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

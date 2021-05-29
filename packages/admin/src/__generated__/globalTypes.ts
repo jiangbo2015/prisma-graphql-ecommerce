@@ -7,6 +7,17 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CollectionCreateInput {
+  name: string;
+  slug: string;
+}
+
+export interface CollectionUpdateInput {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 export interface UserLoginInput {
   email: string;
   password: string;

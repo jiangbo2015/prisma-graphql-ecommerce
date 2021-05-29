@@ -9,6 +9,7 @@
 
 export interface AllCollections_allCollections {
   __typename: "Collection";
+  id: number;
   name: string;
   slug: string;
 }
