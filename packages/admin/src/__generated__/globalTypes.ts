@@ -18,6 +18,23 @@ export interface CollectionUpdateInput {
   slug: string;
 }
 
+export interface ProductCreateInput {
+  title: string;
+  slug: string;
+  price: number;
+  image: string;
+  collectionId: number;
+}
+
+export interface ProductUpdateInput {
+  title: string;
+  slug: string;
+  price: number;
+  image: string;
+  collectionId: number;
+  id: number;
+}
+
 export interface UserLoginInput {
   email: string;
   password: string;

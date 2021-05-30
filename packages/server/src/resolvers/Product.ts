@@ -1,6 +1,21 @@
 import 'reflect-metadata'
-import { Resolver, Query, Mutation, Arg, Ctx, InputType, Field, Int } from 'type-graphql'
-import { omit } from 'lodash'
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Arg,
+    Ctx,
+    InputType,
+    ArgsType,
+    Field,
+    Int,
+    ArgOptions,
+    ID,
+    InterfaceType,
+    Args,
+} from 'type-graphql'
+import { Prisma } from '@prisma/client'
+import { omit, partial } from 'lodash'
 import Product from '../models/Product'
 import { Context } from '../context'
 
@@ -16,10 +31,16 @@ export class ProductCreateInput {
     price: number
 
     @Field()
-    collectionId: number
+    image: string
 
     @Field()
-    id?: number
+    collectionId: number
+}
+
+@InputType()
+export class ProductUpdateInput extends ProductCreateInput {
+    @Field()
+    id: number
 }
 
 @Resolver(Product)
@@ -41,21 +62,31 @@ export default class ProductResolver {
     }
 
     @Mutation(() => Product)
-    async addProduct(@Arg('data') data: ProductCreateInput, @Ctx() ctx: Context) {
+    async createProduct(
+        @Arg('data') data: ProductCreateInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.product.create({
             data: {
-                ...omit(data, ['id', 'collectionId']),
+                ...data,
+                ...omit(data, ['collectionId']),
                 collections: {
                     connect: {
                         id: data.collectionId,
                     },
                 },
             },
+            include: {
+                collections: true,
+            },
         })
     }
 
     @Mutation(() => Product)
-    async delProduct(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async delProduct(
+        @Arg('id', (type) => Int!) id: number,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.product.delete({
             where: {
                 id,
@@ -64,7 +95,10 @@ export default class ProductResolver {
     }
 
     @Mutation(() => Product)
-    async updateProduct(@Arg('data') data: ProductCreateInput, @Ctx() ctx: Context) {
+    async updateProduct(
+        @Arg('data') data: ProductUpdateInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.product.update({
             where: {
                 id: data.id,
@@ -76,6 +110,9 @@ export default class ProductResolver {
                         id: data.collectionId,
                     },
                 },
+            },
+            include: {
+                collections: true,
             },
         })
     }

@@ -6,7 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { CollectionCreateInput, CollectionUpdateInput } from '../__generated__/globalTypes'
+import {
+    CollectionCreateInput,
+    CollectionUpdateInput,
+} from '../__generated__/globalTypes'
 
 type ModalProps = {
     open: boolean
@@ -27,7 +30,6 @@ export default function FormDialog({
     handleConfirmUpdate,
     editData,
 }: ModalProps) {
-    console.log(editData, 'editData')
     const [name, setName] = useState(editData?.name || '')
     const [slug, setSlug] = useState(editData?.slug || '')
     const [errors, setErrors] = useState<ErrorProps>({
@@ -59,7 +61,11 @@ export default function FormDialog({
     }
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="form-dialog-title"
+            >
                 <DialogTitle id="form-dialog-title">Collection Add</DialogTitle>
                 <DialogContent>
                     <form action="">
@@ -85,7 +91,10 @@ export default function FormDialog({
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose as React.MouseEventHandler} color="primary">
+                    <Button
+                        onClick={handleClose as React.MouseEventHandler}
+                        color="primary"
+                    >
                         Cancel
                     </Button>
                     <Button onClick={handleSubmit} color="primary">

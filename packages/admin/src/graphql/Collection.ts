@@ -92,21 +92,26 @@ export const useUpdateCollection = () => {
 }
 
 export const useDelCollection = () => {
-    const [mutate, { data, error, loading }] = useMutation<DelCollection>(DEL_COLLECTION, {
-        update: (cache, { data }) => {
-            const id = data?.delCollection.id
-            const existData = cache.readQuery<AllCollections>({
-                query: GET_ALL_COLLECTIONS,
-            })?.allCollections
-            if (existData && id) {
-                cache.writeQuery<AllCollections>({
+    const [mutate, { data, error, loading }] = useMutation<DelCollection>(
+        DEL_COLLECTION,
+        {
+            update: (cache, { data }) => {
+                const id = data?.delCollection.id
+                const existData = cache.readQuery<AllCollections>({
                     query: GET_ALL_COLLECTIONS,
-                    data: {
-                        allCollections: existData.filter((item) => item.id !== id),
-                    },
-                })
-            }
-        },
-    })
+                })?.allCollections
+                if (existData && id) {
+                    cache.writeQuery<AllCollections>({
+                        query: GET_ALL_COLLECTIONS,
+                        data: {
+                            allCollections: existData.filter(
+                                (item) => item.id !== id
+                            ),
+                        },
+                    })
+                }
+            },
+        }
+    )
     return { mutate, data, error, loading }
 }

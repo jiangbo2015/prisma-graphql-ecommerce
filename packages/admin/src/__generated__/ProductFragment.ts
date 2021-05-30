@@ -4,25 +4,21 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: AllProducts
+// GraphQL fragment: ProductFragment
 // ====================================================
 
-export interface AllProducts_allProducts_collections {
+export interface ProductFragment_collections {
   __typename: "Collection";
   id: number;
   name: string;
 }
 
-export interface AllProducts_allProducts {
+export interface ProductFragment {
   __typename: "Product";
   id: number;
   title: string;
   slug: string;
   price: number;
   image: string;
-  collections: AllProducts_allProducts_collections[];
-}
-
-export interface AllProducts {
-  allProducts: AllProducts_allProducts[];
+  collections: ProductFragment_collections[];
 }
