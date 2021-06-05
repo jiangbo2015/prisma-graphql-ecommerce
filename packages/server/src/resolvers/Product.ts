@@ -52,7 +52,6 @@ export default class ProductResolver {
         })
     }
 
-    @Authorized()
     @Query(() => [Product])
     async allProducts(@Ctx() ctx: Context) {
         return ctx.prisma.product.findMany({
