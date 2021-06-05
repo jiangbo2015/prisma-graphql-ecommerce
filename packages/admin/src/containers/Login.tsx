@@ -6,8 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import LockIcon from '@material-ui/icons/Lock'
-import Snackbar from '@material-ui/core/Snackbar'
-// import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
+import { useHistory } from 'react-router-dom'
 
 import { useLogin } from '../graphql/User'
 
@@ -27,30 +26,31 @@ export default function InputWithIcon() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const { mutate, data, loading, error } = useLogin()
+    const { mutate, data, loading } = useLogin()
 
-    if (error) {
-        return <div>Eoor</div>
+    const history = useHistory()
+
+    if (data?.login) {
+        localStorage.token = data.login.token
+        localStorage.email = data.login.email
+        history.push('/collection')
     }
 
     const handleLogin = () => {
-        try {
-            mutate({
-                variables: {
-                    data: {
-                        email,
-                        password,
-                    },
+        mutate({
+            variables: {
+                data: {
+                    email,
+                    password,
                 },
-            })
-        } catch (e) {
-            console.log(e)
-        }
+            },
+        })
     }
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
         console.log(email, password)
+        handleLogin()
     }
 
     return (
@@ -104,7 +104,6 @@ export default function InputWithIcon() {
                         <Button
                             variant="contained"
                             color="primary"
-                            // onClick={handleLogin}
                             type="submit"
                             disabled={loading}
                         >

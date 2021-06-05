@@ -12,7 +12,10 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CollectionModal from '../components/CollectionModal'
-import { CollectionCreateInput, CollectionUpdateInput } from '../__generated__/globalTypes'
+import {
+    CollectionCreateInput,
+    CollectionUpdateInput,
+} from '../__generated__/globalTypes'
 import {
     useCreateCollection,
     useUpdateCollection,
@@ -109,8 +112,12 @@ export default function BasicTable() {
                                 </TableCell>
                                 <TableCell align="right">{row.slug}</TableCell>
                                 <TableCell align="right">
-                                    <Button onClick={() => handleDel(row.id)}>删除</Button>
-                                    <Button onClick={() => handleUpdate(row)}>编辑</Button>
+                                    <Button onClick={() => handleDel(row.id)}>
+                                        Delete
+                                    </Button>
+                                    <Button onClick={() => handleUpdate(row)}>
+                                        Edit
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}

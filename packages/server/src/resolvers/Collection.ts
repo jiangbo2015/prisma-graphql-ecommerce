@@ -1,6 +1,18 @@
 import 'reflect-metadata'
 import { Prisma } from '@prisma/client'
-import { Resolver, Query, Mutation, Arg, Ctx, InputType, Field } from 'type-graphql'
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Arg,
+    Ctx,
+    InputType,
+    Field,
+    Authorized,
+    Extensions,
+    UseMiddleware,
+    MiddlewareFn,
+} from 'type-graphql'
 import { omit } from 'lodash'
 import Collection from '../models/Collection'
 import { Context } from '../context'
@@ -15,15 +27,15 @@ export class CollectionCreateInput {
 }
 
 @InputType()
-export class CollectionUpdateInput implements Partial<Collection> {
+export class CollectionUpdateInput extends CollectionCreateInput {
     @Field()
     id: number
+}
 
-    @Field()
-    name?: string
+export const isAuth: MiddlewareFn<Context> = ({ context, info }, next) => {
+    console.dir(info.parentType.getFields()[info.fieldName].extensions)
 
-    @Field()
-    slug?: string
+    return next()
 }
 
 @Resolver(Collection)
@@ -41,14 +53,20 @@ export default class CollectionResolver {
     }
 
     @Mutation(() => Collection)
-    async createCollection(@Arg('data') data: CollectionCreateInput, @Ctx() ctx: Context) {
+    async createCollection(
+        @Arg('data') data: CollectionCreateInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.collection.create({
             data,
         })
     }
 
     @Mutation(() => Collection)
-    async updateCollection(@Arg('data') data: CollectionUpdateInput, @Ctx() ctx: Context) {
+    async updateCollection(
+        @Arg('data') data: CollectionUpdateInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.collection.update({
             where: {
                 id: data.id,

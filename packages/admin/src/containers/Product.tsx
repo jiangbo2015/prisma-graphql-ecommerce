@@ -110,6 +110,8 @@ export default function BasicTable() {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="right">Slug</TableCell>
+                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right">Image</TableCell>
                             <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -124,10 +126,10 @@ export default function BasicTable() {
                                 <TableCell align="right">{row.image}</TableCell>
                                 <TableCell align="right">
                                     <Button onClick={() => handleDel(row.id)}>
-                                        删除
+                                        Delete
                                     </Button>
                                     <Button onClick={() => handleUpdate(row)}>
-                                        编辑
+                                        Edit
                                     </Button>
                                 </TableCell>
                             </TableRow>

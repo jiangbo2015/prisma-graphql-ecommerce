@@ -19,6 +19,7 @@ type SubMenuItemProps = {
 const useStyles = makeStyles<Theme, SidebarProps>((theme) => ({
     drawer: (props) => ({
         width: `${props.drawerWidth}px`,
+        flexShrink: 0,
     }),
     drawerPaper: (props) => ({
         width: `${props.drawerWidth}px`,
@@ -40,7 +41,9 @@ const useStyles = makeStyles<Theme, SidebarProps>((theme) => ({
 }))
 
 const SubMenuItem = ({ item, depth }: SubMenuItemProps) => {
-    const [open, setOpen] = useState(window.location.pathname.includes(item.path))
+    const [open, setOpen] = useState(
+        window.location.pathname.includes(item.path)
+    )
     const history = useHistory()
     const active = item.path === window.location.pathname
     const theme = useTheme()
@@ -72,16 +75,20 @@ const SubMenuItem = ({ item, depth }: SubMenuItemProps) => {
     )
 }
 
-export default function Sidebar({ drawerWidth }: SidebarProps) {
+export default function Sidebar({
+    drawerWidth,
+    open,
+}: SidebarProps & { open: boolean }) {
     const classes = useStyles({ drawerWidth })
     return (
         <Drawer
-            variant="permanent"
+            variant="persistent"
             className={classes.drawer}
             classes={{
                 paper: classes.drawerPaper,
             }}
             anchor="left"
+            open={open}
         >
             <List className={classes.listItemWrapper} disablePadding>
                 {menus.map((item) => (

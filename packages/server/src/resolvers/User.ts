@@ -1,5 +1,13 @@
 import 'reflect-metadata'
-import { Resolver, Query, Mutation, Arg, Ctx, InputType, Field } from 'type-graphql'
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Arg,
+    Ctx,
+    InputType,
+    Field,
+} from 'type-graphql'
 import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
 
@@ -67,7 +75,6 @@ export default class UserResolver {
             }
         )
 
-        console.log(res, 'res')
         return { ...res, token }
     }
 

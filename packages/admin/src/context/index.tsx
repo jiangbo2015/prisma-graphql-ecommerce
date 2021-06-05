@@ -7,10 +7,19 @@ type GlobalContext = {
 
 type State = typeof initialState
 
-type Action = { type: 'start' } | { type: 'end' }
+type Action =
+    | { type: 'start' }
+    | { type: 'end' }
+    | { type: 'showToast'; payload: State['toast'] }
+    | { type: 'toggleDarwer' }
 
 const initialState = {
     data: {},
+    toast: {
+        open: false,
+        message: '',
+    },
+    openDrawer: true,
 }
 
 const Context = createContext<GlobalContext>({
@@ -21,10 +30,21 @@ const Context = createContext<GlobalContext>({
 export const useGlobalContext = () => useContext<GlobalContext>(Context)
 
 const reducer = (state: State, action: Action) => {
+    console.log(action, 'action')
     switch (action.type) {
         case 'start':
             return {
                 ...state,
+            }
+        case 'showToast':
+            return {
+                ...state,
+                toast: action.payload,
+            }
+        case 'toggleDarwer':
+            return {
+                ...state,
+                openDrawer: !state.openDrawer,
             }
         default:
             return state

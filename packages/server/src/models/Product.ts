@@ -25,6 +25,6 @@ export default class Product {
     @Field()
     slug: string
 
-    @Field(() => [Collection], { nullable: true })
-    collections?: Collection[] | null
+    @Field(() => [Collection])
+    collections: Collection[]
 }

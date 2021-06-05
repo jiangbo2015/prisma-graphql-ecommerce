@@ -11,6 +11,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 // import FormGroup from '@material-ui/core/FormGroup'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import { useHistory } from 'react-router-dom'
+import { useGlobalContext } from 'src/context'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,13 +32,20 @@ type THeader = {
 
 export default function MenuAppBar({ className }: THeader) {
     const classes = useStyles()
-    const [auth, setAuth] = React.useState(true)
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
     const open = Boolean(anchorEl)
+    const history = useHistory()
+    const { dispatch } = useGlobalContext()
 
     // const handleChange:React.MouseEventHandler = (event) => {
     //     setAuth(event.target.checked)
     // }
+
+    const handleToggle = () => {
+        dispatch({
+            type: 'toggleDarwer',
+        })
+    }
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget as HTMLElement)
@@ -44,6 +53,11 @@ export default function MenuAppBar({ className }: THeader) {
 
     const handleClose = () => {
         setAnchorEl(null)
+    }
+
+    const handleLogout = () => {
+        localStorage.token = null
+        history.push('/login')
     }
 
     return (
@@ -54,43 +68,41 @@ export default function MenuAppBar({ className }: THeader) {
                     className={classes.menuButton}
                     color="inherit"
                     aria-label="menu"
+                    onClick={handleToggle}
                 >
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    Photos
+                    {localStorage.email}
                 </Typography>
-                {auth && (
-                    <div>
-                        <IconButton
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                        </Menu>
-                    </div>
-                )}
+                <div>
+                    <IconButton
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleMenu}
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                </div>
             </Toolbar>
         </AppBar>
     )

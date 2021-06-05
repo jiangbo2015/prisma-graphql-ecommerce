@@ -5,10 +5,8 @@ import TextField from '@material-ui/core/TextField'
 import Dialog, { DialogProps } from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Select from '@material-ui/core/Select'
-import { SelectInputProps } from '@material-ui/core/Select/SelectInput'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import {
@@ -16,12 +14,7 @@ import {
     ProductUpdateInput,
 } from '../__generated__/globalTypes'
 import { GET_ALL_COLLECTIONS } from '../graphql/Collection'
-import {
-    AllProducts,
-    AllProducts_allProducts,
-} from 'src/__generated__/AllProducts'
 import { AllCollections } from 'src/__generated__/AllCollections'
-import { number } from 'prop-types'
 
 type ModalProps = {
     open: boolean

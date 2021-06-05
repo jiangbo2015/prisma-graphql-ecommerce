@@ -1,10 +1,12 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import HomeIcon from '@material-ui/icons/Home'
 import CategoryIcon from '@material-ui/icons/Category'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import { SvgIconProps } from '@material-ui/core'
+import { SvgIconProps, Snackbar } from '@material-ui/core'
+import { useReactiveVar } from '@apollo/client'
+import { toastVar } from './client'
 
 import Home from './containers/Home'
 import Collection from './containers/Collection'
@@ -48,18 +50,28 @@ export const menus: IMenu[] = [
 ]
 
 export default function App() {
+    const toast = useReactiveVar(toastVar)
     return (
-        <Router>
-            <Switch>
-                <Route path="/login">
-                    <Login></Login>
-                </Route>
-                {menus.map((menu) => (
-                    <Route path={menu.path}>
-                        <menu.component />
+        <React.Fragment>
+            <Router>
+                <Switch>
+                    <Route path="/login">
+                        <Login></Login>
                     </Route>
-                ))}
-            </Switch>
-        </Router>
+                    {menus.map((menu) => (
+                        <Route path={menu.path}>
+                            <menu.component />
+                        </Route>
+                    ))}
+                </Switch>
+            </Router>
+            <Snackbar
+                open={toast.open}
+                message={toast.message}
+                autoHideDuration={3000}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+                onClose={() => toastVar({ open: false, message: '' })}
+            ></Snackbar>
+        </React.Fragment>
     )
 }

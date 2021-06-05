@@ -12,6 +12,7 @@ import { UserLoginInput } from "./globalTypes";
 export interface UserLogin_login {
   __typename: "User";
   token: string;
+  email: string;
 }
 
 export interface UserLogin {

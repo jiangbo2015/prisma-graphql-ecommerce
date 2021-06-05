@@ -13,9 +13,9 @@ export interface CollectionCreateInput {
 }
 
 export interface CollectionUpdateInput {
-  id: number;
   name: string;
   slug: string;
+  id: number;
 }
 
 export interface ProductCreateInput {

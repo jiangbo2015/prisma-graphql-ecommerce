@@ -11,6 +11,7 @@ const app = async () => {
         resolvers: [__dirname + '/resolvers/*.ts'],
         scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
         authChecker,
+        emitSchemaFile: true,
     })
 
     new ApolloServer({

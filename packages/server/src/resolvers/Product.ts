@@ -11,7 +11,7 @@ import {
     Int,
     ArgOptions,
     ID,
-    InterfaceType,
+    Authorized,
     Args,
 } from 'type-graphql'
 import { Prisma } from '@prisma/client'
@@ -52,6 +52,7 @@ export default class ProductResolver {
         })
     }
 
+    @Authorized()
     @Query(() => [Product])
     async allProducts(@Ctx() ctx: Context) {
         return ctx.prisma.product.findMany({

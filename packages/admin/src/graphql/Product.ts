@@ -1,4 +1,4 @@
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import * as CreateProductTypes from '../__generated__/CreateProduct'
 import * as UpdateProductTypes from '../__generated__/UpdateProduct'
 import { AllProducts } from 'src/__generated__/AllProducts'
