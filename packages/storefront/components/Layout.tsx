@@ -5,7 +5,7 @@ export default ({ children }) => {
     return (
         <>
             <Header></Header>
-            <Container maxWidth="md">{children}</Container>
+            <Container maxWidth="lg">{children}</Container>
         </>
     )
 }

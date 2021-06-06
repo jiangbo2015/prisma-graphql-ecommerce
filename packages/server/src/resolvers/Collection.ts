@@ -12,6 +12,8 @@ import {
     Extensions,
     UseMiddleware,
     MiddlewareFn,
+    ObjectType,
+    Root,
 } from 'type-graphql'
 import { omit } from 'lodash'
 import Collection from '../models/Collection'
@@ -32,6 +34,12 @@ export class CollectionUpdateInput extends CollectionCreateInput {
     id: number
 }
 
+@ObjectType()
+export class CollectionWithCount extends Collection {
+    @Field()
+    productCount: number
+}
+
 export const isAuth: MiddlewareFn<Context> = ({ context, info }, next) => {
     console.dir(info.parentType.getFields()[info.fieldName].extensions)
 
@@ -47,10 +55,32 @@ export default class CollectionResolver {
         })
     }
 
-    @Query(() => [Collection])
+    @Query(() => [CollectionWithCount])
     async allCollections(@Ctx() ctx: Context) {
-        return ctx.prisma.collection.findMany()
+        const res = await ctx.prisma.collection.findMany({
+            // include: {
+            //     products: true,
+            // },
+            include: {
+                _count: {
+                    select: {
+                        products: true,
+                    },
+                },
+            },
+        })
+        console.log(res, 'res')
+
+        return res.map((x) => ({
+            ...x,
+            productCount: x._count?.products,
+        }))
     }
+
+    // @FieldResolver()
+    // count(@Root() collection: Collection) {
+    //     return collection._count
+    // }
 
     @Mutation(() => Collection)
     async createCollection(

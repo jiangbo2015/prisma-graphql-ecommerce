@@ -1,8 +1,6 @@
-import Layout from '../components/Layout'
 import {
     Grid,
     Typography,
-    Box,
     Card,
     CardMedia,
     CardContent,

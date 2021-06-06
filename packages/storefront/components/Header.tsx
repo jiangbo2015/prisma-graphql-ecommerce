@@ -15,7 +15,7 @@ export default function MenuAppBar() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6">Share Graphql Ecommerce</Typography>
+                <Typography variant="h6">Sharp Graphql Ecommerce</Typography>
                 <Box
                     flexGrow="1"
                     display="flex"

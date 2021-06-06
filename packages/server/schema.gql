@@ -7,7 +7,7 @@ type Collection {
   createdAt: DateTime!
   id: Int!
   name: String!
-  products: Product
+  products: [Product!]
   slug: String!
   updatedAt: DateTime!
 }
@@ -21,6 +21,16 @@ input CollectionUpdateInput {
   id: Float!
   name: String!
   slug: String!
+}
+
+type CollectionWithCount {
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  productCount: Float!
+  products: [Product!]
+  slug: String!
+  updatedAt: DateTime!
 }
 
 type Customer {
@@ -96,7 +106,7 @@ input ProductUpdateInput {
 
 type Query {
   CustomerById(id: Float!): Customer!
-  allCollections: [Collection!]!
+  allCollections: [CollectionWithCount!]!
   allCustomers: [Customer!]!
   allProducts: [Product!]!
   allUsers: [User!]!

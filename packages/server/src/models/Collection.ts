@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { ObjectType, Field, Int } from 'type-graphql'
+import { ObjectType, Field, Int, InterfaceType } from 'type-graphql'
 import Product from './Product'
 
 @ObjectType()
@@ -19,6 +19,9 @@ export default class Collection {
     @Field()
     slug: string
 
-    @Field((type) => Product, { nullable: true })
-    products?: Product | null
+    @Field((type) => [Product], { nullable: true })
+    products: Product[] | null
+
+    // @Field()
+    // productCount: number
 }
