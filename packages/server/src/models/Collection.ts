@@ -14,14 +14,12 @@ export default class Collection {
     updatedAt: Date
 
     @Field()
-    name: string
+    title: string
 
     @Field()
     slug: string
 
-    @Field((type) => [Product], { nullable: true })
-    products: Product[] | null
+    @Field((type) => [Product])
+    products: Product[]
 
-    // @Field()
-    // productCount: number
 }

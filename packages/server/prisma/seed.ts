@@ -2,6 +2,8 @@ import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+console.log(prisma.collection)
+
 const userData: Prisma.UserCreateInput[] = [
     {
         name: 'Alice',

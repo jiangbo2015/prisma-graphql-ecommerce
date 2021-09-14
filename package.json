@@ -9,12 +9,13 @@
   ],
   "scripts": {
     "start": "yarn workspace server dev && yarn workspace admin dev",
-    "heroku-postbuild": "bash ./script/heroku-build.sh"
+    "heroku-postbuild": "bash ./script/heroku-build.sh",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
-    "husky": "4.3.8",
+    "husky": "4",
     "lerna": "^4.0.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.0"
   },
   "husky": {

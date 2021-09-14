@@ -7,6 +7,8 @@ import {
     Ctx,
     InputType,
     Field,
+    FieldResolver,
+    Root
 } from 'type-graphql'
 import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
@@ -48,6 +50,11 @@ export default class UserResolver {
         return ctx.prisma.user.findUnique({
             where: { id },
         })
+    }
+
+    @FieldResolver()
+    avgRating(@Root() user: User): string {
+        return user.email
     }
 
     @Query(() => [User])

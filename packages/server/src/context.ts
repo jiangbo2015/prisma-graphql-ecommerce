@@ -26,9 +26,10 @@ export const context = ({ req }: ExpressContext): Context => {
                 user,
             }
         } catch (e) {
-            throw new AuthenticationError('you must be logged in')
+            // throw new AuthenticationError('you must be logged in')
+            // return { prisma }
         }
     }
-
-    return { prisma }
+    return {prisma}
+    
 }

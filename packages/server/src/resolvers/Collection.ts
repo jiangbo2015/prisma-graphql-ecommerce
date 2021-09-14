@@ -1,10 +1,13 @@
 import 'reflect-metadata'
 import { Prisma } from '@prisma/client'
+import slug from 'slug'
 import {
     Resolver,
     Query,
     Mutation,
     Arg,
+    Args,
+    ArgsType,
     Ctx,
     InputType,
     Field,
@@ -14,81 +17,56 @@ import {
     MiddlewareFn,
     ObjectType,
     Root,
+    Int,
 } from 'type-graphql'
-import { omit } from 'lodash'
 import Collection from '../models/Collection'
 import { Context } from '../context'
 
 @InputType()
-export class CollectionCreateInput {
+class CollectionUpdateInput {
     @Field()
-    name: string
+    title: string
 
-    @Field()
-    slug: string
-}
-
-@InputType()
-export class CollectionUpdateInput extends CollectionCreateInput {
-    @Field()
+    @Field((type) => Int)
     id: number
 }
 
-@ObjectType()
-export class CollectionWithCount extends Collection {
-    @Field()
-    productCount: number
-}
-
 export const isAuth: MiddlewareFn<Context> = ({ context, info }, next) => {
-    console.dir(info.parentType.getFields()[info.fieldName].extensions)
-
     return next()
 }
 
 @Resolver(Collection)
 export default class CollectionResolver {
     @Query(() => Collection)
-    async collectionById(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async collectionById(
+        @Arg('id', (type) => Int) id: number,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.product.findUnique({
             where: { id },
         })
     }
 
-    @Query(() => [CollectionWithCount])
-    async allCollections(@Ctx() ctx: Context) {
-        const res = await ctx.prisma.collection.findMany({
-            // include: {
-            //     products: true,
-            // },
+    @Query(() => [Collection])
+    async getCollections(@Ctx() ctx: Context) {
+        return ctx.prisma.collection.findMany({
             include: {
-                _count: {
-                    select: {
-                        products: true,
-                    },
-                },
+                products: true,
             },
         })
-        console.log(res, 'res')
-
-        return res.map((x) => ({
-            ...x,
-            productCount: x._count?.products,
-        }))
     }
 
-    // @FieldResolver()
-    // count(@Root() collection: Collection) {
-    //     return collection._count
-    // }
-
     @Mutation(() => Collection)
-    async createCollection(
-        @Arg('data') data: CollectionCreateInput,
-        @Ctx() ctx: Context
-    ) {
+    async createCollection(@Arg('title') title: string, @Ctx() ctx: Context) {
+        // use title & timestamp to create slug
+        const sluged = slug(title)
+        const timestamp = new Date().getTime().toString()
+
         return ctx.prisma.collection.create({
-            data,
+            data: {
+                title,
+                slug: [sluged, timestamp].join('-'),
+            },
         })
     }
 
@@ -102,13 +80,16 @@ export default class CollectionResolver {
                 id: data.id,
             },
             data: {
-                ...omit(data, ['id']),
+                title: data.title,
             },
         })
     }
 
     @Mutation(() => Collection)
-    async delCollection(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async delCollection(
+        @Arg('id', (type) => Int) id: number,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.collection.delete({
             where: {
                 id,

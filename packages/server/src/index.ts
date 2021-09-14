@@ -5,6 +5,8 @@ import { DateTimeResolver } from 'graphql-scalars'
 import { context } from './context'
 import { GraphQLScalarType } from 'graphql'
 import authChecker from './authChecker'
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+ 
 
 const app = async () => {
     const schema = await tq.buildSchema({
@@ -18,6 +20,7 @@ const app = async () => {
         schema,
         context,
         cors: true,
+        plugins: [ ApolloServerPluginLandingPageGraphQLPlayground() ]
     }).listen({ port: 4000 }, (url: any) => {
         console.log(`
 🚀 Server ready at: http://localhost:4000

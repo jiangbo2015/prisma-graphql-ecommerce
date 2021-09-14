@@ -6,31 +6,15 @@
 type Collection {
   createdAt: DateTime!
   id: Int!
-  name: String!
-  products: [Product!]
+  products: [Product!]!
   slug: String!
+  title: String!
   updatedAt: DateTime!
-}
-
-input CollectionCreateInput {
-  name: String!
-  slug: String!
 }
 
 input CollectionUpdateInput {
-  id: Float!
-  name: String!
-  slug: String!
-}
-
-type CollectionWithCount {
-  createdAt: DateTime!
   id: Int!
-  name: String!
-  productCount: Float!
-  products: [Product!]
-  slug: String!
-  updatedAt: DateTime!
+  title: String!
 }
 
 type Customer {
@@ -61,11 +45,11 @@ input LoginInput {
 }
 
 type Mutation {
-  createCollection(data: CollectionCreateInput!): Collection!
+  createCollection(title: String!): Collection!
   createCustomer(data: CustomerCreateInput!): Customer!
-  createProduct(data: ProductCreateInput!): Product!
+  createProduct(collectionId: Float!, data: ProductCreateInput!): Product!
   createUser(data: UserCreateInput!): User!
-  delCollection(id: Float!): Collection!
+  delCollection(id: Int!): Collection!
   delCustomer(id: Float!): Customer!
   delProduct(id: Int!): Product!
   delUser(id: Float!): User!
@@ -77,7 +61,7 @@ type Mutation {
 }
 
 type Product {
-  collections: [Collection!]!
+  collections: [Collection]
   createdAt: DateTime!
   id: Int!
   image: String!
@@ -88,7 +72,6 @@ type Product {
 }
 
 input ProductCreateInput {
-  collectionId: Float!
   image: String!
   price: Float!
   slug: String!
@@ -96,7 +79,6 @@ input ProductCreateInput {
 }
 
 input ProductUpdateInput {
-  collectionId: Float!
   id: Float!
   image: String!
   price: Float!
@@ -106,16 +88,17 @@ input ProductUpdateInput {
 
 type Query {
   CustomerById(id: Float!): Customer!
-  allCollections: [CollectionWithCount!]!
   allCustomers: [Customer!]!
   allProducts: [Product!]!
   allUsers: [User!]!
-  collectionById(id: Float!): Collection!
+  collectionById(id: Int!): Collection!
+  getCollections: [Collection!]!
   productById(id: Float!): Product!
   userById(id: Float!): User!
 }
 
 type User {
+  avgRating: String!
   createdAt: DateTime!
   email: String!
   id: Int!

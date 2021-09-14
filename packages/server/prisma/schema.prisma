@@ -1,6 +1,5 @@
 generator client {
     provider = "prisma-client-js"
-    previewFeatures = ["selectRelationCount"]
 }
 
 datasource db {
@@ -12,8 +11,8 @@ model Collection {
     id        Int       @id @default(autoincrement())
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
-    name      String
-    slug      String
+    title     String
+    slug      String    @unique
     products  Product[]
 }
 

@@ -45,7 +45,7 @@ const errorLink = onError(
 const httpLink = new HttpLink({
     uri: 'http://localhost:4000/',
     headers: {
-        Authorization: `Bearer ${localStorage.token}`,
+        Authorization: `Bearer ${localStorage.token || ''}`,
     },
 })
 

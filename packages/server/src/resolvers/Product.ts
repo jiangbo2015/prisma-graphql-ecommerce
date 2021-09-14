@@ -33,8 +33,6 @@ export class ProductCreateInput {
     @Field()
     image: string
 
-    @Field()
-    collectionId: number
 }
 
 @InputType()
@@ -64,15 +62,15 @@ export default class ProductResolver {
     @Mutation(() => Product)
     async createProduct(
         @Arg('data') data: ProductCreateInput,
+        @Arg('collectionId') collectionId: number,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.product.create({
             data: {
                 ...data,
-                ...omit(data, ['collectionId']),
                 collections: {
                     connect: {
-                        id: data.collectionId,
+                        id: collectionId,
                     },
                 },
             },
@@ -103,14 +101,7 @@ export default class ProductResolver {
             where: {
                 id: data.id,
             },
-            data: {
-                ...omit(data, ['id', 'collectionId']),
-                collections: {
-                    connect: {
-                        id: data.collectionId,
-                    },
-                },
-            },
+            data: data,
             include: {
                 collections: true,
             },
