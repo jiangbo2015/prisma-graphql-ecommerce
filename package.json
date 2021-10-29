@@ -1,5 +1,5 @@
 {
-  "name": "sharp-graphql-ecommerce",
+  "name": "prisma-graphql-ecommerce",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",

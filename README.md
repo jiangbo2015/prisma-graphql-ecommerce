@@ -1,12 +1,12 @@
-# Sharp-Graphql-Ecommerce
+# prisma-graphql-ecommerce
 
-Full Stack ecommerce system. built with `Apollo` + `Graphql` + `typescript`
+Full Stack ecommerce system. built with `Apollo` + `Graphql` + `Typescript` + `Prisma`
 
 Currently in draft status, under development
 
 ## Storefront
 
-`Next` + `Typescript` + `@apollo/client`
+`Next.js` + `Typescript` + `@apollo/client`
 
 ## Admin
 
