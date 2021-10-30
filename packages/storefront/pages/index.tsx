@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import ProductItem from '../components/ProductItem'
 import { gql } from '@apollo/client'
 import client from '../client'
+import { PRODUCT_LIST } from '../graphql/query'
+import { ProductList } from '__generated__/ProductList'
 
 const useStyles = makeStyles({
     root: {},
@@ -15,7 +17,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default ({ allProducts = [] }) => {
+export default ({ productList = [] }: ProductList) => {
     const classes = useStyles()
     return (
         <Layout>
@@ -23,7 +25,7 @@ export default ({ allProducts = [] }) => {
                 <Typography variant="h3">Hot Product</Typography>
             </Box>
             <Grid container spacing={4}>
-                {allProducts?.map((item) => (
+                {productList?.map((item) => (
                     <ProductItem key={item.id} item={item}></ProductItem>
                 ))}
             </Grid>
@@ -33,21 +35,12 @@ export default ({ allProducts = [] }) => {
 
 export async function getServerSideProps() {
     try {
-        const { data } = await client.query({
-            query: gql`
-                query AllProducts {
-                    allProducts {
-                        id
-                        title
-                        slug
-                        price
-                    }
-                }
-            `,
+        const { data } = await client.query<ProductList>({
+            query: PRODUCT_LIST,
         })
         return {
             props: {
-                allProducts: data.allProducts,
+                productList: data.productList,
             },
         }
     } catch (e) {

@@ -1,11 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Card, Paper, Typography, Button } from '@material-ui/core'
-import InputLabel from '@material-ui/core/InputLabel'
+import { Box, Card, Typography, Button } from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
 
@@ -24,18 +21,18 @@ const useStyles = makeStyles((theme) => ({
 
 export const CommonInput = ({ label, icon, ...props }) => {
     return (
-        <Box mb="20px">
-            <TextField
-                label={label}
-                fullWidth
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">{icon}</InputAdornment>
-                    ),
-                }}
-                {...props}
-            />
-        </Box>
+        <TextField
+            label={label}
+            margin="normal"
+            fullWidth
+            variant="outlined"
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">{icon}</InputAdornment>
+                ),
+            }}
+            {...props}
+        />
     )
 }
 
@@ -44,19 +41,20 @@ export default function InputWithIcon() {
 
     return (
         <Card className={classes.root}>
-            <Box display="flex" justifyContent="center" mb="20px">
-                <Typography variant="h3">Login</Typography>
-            </Box>
-            <Box>
-                <CommonInput label="Email" icon={<EmailIcon />} />
-                <CommonInput label="Password" icon={<LockIcon />} />
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
 
-                <Button variant="contained" color="primary">
+            <CommonInput label="Email" icon={<EmailIcon />} />
+            <CommonInput label="Password" icon={<LockIcon />} />
+
+            <Box sx={{ mt: 3, width: '100%' }}>
+                <Button variant="contained" color="primary" fullWidth>
                     Login
                 </Button>
-                <Box mt="20px">
-                    <Button href="/register">Register</Button>
-                </Box>
+            </Box>
+            <Box mt="20px">
+                <Button href="/register">Register</Button>
             </Box>
         </Card>
     )

@@ -32,7 +32,7 @@ export default function InputWithIcon() {
                 <CommonInput label="Email" icon={<EmailIcon />} />
                 <CommonInput label="Password" icon={<LockIcon />} />
                 <CommonInput label="Confirm Passwrod" icon={<LockIcon />} />
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" fullWidth>
                     Register
                 </Button>
                 <Box mt="20px">

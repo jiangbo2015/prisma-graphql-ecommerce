@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import Link from 'next/link'
 
 export default function MenuAppBar() {
     return (
@@ -22,8 +23,12 @@ export default function MenuAppBar() {
                     flexDirection="row"
                     justifyContent="flex-end"
                 >
-                    <MenuItem>Products</MenuItem>
-                    <MenuItem>Collections</MenuItem>
+                    <MenuItem component={'a'} href="/products">
+                        Products
+                    </MenuItem>
+                    <MenuItem component={'a'} href="/collections">
+                        Collections
+                    </MenuItem>
                     <MenuItem>
                         <IconButton color="inherit">
                             <Badge badgeContent={17} color="secondary">

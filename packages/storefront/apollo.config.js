@@ -4,5 +4,6 @@ module.exports = {
             name: 'ac3-todos-backend',
             url: `http://localhost:4000`,
         },
+        includes: ['./graphql/**.ts'],
     },
 }

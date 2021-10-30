@@ -30,7 +30,7 @@ export default ({ item }) => {
                         image="https://material-ui.com/static/images/cards/paella.jpg"
                     ></CardMedia>
                     <CardContent>
-                        <Typography>{item.name}</Typography>
+                        <Typography>{item.title}</Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions disableSpacing className={classes.actions}>
