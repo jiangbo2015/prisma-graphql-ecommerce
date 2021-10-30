@@ -5,6 +5,7 @@
 
 type Collection {
   createdAt: DateTime!
+  description: String
   id: Int!
   products: [Product!]!
   slug: String!
@@ -12,8 +13,8 @@ type Collection {
   updatedAt: DateTime!
 }
 
-input CollectionUpdateInput {
-  id: Int!
+input CollectionBaseInput {
+  description: String
   title: String!
 }
 
@@ -27,9 +28,8 @@ type Customer {
   updatedAt: DateTime!
 }
 
-input CustomerCreateInput {
+input CustomerBaseInput {
   email: String!
-  id: Float
   name: String!
   password: String!
 }
@@ -45,24 +45,26 @@ input LoginInput {
 }
 
 type Mutation {
-  createCollection(title: String!): Collection!
-  createCustomer(data: CustomerCreateInput!): Customer!
-  createProduct(collectionId: Float!, data: ProductCreateInput!): Product!
-  createUser(data: UserCreateInput!): User!
-  delCollection(id: Int!): Collection!
+  collectionCreate(data: CollectionBaseInput!): Collection!
+  collectionDelete(id: Int!): Collection!
+  collectionUpdate(data: CollectionBaseInput!, id: Int!): Collection!
+  customerCreate(data: CustomerBaseInput!): Customer!
+  customerLogin(data: LoginInput!): Customer!
   delCustomer(id: Float!): Customer!
-  delProduct(id: Int!): Product!
-  delUser(id: Float!): User!
-  login(data: UserLoginInput!): User!
-  updateCollection(data: CollectionUpdateInput!): Collection!
-  updateCustomer(data: CustomerCreateInput!): Customer!
-  updateProduct(data: ProductUpdateInput!): Product!
-  updateUser(data: UserCreateInput!): User!
+  productCreate(collectionId: Float!, data: ProductBaseInput!): Product!
+  productDelete(id: Int!): Product!
+  productUpdate(collectionId: Float!, data: ProductBaseInput!, id: Int!): Product!
+  updateCustomer(data: CustomerBaseInput!, id: Int!): Customer!
+  userCreate(data: UserBaseInput!): User!
+  userDelete(id: Float!): User!
+  userLogin(data: UserLoginInput!): User!
+  userUpdate(data: UserBaseInput!, id: Int!): User!
 }
 
 type Product {
   collections: [Collection]
   createdAt: DateTime!
+  description: String
   id: Int!
   image: String!
   price: Float!
@@ -71,28 +73,28 @@ type Product {
   updatedAt: DateTime!
 }
 
-input ProductCreateInput {
+input ProductBaseInput {
+  description: String
   image: String!
   price: Float!
-  slug: String!
   title: String!
 }
 
 input ProductUpdateInput {
+  description: String
   id: Float!
   image: String!
   price: Float!
-  slug: String!
   title: String!
 }
 
 type Query {
-  CustomerById(id: Float!): Customer!
-  allCustomers: [Customer!]!
-  allProducts: [Product!]!
-  allUsers: [User!]!
   collectionById(id: Int!): Collection!
+  customerById(id: Float!): Customer!
   getCollections: [Collection!]!
+  getCustomers: [Customer!]!
+  getProducts: [Product!]!
+  getUsers: [User!]!
   productById(id: Float!): Product!
   userById(id: Float!): User!
 }
@@ -109,9 +111,8 @@ type User {
   updatedAt: DateTime!
 }
 
-input UserCreateInput {
+input UserBaseInput {
   email: String!
-  id: Float
   name: String!
   password: String!
   role: String

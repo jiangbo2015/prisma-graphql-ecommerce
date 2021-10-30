@@ -1,5 +1,14 @@
 import 'reflect-metadata'
-import { Resolver, Query, Mutation, Arg, Ctx, InputType, Field } from 'type-graphql'
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Arg,
+    Ctx,
+    InputType,
+    Int,
+    Field,
+} from 'type-graphql'
 import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
 
@@ -7,7 +16,7 @@ import Customer from '../models/Customer'
 import { Context } from '../context'
 
 @InputType()
-export class CustomerCreateInput {
+export class CustomerBaseInput {
     @Field()
     name: string
 
@@ -16,9 +25,6 @@ export class CustomerCreateInput {
 
     @Field()
     password: string
-
-    @Field({ nullable: true })
-    id?: number
 }
 
 @InputType()
@@ -33,19 +39,19 @@ class LoginInput {
 @Resolver(Customer)
 export default class CustomerResolver {
     @Query(() => Customer)
-    async CustomerById(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async customerById(@Arg('id') id: number, @Ctx() ctx: Context) {
         return ctx.prisma.customer.findUnique({
             where: { id },
         })
     }
 
     @Query(() => [Customer])
-    async allCustomers(@Ctx() ctx: Context) {
+    async getCustomers(@Ctx() ctx: Context) {
         return ctx.prisma.customer.findMany()
     }
 
     @Mutation(() => Customer)
-    async login(@Arg('data') data: LoginInput, @Ctx() ctx: Context) {
+    async customerLogin(@Arg('data') data: LoginInput, @Ctx() ctx: Context) {
         const res = await ctx.prisma.customer.findFirst({
             where: data,
         })
@@ -68,23 +74,26 @@ export default class CustomerResolver {
     }
 
     @Mutation(() => Customer)
-    async createCustomer(@Arg('data') data: CustomerCreateInput, @Ctx() ctx: Context) {
+    async customerCreate(
+        @Arg('data') data: CustomerBaseInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.customer.create({
-            data: {
-                ...omit(data, ['id']),
-            },
+            data,
         })
     }
 
     @Mutation(() => Customer)
-    async updateCustomer(@Arg('data') data: CustomerCreateInput, @Ctx() ctx: Context) {
+    async updateCustomer(
+        @Arg('id', (type) => Int) id: number,
+        @Arg('data') data: CustomerBaseInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.customer.update({
             where: {
-                id: data.id,
+                id,
             },
-            data: {
-                ...omit(data, ['id']),
-            },
+            data,
         })
     }
 

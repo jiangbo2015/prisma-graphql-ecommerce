@@ -16,6 +16,9 @@ export default class Product {
     @Field()
     title: string
 
+    @Field({ nullable: true })
+    description: string
+
     @Field()
     price: number
 
@@ -25,6 +28,6 @@ export default class Product {
     @Field()
     slug: string
 
-    @Field(() => [Collection], {nullable: "itemsAndList"})
+    @Field(() => [Collection], { nullable: 'itemsAndList' })
     collections: Collection[]
 }

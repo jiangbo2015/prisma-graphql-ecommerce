@@ -16,10 +16,12 @@ export default class Collection {
     @Field()
     title: string
 
+    @Field({ nullable: true })
+    description: string
+
     @Field()
     slug: string
 
     @Field((type) => [Product])
     products: Product[]
-
 }

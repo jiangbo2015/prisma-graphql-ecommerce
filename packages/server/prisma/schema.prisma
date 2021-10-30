@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Collection {
-    id        Int       @id @default(autoincrement())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    title     String
-    slug      String    @unique
-    products  Product[]
+    id          Int       @id @default(autoincrement())
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    title       String
+    description String?
+    slug        String    @unique
+    products    Product[]
 }
 
 model Product {
@@ -21,6 +22,7 @@ model Product {
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     title       String
+    description String?
     price       Decimal
     image       String?      @default("")
     slug        String

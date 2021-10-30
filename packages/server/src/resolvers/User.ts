@@ -8,7 +8,8 @@ import {
     InputType,
     Field,
     FieldResolver,
-    Root
+    Root,
+    Int,
 } from 'type-graphql'
 import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
@@ -17,7 +18,7 @@ import User from '../models/User'
 import { Context } from '../context'
 
 @InputType()
-export class UserCreateInput {
+export class UserBaseInput {
     @Field()
     name: string
 
@@ -29,9 +30,6 @@ export class UserCreateInput {
 
     @Field({ nullable: true })
     role?: string
-
-    @Field({ nullable: true })
-    id?: number
 }
 
 @InputType()
@@ -58,12 +56,12 @@ export default class UserResolver {
     }
 
     @Query(() => [User])
-    async allUsers(@Ctx() ctx: Context) {
+    async getUsers(@Ctx() ctx: Context) {
         return ctx.prisma.user.findMany()
     }
 
     @Mutation(() => User)
-    async login(@Arg('data') data: UserLoginInput, @Ctx() ctx: Context) {
+    async userLogin(@Arg('data') data: UserLoginInput, @Ctx() ctx: Context) {
         const res = await ctx.prisma.user.findFirst({
             where: data,
         })
@@ -86,28 +84,28 @@ export default class UserResolver {
     }
 
     @Mutation(() => User)
-    async createUser(@Arg('data') data: UserCreateInput, @Ctx() ctx: Context) {
+    async userCreate(@Arg('data') data: UserBaseInput, @Ctx() ctx: Context) {
         return ctx.prisma.user.create({
-            data: {
-                ...omit(data, ['id']),
-            },
+            data,
         })
     }
 
     @Mutation(() => User)
-    async updateUser(@Arg('data') data: UserCreateInput, @Ctx() ctx: Context) {
+    async userUpdate(
+        @Arg('id', (type) => Int) id: number,
+        @Arg('data') data: UserBaseInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.user.update({
             where: {
-                id: data.id,
+                id,
             },
-            data: {
-                ...omit(data, ['id']),
-            },
+            data,
         })
     }
 
     @Mutation(() => User)
-    async delUser(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async userDelete(@Arg('id') id: number, @Ctx() ctx: Context) {
         return ctx.prisma.user.delete({
             where: {
                 id,

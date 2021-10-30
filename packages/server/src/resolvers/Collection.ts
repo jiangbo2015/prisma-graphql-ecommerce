@@ -1,38 +1,26 @@
 import 'reflect-metadata'
 import { Prisma } from '@prisma/client'
-import slug from 'slug'
+
 import {
     Resolver,
     Query,
     Mutation,
     Arg,
-    Args,
-    ArgsType,
     Ctx,
     InputType,
     Field,
-    Authorized,
-    Extensions,
-    UseMiddleware,
-    MiddlewareFn,
-    ObjectType,
-    Root,
     Int,
 } from 'type-graphql'
 import Collection from '../models/Collection'
 import { Context } from '../context'
-
+import { createSlug } from '../utils/slug'
 @InputType()
-class CollectionUpdateInput {
+class CollectionBaseInput {
     @Field()
     title: string
 
-    @Field((type) => Int)
-    id: number
-}
-
-export const isAuth: MiddlewareFn<Context> = ({ context, info }, next) => {
-    return next()
+    @Field({ nullable: true })
+    description: string
 }
 
 @Resolver(Collection)
@@ -42,7 +30,7 @@ export default class CollectionResolver {
         @Arg('id', (type) => Int) id: number,
         @Ctx() ctx: Context
     ) {
-        return ctx.prisma.product.findUnique({
+        return ctx.prisma.collection.findUnique({
             where: { id },
         })
     }
@@ -57,36 +45,37 @@ export default class CollectionResolver {
     }
 
     @Mutation(() => Collection)
-    async createCollection(@Arg('title') title: string, @Ctx() ctx: Context) {
-        // use title & timestamp to create slug
-        const sluged = slug(title)
-        const timestamp = new Date().getTime().toString()
-
+    async collectionCreate(
+        @Arg('data') data: CollectionBaseInput,
+        @Ctx() ctx: Context
+    ) {
         return ctx.prisma.collection.create({
             data: {
-                title,
-                slug: [sluged, timestamp].join('-'),
+                ...data,
+                slug: createSlug(data.title),
             },
         })
     }
 
     @Mutation(() => Collection)
-    async updateCollection(
-        @Arg('data') data: CollectionUpdateInput,
+    async collectionUpdate(
+        @Arg('id', (type) => Int) id: number,
+        @Arg('data') data: CollectionBaseInput,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.collection.update({
             where: {
-                id: data.id,
+                id,
             },
             data: {
-                title: data.title,
+                ...data,
+                slug: createSlug(data.title),
             },
         })
     }
 
     @Mutation(() => Collection)
-    async delCollection(
+    async collectionDelete(
         @Arg('id', (type) => Int) id: number,
         @Ctx() ctx: Context
     ) {
