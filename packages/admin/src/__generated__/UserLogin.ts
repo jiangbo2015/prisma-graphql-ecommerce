@@ -9,14 +9,14 @@ import { UserLoginInput } from "./globalTypes";
 // GraphQL mutation operation: UserLogin
 // ====================================================
 
-export interface UserLogin_login {
+export interface UserLogin_userLogin {
   __typename: "User";
   token: string;
   email: string;
 }
 
 export interface UserLogin {
-  login: UserLogin_login;
+  userLogin: UserLogin_userLogin;
 }
 
 export interface UserLoginVariables {

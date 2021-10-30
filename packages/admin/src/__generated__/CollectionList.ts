@@ -4,18 +4,16 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DelCollection
+// GraphQL query operation: CollectionList
 // ====================================================
 
-export interface DelCollection_delCollection {
+export interface CollectionList_collectionList {
   __typename: "Collection";
   id: number;
+  title: string;
+  description: string | null;
 }
 
-export interface DelCollection {
-  delCollection: DelCollection_delCollection;
-}
-
-export interface DelCollectionVariables {
-  id: number;
+export interface CollectionList {
+  collectionList: CollectionList_collectionList[];
 }

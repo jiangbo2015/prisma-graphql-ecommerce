@@ -36,7 +36,7 @@ export default class CollectionResolver {
     }
 
     @Query(() => [Collection])
-    async getCollections(@Ctx() ctx: Context) {
+    async collectionList(@Ctx() ctx: Context) {
         return ctx.prisma.collection.findMany({
             include: {
                 products: true,

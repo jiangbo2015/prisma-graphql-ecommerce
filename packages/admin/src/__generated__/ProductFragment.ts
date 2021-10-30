@@ -10,7 +10,7 @@
 export interface ProductFragment_collections {
   __typename: "Collection";
   id: number;
-  name: string;
+  title: string;
 }
 
 export interface ProductFragment {
@@ -20,5 +20,5 @@ export interface ProductFragment {
   slug: string;
   price: number;
   image: string;
-  collections: ProductFragment_collections[];
+  collections: (ProductFragment_collections | null)[] | null;
 }

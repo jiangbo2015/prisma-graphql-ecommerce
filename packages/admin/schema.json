@@ -80,6 +80,18 @@
             "deprecationReason": null
           },
           {
+            "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -132,20 +144,12 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Collection",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Collection",
+                "ofType": null
               }
             },
             "isDeprecated": false,
@@ -256,7 +260,7 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "title",
             "description": null,
             "args": [],
             "type": {
@@ -267,6 +271,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -292,9 +308,21 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "Product",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Product",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -562,6 +590,22 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "avgRating",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -571,13 +615,13 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CollectionCreateInput",
+        "name": "CollectionBaseInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "name",
+            "name": "title",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -593,16 +637,12 @@
             "deprecationReason": null
           },
           {
-            "name": "slug",
+            "name": "description",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -615,67 +655,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CollectionUpdateInput",
-        "description": null,
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "slug",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "CustomerCreateInput",
+        "name": "CustomerBaseInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -723,18 +703,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -791,7 +759,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ProductCreateInput",
+        "name": "ProductBaseInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -813,16 +781,12 @@
             "deprecationReason": null
           },
           {
-            "name": "slug",
+            "name": "description",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -853,22 +817,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "collectionId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
                 "ofType": null
               }
             },
@@ -905,16 +853,12 @@
             "deprecationReason": null
           },
           {
-            "name": "slug",
+            "name": "description",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -953,22 +897,6 @@
             "deprecationReason": null
           },
           {
-            "name": "collectionId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "id",
             "description": null,
             "type": {
@@ -991,7 +919,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateInput",
+        "name": "UserBaseInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -1050,18 +978,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
               "ofType": null
             },
             "defaultValue": null,
@@ -1135,7 +1051,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Float",
+                    "name": "Int",
                     "ofType": null
                   }
                 },
@@ -1157,7 +1073,7 @@
             "deprecationReason": null
           },
           {
-            "name": "allCollections",
+            "name": "collectionList",
             "description": null,
             "args": [],
             "type": {
@@ -1181,7 +1097,7 @@
             "deprecationReason": null
           },
           {
-            "name": "CustomerById",
+            "name": "customerById",
             "description": null,
             "args": [
               {
@@ -1214,7 +1130,7 @@
             "deprecationReason": null
           },
           {
-            "name": "allCustomers",
+            "name": "getCustomers",
             "description": null,
             "args": [],
             "type": {
@@ -1271,7 +1187,7 @@
             "deprecationReason": null
           },
           {
-            "name": "allProducts",
+            "name": "productList",
             "description": null,
             "args": [],
             "type": {
@@ -1328,7 +1244,7 @@
             "deprecationReason": null
           },
           {
-            "name": "allUsers",
+            "name": "getUsers",
             "description": null,
             "args": [],
             "type": {
@@ -1364,7 +1280,7 @@
         "specifiedByUrl": null,
         "fields": [
           {
-            "name": "createCollection",
+            "name": "collectionCreate",
             "description": null,
             "args": [
               {
@@ -1375,7 +1291,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CollectionCreateInput",
+                    "name": "CollectionBaseInput",
                     "ofType": null
                   }
                 },
@@ -1397,7 +1313,7 @@
             "deprecationReason": null
           },
           {
-            "name": "updateCollection",
+            "name": "collectionUpdate",
             "description": null,
             "args": [
               {
@@ -1408,7 +1324,23 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CollectionUpdateInput",
+                    "name": "CollectionBaseInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   }
                 },
@@ -1430,7 +1362,7 @@
             "deprecationReason": null
           },
           {
-            "name": "delCollection",
+            "name": "collectionDelete",
             "description": null,
             "args": [
               {
@@ -1441,7 +1373,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Float",
+                    "name": "Int",
                     "ofType": null
                   }
                 },
@@ -1463,7 +1395,7 @@
             "deprecationReason": null
           },
           {
-            "name": "login",
+            "name": "customerLogin",
             "description": null,
             "args": [
               {
@@ -1474,7 +1406,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UserLoginInput",
+                    "name": "LoginInput",
                     "ofType": null
                   }
                 },
@@ -1488,7 +1420,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "Customer",
                 "ofType": null
               }
             },
@@ -1496,7 +1428,7 @@
             "deprecationReason": null
           },
           {
-            "name": "createCustomer",
+            "name": "customerCreate",
             "description": null,
             "args": [
               {
@@ -1507,7 +1439,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CustomerCreateInput",
+                    "name": "CustomerBaseInput",
                     "ofType": null
                   }
                 },
@@ -1540,7 +1472,23 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CustomerCreateInput",
+                    "name": "CustomerBaseInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   }
                 },
@@ -1595,9 +1543,25 @@
             "deprecationReason": null
           },
           {
-            "name": "createProduct",
+            "name": "productCreate",
             "description": null,
             "args": [
+              {
+                "name": "collectionId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
               {
                 "name": "data",
                 "description": null,
@@ -1606,7 +1570,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "ProductCreateInput",
+                    "name": "ProductBaseInput",
                     "ofType": null
                   }
                 },
@@ -1628,7 +1592,72 @@
             "deprecationReason": null
           },
           {
-            "name": "delProduct",
+            "name": "productUpdate",
+            "description": null,
+            "args": [
+              {
+                "name": "collectionId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "data",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ProductBaseInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Product",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "productDelete",
             "description": null,
             "args": [
               {
@@ -1661,7 +1690,7 @@
             "deprecationReason": null
           },
           {
-            "name": "updateProduct",
+            "name": "userLogin",
             "description": null,
             "args": [
               {
@@ -1672,40 +1701,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "ProductUpdateInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Product",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createUser",
-            "description": null,
-            "args": [
-              {
-                "name": "data",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "UserCreateInput",
+                    "name": "UserLoginInput",
                     "ofType": null
                   }
                 },
@@ -1727,7 +1723,7 @@
             "deprecationReason": null
           },
           {
-            "name": "updateUser",
+            "name": "userCreate",
             "description": null,
             "args": [
               {
@@ -1738,7 +1734,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UserCreateInput",
+                    "name": "UserBaseInput",
                     "ofType": null
                   }
                 },
@@ -1760,7 +1756,56 @@
             "deprecationReason": null
           },
           {
-            "name": "delUser",
+            "name": "userUpdate",
+            "description": null,
+            "args": [
+              {
+                "name": "data",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UserBaseInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userDelete",
             "description": null,
             "args": [
               {

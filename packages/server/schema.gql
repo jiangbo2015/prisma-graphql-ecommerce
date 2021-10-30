@@ -90,12 +90,12 @@ input ProductUpdateInput {
 
 type Query {
   collectionById(id: Int!): Collection!
+  collectionList: [Collection!]!
   customerById(id: Float!): Customer!
-  getCollections: [Collection!]!
   getCustomers: [Customer!]!
-  getProducts: [Product!]!
   getUsers: [User!]!
   productById(id: Float!): Product!
+  productList: [Product!]!
   userById(id: Float!): User!
 }
 

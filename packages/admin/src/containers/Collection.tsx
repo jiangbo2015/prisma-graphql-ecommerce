@@ -1,6 +1,5 @@
 import Layout from '../components/Layout'
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -12,17 +11,14 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CollectionModal from '../components/CollectionModal'
-import {
-    CollectionCreateInput,
-    CollectionUpdateInput,
-} from '../__generated__/globalTypes'
+
 import {
     useCreateCollection,
     useUpdateCollection,
     useDelCollection,
-    GET_ALL_COLLECTIONS,
-} from '../graphql/Collection'
-import { AllCollections } from '../__generated__/AllCollections'
+    useCollectionList,
+} from 'src/graphql/Collection'
+import { CollectionBaseInput } from 'src/__generated__/globalTypes'
 
 const useStyles = makeStyles({
     table: {
@@ -36,46 +32,49 @@ const useStyles = makeStyles({
 export default function BasicTable() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [editData, setEditData] = useState<CollectionUpdateInput | null>(null)
+    const [editData, setEditData] = useState<CollectionBaseInput>(
+        {} as CollectionBaseInput
+    )
 
-    const { mutate } = useCreateCollection()
-    const { mutate: mutateDel } = useDelCollection()
+    const { mutate: mutateCreate } = useCreateCollection()
+    const { mutate: mutateDelete } = useDelCollection()
     const { mutate: mutateUpdate } = useUpdateCollection()
-    const { data } = useQuery<AllCollections>(GET_ALL_COLLECTIONS)
+    const { data } = useCollectionList()
 
-    const handleConfim = (values: CollectionCreateInput) => {
+    const handleConfim = (values) => {
         setOpen(false)
-        mutate({
+        mutateCreate({
             variables: {
                 data: values,
             },
         })
     }
 
-    const handleConfirmUpdate = (values: CollectionUpdateInput) => {
+    const handleConfirmUpdate = (id, values) => {
         setOpen(false)
         mutateUpdate({
             variables: {
+                id,
                 data: values,
             },
         })
     }
 
     const handleDel = (id: number) => {
-        mutateDel({
+        mutateDelete({
             variables: {
                 id,
             },
         })
     }
 
-    const handleUpdate = (row: CollectionUpdateInput) => {
+    const handleUpdate = (row) => {
         setEditData(row)
         setOpen(true)
     }
 
     const handleAdd = () => {
-        setEditData(null)
+        setEditData({} as CollectionBaseInput)
         setOpen(true)
     }
 
@@ -100,17 +99,19 @@ export default function BasicTable() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell align="right">Slug</TableCell>
+                            <TableCell align="right">Description</TableCell>
                             <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data?.allCollections?.map((row) => (
-                            <TableRow key={row.name}>
+                        {data?.collectionList?.map((row) => (
+                            <TableRow key={row.id}>
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {row.title}
                                 </TableCell>
-                                <TableCell align="right">{row.slug}</TableCell>
+                                <TableCell align="right">
+                                    {row.description}
+                                </TableCell>
                                 <TableCell align="right">
                                     <Button onClick={() => handleDel(row.id)}>
                                         Delete

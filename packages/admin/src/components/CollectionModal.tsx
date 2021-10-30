@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Dialog, { DialogProps } from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import {
-    CollectionCreateInput,
-    CollectionUpdateInput,
-} from '../__generated__/globalTypes'
+    Button,
+    TextField,
+    Dialog,
+    DialogProps,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+} from '@material-ui/core'
+import { CollectionBaseInput } from 'src/__generated__/globalTypes'
 
 type ModalProps = {
     open: boolean
-    editData: CollectionUpdateInput | null
+    editData: CollectionBaseInput & { id?: number }
     handleClose: DialogProps['onClose']
     handleConfirm: Function
     handleConfirmUpdate: Function
 }
 
 type ErrorProps = {
-    [P in keyof CollectionCreateInput]: boolean
+    [P in keyof any]: boolean
 }
 
 export default function FormDialog({
@@ -29,33 +29,32 @@ export default function FormDialog({
     handleConfirmUpdate,
     editData,
 }: ModalProps) {
-    const [name, setName] = useState(editData?.name || '')
-    const [slug, setSlug] = useState(editData?.slug || '')
+    const [title, setTitle] = useState(editData.title || '')
+    const [description, setDescription] = useState(editData.description || '')
     const [errors, setErrors] = useState<ErrorProps>({
-        name: false,
-        slug: false,
+        title: false,
+        description: false,
     })
     const handleSubmit = () => {
-        if (!name || !slug) {
+        if (!title || !description) {
             setErrors({
-                name: Boolean(name),
-                slug: Boolean(slug),
+                title: Boolean(title),
+                description: Boolean(description),
             })
             return
         }
 
-        if (editData) {
-            handleConfirmUpdate({
-                id: editData.id,
-                name,
-                slug,
+        if (editData.id) {
+            handleConfirmUpdate(editData.id, {
+                title,
+                description,
             })
             return
         }
 
         handleConfirm({
-            name,
-            slug,
+            title,
+            description,
         })
     }
     return (
@@ -70,29 +69,33 @@ export default function FormDialog({
                     <form action="">
                         <TextField
                             autoFocus
-                            error={errors['name']}
+                            error={errors['title']}
                             margin="dense"
-                            label="Name"
-                            value={name}
+                            label="Title"
+                            value={title}
                             required
                             fullWidth
-                            onChange={(e) => setName(e.target.value)}
+                            variant="outlined"
+                            onChange={(e) => setTitle(e.target.value)}
                         />
                         <TextField
-                            margin="dense"
-                            label="Slug"
-                            value={slug}
-                            error={errors['name']}
-                            required
+                            margin="normal"
+                            label="Description"
+                            value={description}
+                            error={errors['description']}
+                            required={false}
                             fullWidth
-                            onChange={(e) => setSlug(e.target.value)}
+                            multiline
+                            minRows={3}
+                            variant="outlined"
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </form>
                 </DialogContent>
                 <DialogActions>
                     <Button
                         onClick={handleClose as React.MouseEventHandler}
-                        color="primary"
+                        color="secondary"
                     >
                         Cancel
                     </Button>

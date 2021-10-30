@@ -1,62 +1,74 @@
-import { gql, useMutation } from '@apollo/client'
-import * as CreateCollectionTypes from '../__generated__/CreateCollection'
-import { AllCollections } from '../__generated__/AllCollections'
-import { DelCollection } from '../__generated__/DelCollection'
-import * as UpdateCollectionTypes from '../__generated__/UpdateCollection'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import {
+    CollectionCreate,
+    CollectionCreateVariables,
+} from 'src/__generated__/CollectionCreate'
+import { CollectionDelete } from 'src/__generated__/CollectionDelete'
+import { CollectionList } from 'src/__generated__/CollectionList'
+import {
+    CollectionUpdate,
+    CollectionUpdateVariables,
+} from 'src/__generated__/CollectionUpdate'
 
-export const GET_ALL_COLLECTIONS = gql`
-    query AllCollections {
-        allCollections {
+export const COLLECTION_LIST = gql`
+    query CollectionList {
+        collectionList {
             id
-            name
-            slug
+            title
+            description
         }
     }
 `
 
-export const CREATE_COLLECTION = gql`
-    mutation CreateCollection($data: CollectionCreateInput!) {
-        createCollection(data: $data) {
+export const COLLECTION_CREATE = gql`
+    mutation CollectionCreate($data: CollectionBaseInput!) {
+        collectionCreate(data: $data) {
             id
-            name
-            slug
+            title
+            description
         }
     }
 `
 
-export const UPDATE_COLLECTION = gql`
-    mutation UpdateCollection($data: CollectionUpdateInput!) {
-        updateCollection(data: $data) {
+export const COLLECTION_UPDATE = gql`
+    mutation CollectionUpdate($id: Int!, $data: CollectionBaseInput!) {
+        collectionUpdate(data: $data, id: $id) {
             id
-            name
-            slug
+            title
+            description
         }
     }
 `
 
-export const DEL_COLLECTION = gql`
-    mutation DelCollection($id: Float!) {
-        delCollection(id: $id) {
+export const COLLECTION_DELETE = gql`
+    mutation CollectionDelete($id: Int!) {
+        collectionDelete(id: $id) {
             id
         }
     }
 `
+
+export const useCollectionList = () => {
+    const { data } = useQuery<CollectionList>(COLLECTION_LIST)
+    return { data }
+}
 
 export const useCreateCollection = () => {
     const [mutate, { data, error, loading }] = useMutation<
-        CreateCollectionTypes.CreateCollection,
-        CreateCollectionTypes.CreateCollectionVariables
-    >(CREATE_COLLECTION, {
+        CollectionCreate,
+        CollectionCreateVariables
+    >(COLLECTION_CREATE, {
         update: (cache, { data }) => {
-            const newData = data?.createCollection
-            const existData = cache.readQuery<AllCollections>({
-                query: GET_ALL_COLLECTIONS,
-            })?.allCollections
+            const newData = data?.collectionCreate
+            const existData = cache.readQuery<CollectionList>({
+                query: COLLECTION_LIST,
+            })?.collectionList
+
             if (existData && newData) {
-                cache.writeQuery<AllCollections>({
-                    query: GET_ALL_COLLECTIONS,
+                cache.writeQuery<CollectionList>({
+                    query: COLLECTION_LIST,
                     data: {
-                        allCollections: existData.concat(newData),
+                        collectionList: existData.concat(newData),
                     },
                 })
             }
@@ -67,20 +79,21 @@ export const useCreateCollection = () => {
 
 export const useUpdateCollection = () => {
     const [mutate, { data, error, loading }] = useMutation<
-        UpdateCollectionTypes.UpdateCollection,
-        UpdateCollectionTypes.UpdateCollectionVariables
-    >(UPDATE_COLLECTION, {
+        CollectionUpdate,
+        CollectionUpdateVariables
+    >(COLLECTION_UPDATE, {
         update: (cache, { data }) => {
-            const newData = data?.updateCollection
-            const existData = cache.readQuery<AllCollections>({
-                query: GET_ALL_COLLECTIONS,
-            })?.allCollections
+            const newData = data?.collectionUpdate
+            const existData = cache.readQuery<CollectionList>({
+                query: COLLECTION_LIST,
+            })?.collectionList
+
             if (existData && newData) {
                 const index = existData.findIndex((x) => x.id === newData.id)
                 const cloneData = [...existData]
                 cloneData.splice(index, 1, newData)
-                cache.writeQuery<AllCollections>({
-                    query: GET_ALL_COLLECTIONS,
+                cache.writeQuery({
+                    query: COLLECTION_LIST,
                     data: {
                         allCollections: cloneData,
                     },
@@ -92,19 +105,20 @@ export const useUpdateCollection = () => {
 }
 
 export const useDelCollection = () => {
-    const [mutate, { data, error, loading }] = useMutation<DelCollection>(
-        DEL_COLLECTION,
+    const [mutate, { data, error, loading }] = useMutation<CollectionDelete>(
+        COLLECTION_DELETE,
         {
             update: (cache, { data }) => {
-                const id = data?.delCollection.id
-                const existData = cache.readQuery<AllCollections>({
-                    query: GET_ALL_COLLECTIONS,
-                })?.allCollections
+                const id = data?.collectionDelete.id
+                const existData = cache.readQuery<CollectionList>({
+                    query: COLLECTION_LIST,
+                })?.collectionList
+
                 if (existData && id) {
-                    cache.writeQuery<AllCollections>({
-                        query: GET_ALL_COLLECTIONS,
+                    cache.writeQuery<CollectionList>({
+                        query: COLLECTION_LIST,
                         data: {
-                            allCollections: existData.filter(
+                            collectionList: existData.filter(
                                 (item) => item.id !== id
                             ),
                         },

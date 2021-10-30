@@ -9,16 +9,11 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import {
-    ProductCreateInput,
-    ProductUpdateInput,
-} from '../__generated__/globalTypes'
-import { GET_ALL_COLLECTIONS } from '../graphql/Collection'
-import { AllCollections } from 'src/__generated__/AllCollections'
+import { PRODUCT_LIST } from 'src/graphql/Product'
 
 type ModalProps = {
     open: boolean
-    editData: ProductUpdateInput | null
+    editData: any
     handleClose: DialogProps['onClose']
     handleConfirm: Function
     handleConfirmUpdate: Function
@@ -31,10 +26,9 @@ export default function FormDialog({
     handleConfirmUpdate,
     editData,
 }: ModalProps) {
-    const { data: collectionsData } =
-        useQuery<AllCollections>(GET_ALL_COLLECTIONS)
+    const { data: collectionsData } = useQuery(PRODUCT_LIST)
 
-    const [fields, setFields] = useState(editData || ({} as ProductUpdateInput))
+    const [fields, setFields] = useState(editData || {})
     const handleSubmit = (e: React.FormEvent) => {
         fields.price = Number(fields.price)
         e.preventDefault()
@@ -51,7 +45,7 @@ export default function FormDialog({
 
     // select is not a normal select element, should be care about
     const handleFields =
-        (type: keyof ProductCreateInput) =>
+        (type: any) =>
         (e: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
             setFields({
                 ...fields,

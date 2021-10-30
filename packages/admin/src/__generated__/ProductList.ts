@@ -4,25 +4,25 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: AllProducts
+// GraphQL query operation: ProductList
 // ====================================================
 
-export interface AllProducts_allProducts_collections {
+export interface ProductList_productList_collections {
   __typename: "Collection";
   id: number;
-  name: string;
+  title: string;
 }
 
-export interface AllProducts_allProducts {
+export interface ProductList_productList {
   __typename: "Product";
   id: number;
   title: string;
   slug: string;
   price: number;
   image: string;
-  collections: AllProducts_allProducts_collections[];
+  collections: (ProductList_productList_collections | null)[] | null;
 }
 
-export interface AllProducts {
-  allProducts: AllProducts_allProducts[];
+export interface ProductList {
+  productList: ProductList_productList[];
 }

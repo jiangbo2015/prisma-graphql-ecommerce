@@ -4,29 +4,29 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DelProduct
+// GraphQL mutation operation: ProductDelete
 // ====================================================
 
-export interface DelProduct_delProduct_collections {
+export interface ProductDelete_productDelete_collections {
   __typename: "Collection";
   id: number;
-  name: string;
+  title: string;
 }
 
-export interface DelProduct_delProduct {
+export interface ProductDelete_productDelete {
   __typename: "Product";
   id: number;
   title: string;
   slug: string;
   price: number;
   image: string;
-  collections: DelProduct_delProduct_collections[];
+  collections: (ProductDelete_productDelete_collections | null)[] | null;
 }
 
-export interface DelProduct {
-  delProduct: DelProduct_delProduct;
+export interface ProductDelete {
+  productDelete: ProductDelete_productDelete;
 }
 
-export interface DelProductVariables {
+export interface ProductDeleteVariables {
   id: number;
 }

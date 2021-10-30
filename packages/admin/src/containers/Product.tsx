@@ -12,22 +12,15 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import ProductModal from '../components/ProductModel'
-import {
-    ProductCreateInput,
-    ProductUpdateInput,
-} from '../__generated__/globalTypes'
+
 import { omit } from 'lodash'
 
 import {
-    GET_ALL_PRODUCTS,
+    PRODUCT_LIST,
     useCreateProduct,
     useUpdateProduct,
     useDelProduct,
-} from '../graphql/Product'
-import {
-    AllProducts,
-    AllProducts_allProducts,
-} from 'src/__generated__/AllProducts'
+} from 'src/graphql/Product'
 
 const useStyles = makeStyles({
     table: {
@@ -41,41 +34,44 @@ const useStyles = makeStyles({
 export default function BasicTable() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [editData, setEditData] = useState<ProductUpdateInput | null>(null)
+    const [editData, setEditData] = useState<any>(null)
 
-    const { mutate } = useCreateProduct()
-    const { mutate: mutateDel } = useDelProduct()
+    const { mutate: mutateCreate } = useCreateProduct()
+    const { mutate: mutateDelete } = useDelProduct()
     const { mutate: mutateUpdate } = useUpdateProduct()
-    const { data } = useQuery<AllProducts>(GET_ALL_PRODUCTS)
+    const { data } = useQuery(PRODUCT_LIST)
 
-    const handleConfim = (values: ProductCreateInput) => {
+    const handleConfim = (values) => {
         setOpen(false)
-        mutate({
+        mutateCreate({
             variables: {
+                collectionId: 0,
                 data: values,
             },
         })
     }
 
-    const handleConfirmUpdate = (values: ProductUpdateInput) => {
+    const handleConfirmUpdate = (values) => {
         setOpen(false)
         mutateUpdate({
             variables: {
+                id: 0,
+                collectionId: 0,
                 data: values,
             },
         })
     }
 
     const handleDel = (id: number) => {
-        mutateDel({
+        mutateDelete({
             variables: {
                 id,
             },
         })
     }
 
-    const handleUpdate = (row: AllProducts_allProducts) => {
-        const updateProps: ProductUpdateInput = {
+    const handleUpdate = (row) => {
+        const updateProps = {
             ...omit(row, ['collections']),
             collectionId: row.collections[0].id,
         }

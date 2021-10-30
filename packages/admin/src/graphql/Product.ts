@@ -1,8 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
-import * as CreateProductTypes from '../__generated__/CreateProduct'
-import * as UpdateProductTypes from '../__generated__/UpdateProduct'
-import { AllProducts } from 'src/__generated__/AllProducts'
-import { DelProduct } from 'src/__generated__/DelProduct'
+import { ProductCreate, ProductCreateVariables } from 'src/__generated__/ProductCreate'
+import { ProductDelete, ProductDeleteVariables } from 'src/__generated__/ProductDelete'
+import { ProductList } from 'src/__generated__/ProductList'
+import { ProductUpdate, ProductUpdateVariables } from 'src/__generated__/ProductUpdate'
 
 const ProductFragment = gql`
     fragment ProductFragment on Product {
@@ -13,41 +13,45 @@ const ProductFragment = gql`
         image
         collections {
             id
-            name
+            title
         }
     }
 `
 
-export const GET_ALL_PRODUCTS = gql`
-    query AllProducts {
-        allProducts {
+export const PRODUCT_LIST = gql`
+    query ProductList {
+        productList {
             ...ProductFragment
         }
     }
     ${ProductFragment}
 `
 
-export const CREATE_PRODUCT = gql`
-    mutation CreateProduct($data: ProductCreateInput!) {
-        createProduct(data: $data) {
+export const PRODUCT_CREATE = gql`
+    mutation ProductCreate($data: ProductBaseInput!, $collectionId: Float!) {
+        productCreate(data: $data, collectionId: $collectionId) {
             ...ProductFragment
         }
     }
     ${ProductFragment}
 `
 
-export const UPDATE_PRODUCT = gql`
-    mutation UpdateProduct($data: ProductUpdateInput!) {
-        updateProduct(data: $data) {
+export const PRODUCT_UPDATE = gql`
+    mutation ProductUpdate(
+        $id: Int!
+        $collectionId: Float!
+        $data: ProductBaseInput!
+    ) {
+        productUpdate(collectionId: $collectionId, data: $data, id: $id) {
             ...ProductFragment
         }
     }
     ${ProductFragment}
 `
 
-export const DEL_PRODUCT = gql`
-    mutation DelProduct($id: Int!) {
-        delProduct(id: $id) {
+export const PRODUCT_DELETE = gql`
+    mutation ProductDelete($id: Int!) {
+        productDelete(id: $id) {
             ...ProductFragment
         }
     }
@@ -55,20 +59,17 @@ export const DEL_PRODUCT = gql`
 `
 
 export const useCreateProduct = () => {
-    const [mutate] = useMutation<
-        CreateProductTypes.CreateProduct,
-        CreateProductTypes.CreateProductVariables
-    >(CREATE_PRODUCT, {
+    const [mutate] = useMutation<ProductCreate, ProductCreateVariables>(PRODUCT_CREATE, {
         update: (cache, { data }) => {
-            const newData = data?.createProduct
-            const existData = cache.readQuery<AllProducts>({
-                query: GET_ALL_PRODUCTS,
-            })?.allProducts
+            const newData = data?.productCreate
+            const existData = cache.readQuery<ProductList>({
+                query: PRODUCT_LIST,
+            })?.productList
             if (existData && newData) {
-                cache.writeQuery<AllProducts>({
-                    query: GET_ALL_PRODUCTS,
+                cache.writeQuery<ProductList>({
+                    query: PRODUCT_LIST,
                     data: {
-                        allProducts: existData.concat(newData),
+                        productList: existData.concat(newData),
                     },
                 })
             }
@@ -78,21 +79,18 @@ export const useCreateProduct = () => {
 }
 
 export const useUpdateProduct = () => {
-    const [mutate, { data, error, loading }] = useMutation<
-        UpdateProductTypes.UpdateProduct,
-        UpdateProductTypes.UpdateProductVariables
-    >(UPDATE_PRODUCT, {
+    const [mutate, { data, error, loading }] = useMutation<ProductUpdate, ProductUpdateVariables>(PRODUCT_UPDATE, {
         update: (cache, { data }) => {
-            const newData = data?.updateProduct
-            const existData = cache.readQuery<AllProducts>({
-                query: GET_ALL_PRODUCTS,
-            })?.allProducts
+            const newData = data?.productUpdate
+            const existData = cache.readQuery<ProductList>({
+                query: PRODUCT_LIST,
+            })?.productList
             if (existData && newData) {
                 const index = existData.findIndex((x) => x.id === newData.id)
                 const cloneData = [...existData]
                 cloneData.splice(index, 1, newData)
-                cache.writeQuery<AllProducts>({
-                    query: GET_ALL_PRODUCTS,
+                cache.writeQuery({
+                    query: PRODUCT_LIST,
                     data: {
                         allProducts: cloneData,
                     },
@@ -104,26 +102,21 @@ export const useUpdateProduct = () => {
 }
 
 export const useDelProduct = () => {
-    const [mutate, { data, error, loading }] = useMutation<DelProduct>(
-        DEL_PRODUCT,
-        {
-            update: (cache, { data }) => {
-                const id = data?.delProduct.id
-                const existData = cache.readQuery<AllProducts>({
-                    query: GET_ALL_PRODUCTS,
-                })?.allProducts
-                if (existData && id) {
-                    cache.writeQuery<AllProducts>({
-                        query: GET_ALL_PRODUCTS,
-                        data: {
-                            allProducts: existData.filter(
-                                (item) => item.id !== id
-                            ),
-                        },
-                    })
-                }
-            },
-        }
-    )
+    const [mutate, { data, error, loading }] = useMutation<ProductDelete, ProductDeleteVariables>(PRODUCT_DELETE, {
+        update: (cache, { data }) => {
+            const id = data?.productDelete.id
+            const existData = cache.readQuery<ProductList>({
+                query: PRODUCT_LIST,
+            })?.productList
+            if (existData && id) {
+                cache.writeQuery<ProductList>({
+                    query: PRODUCT_LIST,
+                    data: {
+                        productList: existData.filter((item) => item.id !== id),
+                    },
+                })
+            }
+        },
+    })
     return { mutate, data, error, loading }
 }

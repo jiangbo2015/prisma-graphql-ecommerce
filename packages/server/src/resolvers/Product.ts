@@ -45,7 +45,7 @@ export default class ProductResolver {
     }
 
     @Query(() => [Product])
-    async getProducts(@Ctx() ctx: Context) {
+    async productList(@Ctx() ctx: Context) {
         return ctx.prisma.product.findMany({
             include: {
                 collections: true,

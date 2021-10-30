@@ -4,16 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: AllCollections
+// GraphQL mutation operation: CollectionDelete
 // ====================================================
 
-export interface AllCollections_allCollections {
+export interface CollectionDelete_collectionDelete {
   __typename: "Collection";
   id: number;
-  name: string;
-  slug: string;
 }
 
-export interface AllCollections {
-  allCollections: AllCollections_allCollections[];
+export interface CollectionDelete {
+  collectionDelete: CollectionDelete_collectionDelete;
+}
+
+export interface CollectionDeleteVariables {
+  id: number;
 }
