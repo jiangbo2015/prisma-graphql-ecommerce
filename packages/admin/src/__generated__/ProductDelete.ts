@@ -17,7 +17,7 @@ export interface ProductDelete_productDelete {
   __typename: "Product";
   id: number;
   title: string;
-  slug: string;
+  description: string | null;
   price: number;
   image: string;
   collections: (ProductDelete_productDelete_collections | null)[] | null;

@@ -19,7 +19,7 @@ export interface ProductUpdate_productUpdate {
   __typename: "Product";
   id: number;
   title: string;
-  slug: string;
+  description: string | null;
   price: number;
   image: string;
   collections: (ProductUpdate_productUpdate_collections | null)[] | null;

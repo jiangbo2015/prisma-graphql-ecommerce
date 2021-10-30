@@ -1,19 +1,29 @@
-import { gql, useMutation } from '@apollo/client'
-import { ProductCreate, ProductCreateVariables } from 'src/__generated__/ProductCreate'
-import { ProductDelete, ProductDeleteVariables } from 'src/__generated__/ProductDelete'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import {
+    ProductCreate,
+    ProductCreateVariables,
+} from 'src/__generated__/ProductCreate'
+import {
+    ProductDelete,
+    ProductDeleteVariables,
+} from 'src/__generated__/ProductDelete'
 import { ProductList } from 'src/__generated__/ProductList'
-import { ProductUpdate, ProductUpdateVariables } from 'src/__generated__/ProductUpdate'
+import {
+    ProductUpdate,
+    ProductUpdateVariables,
+} from 'src/__generated__/ProductUpdate'
 
 const ProductFragment = gql`
     fragment ProductFragment on Product {
         id
         title
-        slug
+        description
         price
         image
         collections {
             id
             title
+            description
         }
     }
 `
@@ -58,28 +68,39 @@ export const PRODUCT_DELETE = gql`
     ${ProductFragment}
 `
 
+export const useProductList = () => {
+    const { data } = useQuery<ProductList>(PRODUCT_LIST)
+    return { data }
+}
+
 export const useCreateProduct = () => {
-    const [mutate] = useMutation<ProductCreate, ProductCreateVariables>(PRODUCT_CREATE, {
-        update: (cache, { data }) => {
-            const newData = data?.productCreate
-            const existData = cache.readQuery<ProductList>({
-                query: PRODUCT_LIST,
-            })?.productList
-            if (existData && newData) {
-                cache.writeQuery<ProductList>({
+    const [mutate] = useMutation<ProductCreate, ProductCreateVariables>(
+        PRODUCT_CREATE,
+        {
+            update: (cache, { data }) => {
+                const newData = data?.productCreate
+                const existData = cache.readQuery<ProductList>({
                     query: PRODUCT_LIST,
-                    data: {
-                        productList: existData.concat(newData),
-                    },
-                })
-            }
-        },
-    })
+                })?.productList
+                if (existData && newData) {
+                    cache.writeQuery<ProductList>({
+                        query: PRODUCT_LIST,
+                        data: {
+                            productList: existData.concat(newData),
+                        },
+                    })
+                }
+            },
+        }
+    )
     return { mutate }
 }
 
 export const useUpdateProduct = () => {
-    const [mutate, { data, error, loading }] = useMutation<ProductUpdate, ProductUpdateVariables>(PRODUCT_UPDATE, {
+    const [mutate, { data, error, loading }] = useMutation<
+        ProductUpdate,
+        ProductUpdateVariables
+    >(PRODUCT_UPDATE, {
         update: (cache, { data }) => {
             const newData = data?.productUpdate
             const existData = cache.readQuery<ProductList>({
@@ -101,8 +122,11 @@ export const useUpdateProduct = () => {
     return { mutate, data, error, loading }
 }
 
-export const useDelProduct = () => {
-    const [mutate, { data, error, loading }] = useMutation<ProductDelete, ProductDeleteVariables>(PRODUCT_DELETE, {
+export const useDeleteProduct = () => {
+    const [mutate, { data, error, loading }] = useMutation<
+        ProductDelete,
+        ProductDeleteVariables
+    >(PRODUCT_DELETE, {
         update: (cache, { data }) => {
             const id = data?.productDelete.id
             const existData = cache.readQuery<ProductList>({

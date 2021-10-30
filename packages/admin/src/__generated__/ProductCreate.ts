@@ -19,7 +19,7 @@ export interface ProductCreate_productCreate {
   __typename: "Product";
   id: number;
   title: string;
-  slug: string;
+  description: string | null;
   price: number;
   image: string;
   collections: (ProductCreate_productCreate_collections | null)[] | null;

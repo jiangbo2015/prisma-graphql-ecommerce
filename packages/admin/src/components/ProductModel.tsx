@@ -8,12 +8,13 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-
-import { PRODUCT_LIST } from 'src/graphql/Product'
+import { omit } from 'lodash'
+import { ProductBaseInput } from 'src/__generated__/globalTypes'
+import { useCollectionList } from 'src/graphql/Collection'
 
 type ModalProps = {
     open: boolean
-    editData: any
+    editData: ProductBaseInput & { id?: number; collectionId?: number }
     handleClose: DialogProps['onClose']
     handleConfirm: Function
     handleConfirmUpdate: Function
@@ -26,21 +27,22 @@ export default function FormDialog({
     handleConfirmUpdate,
     editData,
 }: ModalProps) {
-    const { data: collectionsData } = useQuery(PRODUCT_LIST)
+    const { data: collectionsData } = useCollectionList()
 
     const [fields, setFields] = useState(editData || {})
     const handleSubmit = (e: React.FormEvent) => {
         fields.price = Number(fields.price)
         e.preventDefault()
-        if (editData) {
-            handleConfirmUpdate({
-                ...fields,
-                id: editData.id,
-            })
+        if (editData.id) {
+            handleConfirmUpdate(
+                editData.id,
+                fields.collectionId,
+                omit(fields, ['collectionId', 'id', '__typename'])
+            )
             return
         }
 
-        handleConfirm(fields)
+        handleConfirm(omit(fields, 'collectionId'), fields.collectionId)
     }
 
     // select is not a normal select element, should be care about
@@ -60,7 +62,7 @@ export default function FormDialog({
                 onClose={handleClose}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">Collection Add</DialogTitle>
+                <DialogTitle id="form-dialog-title">Product Add</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
                         <TextField
@@ -70,15 +72,19 @@ export default function FormDialog({
                             value={fields.title}
                             required
                             fullWidth
+                            variant="outlined"
                             onChange={handleFields('title')}
                         />
                         <TextField
                             margin="dense"
-                            label="Slug"
-                            value={fields.slug}
+                            label="Description"
+                            multiline
+                            minRows={3}
+                            value={fields.description}
                             required
                             fullWidth
-                            onChange={handleFields('slug')}
+                            variant="outlined"
+                            onChange={handleFields('description')}
                         />
                         <TextField
                             margin="dense"
@@ -87,9 +93,10 @@ export default function FormDialog({
                             value={fields.price}
                             required
                             fullWidth
+                            variant="outlined"
                             onChange={handleFields('price')}
                         />
-                        <FormControl fullWidth required>
+                        <FormControl fullWidth>
                             <InputLabel>Collection</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -97,11 +104,12 @@ export default function FormDialog({
                                 value={fields.collectionId}
                                 placeholder="please select collection"
                                 onChange={handleFields('collectionId')}
+                                variant="outlined"
                             >
-                                {collectionsData?.allCollections?.map(
+                                {collectionsData?.collectionList?.map(
                                     (item) => (
                                         <MenuItem value={item.id}>
-                                            {item.name}
+                                            {item.title}
                                         </MenuItem>
                                     )
                                 )}
@@ -113,6 +121,7 @@ export default function FormDialog({
                             value={fields.image}
                             required
                             fullWidth
+                            variant="outlined"
                             onChange={handleFields('image')}
                         />
                         <DialogActions>

@@ -17,7 +17,7 @@ export interface ProductFragment {
   __typename: "Product";
   id: number;
   title: string;
-  slug: string;
+  description: string | null;
   price: number;
   image: string;
   collections: (ProductFragment_collections | null)[] | null;

@@ -17,7 +17,7 @@ export interface ProductList_productList {
   __typename: "Product";
   id: number;
   title: string;
-  slug: string;
+  description: string | null;
   price: number;
   image: string;
   collections: (ProductList_productList_collections | null)[] | null;
