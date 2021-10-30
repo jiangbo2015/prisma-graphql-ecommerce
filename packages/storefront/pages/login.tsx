@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Box, Card, Typography, Button } from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
 import EmailIcon from '@material-ui/icons/Email'
 import LockIcon from '@material-ui/icons/Lock'
+import { useCustomerLogin } from 'gql/mutation'
+import { TextFieldProps } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -19,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export const CommonInput = ({ label, icon, ...props }) => {
+export const CommonInput = ({
+    label,
+    icon,
+    ...props
+}: TextFieldProps & { icon: React.ReactNode }) => {
     return (
         <TextField
             label={label}
@@ -38,6 +44,21 @@ export const CommonInput = ({ label, icon, ...props }) => {
 
 export default function InputWithIcon() {
     const classes = useStyles()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const { mutate, data, error } = useCustomerLogin()
+    const handleLogin = () => {
+        mutate({
+            variables: {
+                data: {
+                    email,
+                    password,
+                },
+            },
+        }).catch((e) => {
+            console.log(e)
+        })
+    }
 
     return (
         <Card className={classes.root}>
@@ -45,14 +66,35 @@ export default function InputWithIcon() {
                 Sign in
             </Typography>
 
-            <CommonInput label="Email" icon={<EmailIcon />} />
-            <CommonInput label="Password" icon={<LockIcon />} />
+            <CommonInput
+                label="Email"
+                icon={<EmailIcon />}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <CommonInput
+                label="Password"
+                icon={<LockIcon />}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
 
             <Box sx={{ mt: 3, width: '100%' }}>
-                <Button variant="contained" color="primary" fullWidth>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={handleLogin}
+                >
                     Login
                 </Button>
             </Box>
+            {error?.message && (
+                <Typography component="h1" variant="h5" color="error">
+                    {error.message}
+                </Typography>
+            )}
+
             <Box mt="20px">
                 <Button href="/register">Register</Button>
             </Box>

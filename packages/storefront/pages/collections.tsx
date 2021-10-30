@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import CollectionItem from '../components/CollectionItem'
 import { gql } from '@apollo/client'
 import client from '../client'
-import { COLLECTION_LIST } from 'graphql/query'
+import { COLLECTION_LIST } from 'gql/query'
 import { CollectionList } from '__generated__/CollectionList'
 
 const useStyles = makeStyles({
