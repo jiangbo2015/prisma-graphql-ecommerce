@@ -11,11 +11,9 @@ import {
     Root,
     Int,
 } from 'type-graphql'
-import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
-
 import User from '../models/User'
-import { Context } from '../context'
+import { Context } from 'src/context'
 
 @InputType()
 export class UserBaseInput {

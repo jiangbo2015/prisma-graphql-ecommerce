@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client'
-import client from '../client'
+import client from 'client'
 
-import '../styles/globals.css'
+import 'styles/globals.css'
 
 import React from 'react'
 import PropTypes from 'prop-types'

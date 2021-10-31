@@ -1,7 +1,7 @@
 import {
     CustomerLogin,
     CustomerLoginVariables,
-} from './../__generated__/CustomerLogin'
+} from '__generated__/CustomerLogin'
 import { gql, useMutation } from '@apollo/client'
 import { CustomerCreate } from '__generated__/CustomerCreate'
 

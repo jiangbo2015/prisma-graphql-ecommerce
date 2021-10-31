@@ -1,9 +1,9 @@
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import { Grid, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import ProductItem from '../components/ProductItem'
+import ProductItem from 'components/ProductItem'
 import { gql } from '@apollo/client'
-import client from '../client'
+import client from 'client'
 import { PRODUCT_LIST } from 'gql/query'
 import { ProductList } from '__generated__/ProductList'
 

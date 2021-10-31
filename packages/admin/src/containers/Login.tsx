@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import LockIcon from '@material-ui/icons/Lock'
 import { useHistory } from 'react-router-dom'
 
-import { useLogin } from '../graphql/User'
+import { useLogin } from 'src/graphql/User'
 
 const useStyles = makeStyles((theme) => ({
     margin: {

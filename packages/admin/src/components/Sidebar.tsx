@@ -5,7 +5,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { menus, IMenu } from '../App'
+import { menus, IMenu } from 'App'
 
 type SidebarProps = {
     drawerWidth: number

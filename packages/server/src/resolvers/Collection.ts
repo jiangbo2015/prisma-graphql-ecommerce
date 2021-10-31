@@ -1,6 +1,4 @@
 import 'reflect-metadata'
-import { Prisma } from '@prisma/client'
-
 import {
     Resolver,
     Query,
@@ -12,7 +10,7 @@ import {
     Int,
 } from 'type-graphql'
 import Collection from '../models/Collection'
-import { Context } from '../context'
+import { Context } from 'src/context'
 import { createSlug } from '../utils/slug'
 @InputType()
 class CollectionBaseInput {

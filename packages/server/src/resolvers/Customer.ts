@@ -9,12 +9,10 @@ import {
     Int,
     Field,
 } from 'type-graphql'
-import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
-import { MaxLength, Length, IsEmail } from 'class-validator'
-
+import { IsEmail } from 'class-validator'
 import Customer from '../models/Customer'
-import { Context } from '../context'
+import { Context } from 'src/context'
 
 @InputType()
 export class CustomerBaseInput {

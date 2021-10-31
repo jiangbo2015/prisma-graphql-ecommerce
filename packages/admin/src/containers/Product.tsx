@@ -1,6 +1,4 @@
-import Layout from '../components/Layout'
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -11,7 +9,9 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import ProductModal from '../components/ProductModel'
+import ProductModal from 'components/ProductModel'
+import Layout from 'components/Layout'
+
 
 import { omit } from 'lodash'
 
@@ -22,10 +22,7 @@ import {
     useDeleteProduct,
 } from 'src/graphql/Product'
 import { ProductBaseInput } from 'src/__generated__/globalTypes'
-import {
-    ProductUpdate,
-    ProductUpdate_productUpdate,
-} from 'src/__generated__/ProductUpdate'
+import { ProductUpdate_productUpdate } from 'src/__generated__/ProductUpdate'
 
 const useStyles = makeStyles({
     table: {

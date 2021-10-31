@@ -1,9 +1,8 @@
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import { Grid, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import CollectionItem from '../components/CollectionItem'
-import { gql } from '@apollo/client'
-import client from '../client'
+import CollectionItem from 'components/CollectionItem'
+import client from 'client'
 import { COLLECTION_LIST } from 'gql/query'
 import { CollectionList } from '__generated__/CollectionList'
 

@@ -9,9 +9,8 @@ import {
     Field,
     Int,
 } from 'type-graphql'
-
 import Product from '../models/Product'
-import { Context } from '../context'
+import { Context } from 'src/context'
 import { createSlug } from '../utils/slug'
 
 @InputType()
