@@ -14,7 +14,7 @@ import AddShoppingCart from '@material-ui/icons/AddShoppingCart'
 const useStyles = makeStyles({
     root: {},
     media: {
-        paddingTop: '60%',
+        paddingTop: '100%',
     },
     actions: {
         justifyContent: 'space-between',
@@ -29,7 +29,7 @@ export default ({ item }) => {
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
-                        image="https://material-ui.com/static/images/cards/paella.jpg"
+                        image={item.image}
                     ></CardMedia>
                     <CardContent>
                         <Typography>{item.title}</Typography>

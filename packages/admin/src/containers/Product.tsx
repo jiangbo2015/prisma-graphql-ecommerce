@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
+import { Table, CardMedia, Box } from '@material-ui/core'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
@@ -124,16 +124,34 @@ export default function BasicTable() {
                                 <TableCell component="th" scope="row">
                                     {row.title}
                                 </TableCell>
-                                <TableCell align="right">
+                                <TableCell
+                                    align="right"
+                                    style={{ maxWidth: '200px' }}
+                                >
                                     {row.description}
                                 </TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.image}</TableCell>
                                 <TableCell align="right">
-                                    <Button onClick={() => handleDel(row.id)}>
+                                    <CardMedia
+                                        component="img"
+                                        height="100"
+                                        image={row.image}
+                                        alt={row.title}
+                                    />
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button
+                                        onClick={() => handleDel(row.id)}
+                                        variant="outlined"
+                                        color="secondary"
+                                    >
                                         Delete
                                     </Button>
-                                    <Button onClick={() => handleUpdate(row)}>
+                                    <Button
+                                        style={{ marginLeft: '5px' }}
+                                        onClick={() => handleUpdate(row)}
+                                        variant="outlined"
+                                    >
                                         Edit
                                     </Button>
                                 </TableCell>

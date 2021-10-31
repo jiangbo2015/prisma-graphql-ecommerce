@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "yarn workspace server dev && yarn workspace admin dev",
+    "start": "yarn workspace server dev & yarn workspace admin dev",
     "precommit": "lint-staged",
     "commit": "git cz"
   },

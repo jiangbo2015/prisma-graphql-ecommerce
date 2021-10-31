@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles({
     root: {},
     media: {
-        paddingTop: '60%',
+        paddingTop: '50%',
     },
     actions: {
         justifyContent: 'space-between',
@@ -27,7 +27,9 @@ export default ({ item }) => {
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
-                        image="https://material-ui.com/static/images/cards/paella.jpg"
+                        image={
+                            'https://dev-to-uploads.s3.amazonaws.com/i/oxuuoibjpl1pb0ukgxjj.png'
+                        }
                     ></CardMedia>
                     <CardContent>
                         <Typography>{item.title}</Typography>
