@@ -7,14 +7,12 @@ import { context } from './src/context'
 import { GraphQLScalarType } from 'graphql'
 import authChecker from './src/authChecker'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
-import Collection from './src/resolvers/Collection'
 
 const PORT = process.env.PORT || 4000
 
 const app = async () => {
     const schema = await tq.buildSchema({
-        // resolvers: [__dirname + '/resolvers/*.ts'],
-        resolvers: [Collection],
+        resolvers: [__dirname + '/src/resolvers/*'],
         scalarsMap: [{ type: GraphQLScalarType, scalar: DateTimeResolver }],
         authChecker,
         emitSchemaFile: true,
@@ -24,6 +22,7 @@ const app = async () => {
         schema,
         context,
         cors: true,
+        debug: true,
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     }).listen({ port: PORT }, (url: any) => {
         console.log(`

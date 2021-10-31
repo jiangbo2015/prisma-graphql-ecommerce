@@ -43,7 +43,10 @@ const errorLink = onError(
 )
 
 const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/',
+    uri:
+        process.env.NODE_ENV === 'development'
+            ? 'http://localhost:4000'
+            : 'https://pgfe-server.herokuapp.com',
     headers: {
         Authorization: `Bearer ${localStorage.token || ''}`,
     },
