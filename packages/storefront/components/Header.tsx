@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useRef } from 'react'
+import React, { ReactEventHandler, useEffect } from 'react'
 import {
     AppBar,
     Toolbar,
@@ -17,17 +17,29 @@ import { useState } from 'react'
 
 export default function MenuAppBar() {
     const [anchorEl, setAnchorEl] = useState()
-    const [opne, setOpne] = useState(false)
+    const [email, setEmail] = useState()
     const handleOpen = (e) => {
         setAnchorEl(e.currentTarget)
     }
     const handleClickAway = () => {
         setAnchorEl(null)
     }
+
+    useEffect(() => {
+        const { email } = localStorage
+        setEmail(email)
+    }, [])
+
+    const handleLogout = () => {
+        localStorage.removeItem('email')
+        localStorage.removeItem('token')
+        location.assign('/login')
+    }
+
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6">Sharp Graphql Ecommerce</Typography>
+                <Typography variant="h6">PGE</Typography>
                 <Box
                     flexGrow="1"
                     display="flex"
@@ -60,7 +72,6 @@ export default function MenuAppBar() {
                     aria-labelledby="demo-positioned-button"
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
-                    onClose={() => setOpne(false)}
                     anchorOrigin={{
                         vertical: 'top',
                         horizontal: 'left',
@@ -70,11 +81,21 @@ export default function MenuAppBar() {
                         horizontal: 'left',
                     }}
                 >
-                    <MenuItem component={'a'} href="/login">
-                        Sign in
-                    </MenuItem>
-                    <MenuItem>My account</MenuItem>
-                    <MenuItem>Logout</MenuItem>
+                    {email ? (
+                        <>
+                            <MenuItem>{email}</MenuItem>
+                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                        </>
+                    ) : (
+                        <>
+                            <MenuItem component={'a'} href="/login">
+                                Sign in
+                            </MenuItem>
+                            <MenuItem component={'a'} href="/register">
+                                Sign up
+                            </MenuItem>
+                        </>
+                    )}
                 </Menu>
             </Toolbar>
         </AppBar>

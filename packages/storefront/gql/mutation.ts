@@ -3,6 +3,7 @@ import {
     CustomerLoginVariables,
 } from './../__generated__/CustomerLogin'
 import { gql, useMutation } from '@apollo/client'
+import { CustomerCreate } from '__generated__/CustomerCreate'
 
 export const CUSTOMER_LOGIN = gql`
     mutation CustomerLogin($data: LoginInput!) {
@@ -25,5 +26,11 @@ export const CUSTOMER_CREATE = gql`
 export const useCustomerLogin = () => {
     const [mutate, { data, error, loading }] =
         useMutation<CustomerLogin, CustomerLoginVariables>(CUSTOMER_LOGIN)
+    return { mutate, data, error, loading }
+}
+
+export const useCustomerCreate = () => {
+    const [mutate, { data, error, loading }] =
+        useMutation<CustomerCreate, CustomerLoginVariables>(CUSTOMER_CREATE)
     return { mutate, data, error, loading }
 }

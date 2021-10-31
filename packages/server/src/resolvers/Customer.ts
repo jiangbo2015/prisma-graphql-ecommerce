@@ -11,6 +11,7 @@ import {
 } from 'type-graphql'
 import { omit } from 'lodash'
 import jwt from 'jsonwebtoken'
+import { MaxLength, Length, IsEmail } from 'class-validator'
 
 import Customer from '../models/Customer'
 import { Context } from '../context'
@@ -21,6 +22,7 @@ export class CustomerBaseInput {
     name: string
 
     @Field()
+    @IsEmail({}, { message: 'not an email input' })
     email: string
 
     @Field()
@@ -28,8 +30,9 @@ export class CustomerBaseInput {
 }
 
 @InputType()
-class LoginInput {
+export class LoginInput {
     @Field()
+    @IsEmail()
     email: string
 
     @Field()

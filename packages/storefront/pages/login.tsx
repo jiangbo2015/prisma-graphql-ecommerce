@@ -60,10 +60,16 @@ export default function InputWithIcon() {
         })
     }
 
+    if (data) {
+        localStorage.token = data.customerLogin.token
+        localStorage.email = data.customerLogin.email
+        location.assign('/')
+    }
+
     return (
         <Card className={classes.root}>
             <Typography component="h1" variant="h5">
-                Sign in
+                Sign In
             </Typography>
 
             <CommonInput
@@ -86,7 +92,7 @@ export default function InputWithIcon() {
                     fullWidth
                     onClick={handleLogin}
                 >
-                    Login
+                    Submit
                 </Button>
             </Box>
             {error?.message && (
@@ -96,7 +102,7 @@ export default function InputWithIcon() {
             )}
 
             <Box mt="20px">
-                <Button href="/register">Register</Button>
+                <Button href="/register">Sign Up</Button>
             </Box>
         </Card>
     )
