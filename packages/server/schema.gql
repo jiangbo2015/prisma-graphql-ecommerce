@@ -18,47 +18,15 @@ input CollectionBaseInput {
   title: String!
 }
 
-type Customer {
-  createdAt: DateTime!
-  email: String!
-  id: Int!
-  name: String!
-  password: String!
-  token: String!
-  updatedAt: DateTime!
-}
-
-input CustomerBaseInput {
-  email: String!
-  name: String!
-  password: String!
-}
-
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
-input LoginInput {
-  email: String!
-  password: String!
-}
-
 type Mutation {
   collectionCreate(data: CollectionBaseInput!): Collection!
   collectionDelete(id: Int!): Collection!
   collectionUpdate(data: CollectionBaseInput!, id: Int!): Collection!
-  customerCreate(data: CustomerBaseInput!): Customer!
-  customerLogin(data: LoginInput!): Customer!
-  delCustomer(id: Float!): Customer!
-  productCreate(collectionId: Float!, data: ProductBaseInput!): Product!
-  productDelete(id: Int!): Product!
-  productUpdate(collectionId: Float!, data: ProductBaseInput!, id: Int!): Product!
-  updateCustomer(data: CustomerBaseInput!, id: Int!): Customer!
-  userCreate(data: UserBaseInput!): User!
-  userDelete(id: Float!): User!
-  userLogin(data: UserLoginInput!): User!
-  userUpdate(data: UserBaseInput!, id: Int!): User!
 }
 
 type Product {
@@ -73,52 +41,7 @@ type Product {
   updatedAt: DateTime!
 }
 
-input ProductBaseInput {
-  description: String
-  image: String!
-  price: Float!
-  title: String!
-}
-
-input ProductUpdateInput {
-  description: String
-  id: Float!
-  image: String!
-  price: Float!
-  title: String!
-}
-
 type Query {
   collectionById(id: Int!): Collection!
   collectionList: [Collection!]!
-  customerById(id: Float!): Customer!
-  getCustomers: [Customer!]!
-  getUsers: [User!]!
-  productById(id: Float!): Product!
-  productList: [Product!]!
-  userById(id: Float!): User!
-}
-
-type User {
-  avgRating: String!
-  createdAt: DateTime!
-  email: String!
-  id: Int!
-  name: String!
-  password: String!
-  role: String!
-  token: String!
-  updatedAt: DateTime!
-}
-
-input UserBaseInput {
-  email: String!
-  name: String!
-  password: String!
-  role: String
-}
-
-input UserLoginInput {
-  email: String!
-  password: String!
 }

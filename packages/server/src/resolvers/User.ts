@@ -48,11 +48,6 @@ export default class UserResolver {
         })
     }
 
-    @FieldResolver()
-    avgRating(@Root() user: User): string {
-        return user.email
-    }
-
     @Query(() => [User])
     async getUsers(@Ctx() ctx: Context) {
         return ctx.prisma.user.findMany()
@@ -110,4 +105,9 @@ export default class UserResolver {
             },
         })
     }
+
+    // @FieldResolver()
+    // avgRating(@Root() user: User): string {
+    //     return user.email
+    // }
 }

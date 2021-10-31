@@ -9,9 +9,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import ProductModal from 'components/ProductModel'
-import Layout from 'components/Layout'
-
+import ProductModal from 'src/components/ProductModel'
+import Layout from 'src/components/Layout'
 
 import { omit } from 'lodash'
 

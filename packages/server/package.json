@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
+    "dev": "ts-node-dev --respawn index.ts",
+    "build": "tsc && prisma generate",
+    "postinstall": "npm run build",
+    "start": "node dist/index.js",
     "reset": "prisma db push --force-reset --preview-feature && prisma db seed",
     "dbpush": "prisma db push"
   },
@@ -15,6 +18,7 @@
     "graphql": "^15.5.3",
     "graphql-scalars": "^1.10.1",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "reflect-metadata": "^0.1.13",
     "slug": "^5.1.0",
     "type-graphql": "^1.1.1"
@@ -33,5 +37,8 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "_moduleAliases": {
+    "src": "."
   }
 }
