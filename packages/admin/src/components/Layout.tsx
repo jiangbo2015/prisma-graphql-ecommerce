@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-
+import makeStyles from '@mui/styles/makeStyles'
+import { Toolbar, Box } from '@mui/material'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { useGlobalContext } from 'src/context'
@@ -14,31 +14,15 @@ const useStyles = makeStyles((theme) => {
         duration: theme.transitions.duration.leavingScreen,
     })
     return {
-        root: {
-            display: 'flex',
-        },
-        appBar: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-        drawerPaper: {
-            width: drawerWidth,
-        },
-        // necessary for content to be below app bar
-        toolbar: theme.mixins.toolbar,
         content: {
             flexGrow: 1,
             backgroundColor: theme.palette.background.default,
             padding: theme.spacing(3),
-            marginLeft: -drawerWidth,
+            marginLeft: '0',
             transition: marginTransition,
         },
         contentShift: {
-            marginLeft: 0,
+            marginLeft: '240px',
             transition: marginTransition,
         },
     }
@@ -47,27 +31,21 @@ const useStyles = makeStyles((theme) => {
 const Layout: React.FC = ({ children }) => {
     const classes = useStyles()
     const { state } = useGlobalContext()
+    const { openDrawer } = state
     return (
-        <div className={classes.root}>
-            <Header
-                className={clsx({
-                    [classes.appBar]: state.openDrawer,
-                })}
-            ></Header>
-            <Sidebar
-                drawerWidth={drawerWidth}
-                open={state.openDrawer}
-            ></Sidebar>
+        <Box sx={{ flex: 1 }}>
+            <Header drawerWidth={openDrawer ? drawerWidth : 0} />
+            <Sidebar drawerWidth={drawerWidth} open={state.openDrawer} />
 
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: state.openDrawer,
                 })}
             >
-                <div className={classes.toolbar} />
+                <Toolbar />
                 {children}
             </main>
-        </div>
+        </Box>
     )
 }
 

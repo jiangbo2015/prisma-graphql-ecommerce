@@ -1,45 +1,24 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-// import Switch from '@material-ui/core/Switch'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
-// import FormGroup from '@material-ui/core/FormGroup'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    MenuItem,
+    Menu,
+} from '@mui/material'
+import { Menu as MenuIcon, AccountCircle } from '@mui/icons-material'
 import { useHistory } from 'react-router-dom'
 import { useGlobalContext } from 'src/context'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}))
-
-type THeader = {
-    className: string
+type DrawerWidth = {
+    drawerWidth: number
 }
 
-export default function MenuAppBar({ className }: THeader) {
-    const classes = useStyles()
+export default function MenuAppBar({ drawerWidth }: DrawerWidth) {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
-    const open = Boolean(anchorEl)
     const history = useHistory()
     const { dispatch } = useGlobalContext()
-
-    // const handleChange:React.MouseEventHandler = (event) => {
-    //     setAuth(event.target.checked)
-    // }
 
     const handleToggle = () => {
         dispatch({
@@ -61,18 +40,25 @@ export default function MenuAppBar({ className }: THeader) {
     }
 
     return (
-        <AppBar position="fixed" className={className}>
+        <AppBar
+            position="absolute"
+            sx={{
+                flexGrow: 1,
+                width: `calc(100% - ${drawerWidth}px)`,
+                marginLeft: drawerWidth,
+            }}
+        >
             <Toolbar>
                 <IconButton
                     edge="start"
-                    className={classes.menuButton}
                     color="inherit"
                     aria-label="menu"
                     onClick={handleToggle}
+                    size="large"
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" flexGrow={1}>
                     {localStorage.email}
                 </Typography>
                 <div>
@@ -82,6 +68,7 @@ export default function MenuAppBar({ className }: THeader) {
                         aria-haspopup="true"
                         onClick={handleMenu}
                         color="inherit"
+                        size="large"
                     >
                         <AccountCircle />
                     </IconButton>
@@ -97,7 +84,7 @@ export default function MenuAppBar({ className }: THeader) {
                             vertical: 'top',
                             horizontal: 'right',
                         }}
-                        open={open}
+                        open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>

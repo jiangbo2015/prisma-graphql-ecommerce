@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { Snackbar } from '@material-ui/core'
+import { Snackbar } from '@mui/material'
 import { useReactiveVar } from '@apollo/client'
 import { toastVar } from './client'
 

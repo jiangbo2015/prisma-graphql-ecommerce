@@ -1,7 +1,7 @@
-import { SvgIconProps } from '@material-ui/core'
-import HomeIcon from '@material-ui/icons/Home'
-import CategoryIcon from '@material-ui/icons/Category'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+import { SvgIconProps } from '@mui/material'
+import HomeIcon from '@mui/icons-material/Home'
+import CategoryIcon from '@mui/icons-material/Category'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import Home from './containers/Home'
 import Collection from './containers/Collection'

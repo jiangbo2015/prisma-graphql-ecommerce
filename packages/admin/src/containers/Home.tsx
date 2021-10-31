@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import Layout from 'src/components/Layout'
 
 export default function Index() {

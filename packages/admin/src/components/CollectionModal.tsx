@@ -7,7 +7,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-} from '@material-ui/core'
+} from '@mui/material'
 import { CollectionBaseInput } from 'src/__generated__/globalTypes'
 
 type ModalProps = {

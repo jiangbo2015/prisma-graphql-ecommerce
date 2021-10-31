@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Card, CardContent, Typography, Button, Box } from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import LockIcon from '@material-ui/icons/Lock'
+import makeStyles from '@mui/styles/makeStyles'
+import { Card, CardContent, Typography, Button, Box } from '@mui/material'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import LockIcon from '@mui/icons-material/Lock'
 import { useHistory } from 'react-router-dom'
 
 import { useLogin } from 'src/graphql/User'
@@ -54,7 +54,7 @@ export default function InputWithIcon() {
     }
 
     return (
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
             <Card className={classes.wrapper}>
                 <CardContent>
                     <Typography

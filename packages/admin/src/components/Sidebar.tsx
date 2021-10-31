@@ -1,8 +1,16 @@
-import { Collapse, List, ListItem, ListItemText } from '@material-ui/core'
-import Drawer from '@material-ui/core/Drawer'
-import { makeStyles, Theme, useTheme } from '@material-ui/core/styles'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
+import {
+    Collapse,
+    List,
+    ListItem,
+    ListItemText,
+    Toolbar,
+    Drawer,
+    Divider,
+} from '@mui/material'
+import { Theme } from '@mui/material/styles'
+import makeStyles from '@mui/styles/makeStyles'
+
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { menus, IMenu } from 'src/route'
@@ -17,26 +25,12 @@ type SubMenuItemProps = {
 }
 
 const useStyles = makeStyles<Theme, SidebarProps>((theme) => ({
-    drawer: (props) => ({
-        width: `${props.drawerWidth}px`,
-        flexShrink: 0,
-    }),
     drawerPaper: (props) => ({
         width: `${props.drawerWidth}px`,
     }),
-    listItemWrapper: {
-        '& a': {
-            'text-decoration': 'none',
-        },
-    },
-    listItem: {
-        paddingLeft: 0,
-    },
+
     listItemActive: {
         color: `${theme.palette.primary.main}`,
-    },
-    icon: {
-        marginRight: '10px',
     },
 }))
 
@@ -46,7 +40,9 @@ const SubMenuItem = ({ item, depth }: SubMenuItemProps) => {
     )
     const history = useHistory()
     const active = item.path === window.location.pathname
-    const theme = useTheme()
+
+    console.log(item.path, window.location.pathname)
+
     return (
         <>
             <ListItem
@@ -54,15 +50,17 @@ const SubMenuItem = ({ item, depth }: SubMenuItemProps) => {
                     item.children ? setOpen(!open) : history.push(item.path)
                 }}
                 button
-                style={{
-                    paddingLeft: `${depth * 20}px`,
-                    color: active ? theme.palette.primary.main : 'inherit',
+                sx={{
+                    bgcolor: active ? 'primary.main' : 'inherit',
+                    pl: `${depth * 10 + 10}px`,
+                    color: active ? 'text.primary' : 'inherit',
                 }}
             >
                 <item.icon />
-                <ListItemText primary={item.title} />
+                <ListItemText sx={{ ml: 3 }} primary={item.title} />
                 {item.children && (open ? <ExpandLess /> : <ExpandMore />)}
             </ListItem>
+            <Divider />
 
             {item.children && (
                 <Collapse in={open} timeout="auto" unmountOnExit>
@@ -83,14 +81,27 @@ export default function Sidebar({
     return (
         <Drawer
             variant="persistent"
-            className={classes.drawer}
+            sx={{
+                width: drawerWidth,
+            }}
             classes={{
                 paper: classes.drawerPaper,
             }}
             anchor="left"
             open={open}
         >
-            <List className={classes.listItemWrapper} disablePadding>
+            <Toolbar
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    px: [1],
+                }}
+            >
+                PGFE
+            </Toolbar>
+            <Divider />
+            <List disablePadding>
                 {menus.map((item) => (
                     <SubMenuItem item={item} depth={0} />
                 ))}

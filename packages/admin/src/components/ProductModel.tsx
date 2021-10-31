@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { Button, FormControl, InputLabel } from '@material-ui/core'
-import TextField from '@material-ui/core/TextField'
-import Dialog, { DialogProps } from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    TextField,
+    Dialog,
+    DialogProps,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Select,
+    MenuItem,
+} from '@mui/material'
+
 import { omit } from 'lodash'
 import { ProductBaseInput } from 'src/__generated__/globalTypes'
 import { useCollectionList } from 'src/graphql/Collection'
@@ -103,7 +108,7 @@ export default function FormDialog({
                                 id="demo-simple-select"
                                 value={fields.collectionId}
                                 placeholder="please select collection"
-                                onChange={handleFields('collectionId')}
+                                // onChange={handleFields('collectionId')}
                                 variant="outlined"
                             >
                                 {collectionsData?.collectionList?.map(
