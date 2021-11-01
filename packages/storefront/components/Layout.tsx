@@ -1,5 +1,5 @@
 import Header from './Header'
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
 
 export default ({ children }) => {
     return (

@@ -7,9 +7,9 @@ import {
     CardActionArea,
     CardActions,
     IconButton,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import AddShoppingCart from '@material-ui/icons/AddShoppingCart'
+} from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import { AddShoppingCart } from '@mui/icons-material'
 
 const useStyles = makeStyles({
     root: {},
@@ -37,7 +37,7 @@ export default ({ item }) => {
                 </CardActionArea>
                 <CardActions disableSpacing className={classes.actions}>
                     <Typography color="primary">${item.price}</Typography>
-                    <IconButton>
+                    <IconButton size="large">
                         <AddShoppingCart />
                     </IconButton>
                 </CardActions>

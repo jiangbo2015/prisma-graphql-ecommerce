@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Box, Card, Typography, Button } from '@material-ui/core'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import TextField from '@material-ui/core/TextField'
-import EmailIcon from '@material-ui/icons/Email'
-import LockIcon from '@material-ui/icons/Lock'
+import { makeStyles } from '@mui/styles'
+import {
+    Box,
+    Card,
+    Typography,
+    Button,
+    InputAdornment,
+    TextField,
+    TextFieldProps,
+} from '@mui/material'
+
+import { Email as EmailIcon, Lock as LockIcon } from '@mui/icons-material'
 import { useCustomerLogin } from 'gql/mutation'
-import { TextFieldProps } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     margin: {

@@ -1,6 +1,6 @@
 import Layout from 'components/Layout'
-import { Grid, Typography, Box } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Typography, Box } from '@mui/material'
+import {makeStyles} from '@mui/styles';
 import ProductItem from 'components/ProductItem'
 import { gql } from '@apollo/client'
 import client from 'client'

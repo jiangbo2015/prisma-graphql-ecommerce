@@ -9,9 +9,10 @@ import {
     Menu,
     IconButton,
     ClickAwayListener,
-} from '@material-ui/core'
-import ShoppingCart from '@material-ui/icons/ShoppingCart'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+} from '@mui/material'
+
+import {ShoppingCart, AccountCircle} from '@mui/icons-material'
+
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -53,7 +54,7 @@ export default function MenuAppBar() {
                         Collections
                     </MenuItem>
                     <MenuItem>
-                        <IconButton color="inherit">
+                        <IconButton color="inherit" size="large">
                             <Badge badgeContent={17} color="secondary">
                                 <ShoppingCart />
                             </Badge>
@@ -61,7 +62,7 @@ export default function MenuAppBar() {
                     </MenuItem>
                     <ClickAwayListener onClickAway={handleClickAway}>
                         <MenuItem onClick={handleOpen}>
-                            <IconButton color="inherit">
+                            <IconButton color="inherit" size="large">
                                 <AccountCircle />
                             </IconButton>
                         </MenuItem>
@@ -99,5 +100,5 @@ export default function MenuAppBar() {
                 </Menu>
             </Toolbar>
         </AppBar>
-    )
+    );
 }

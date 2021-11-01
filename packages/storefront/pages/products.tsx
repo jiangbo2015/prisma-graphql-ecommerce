@@ -1,6 +1,6 @@
 import Layout from 'components/Layout'
-import { Grid, Box } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Box } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
 import ProductItem from 'components/ProductItem'
 import client from 'client'
 import { PRODUCT_LIST } from 'gql/query'

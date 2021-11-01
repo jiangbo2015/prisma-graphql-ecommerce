@@ -1,12 +1,12 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Box, Card, Paper, Typography, Button } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
+import { Box, Card, Paper, Typography, Button } from '@mui/material'
 import Link from 'next/link'
 import { omit } from 'lodash'
 
-import EmailIcon from '@material-ui/icons/Email'
-import LockIcon from '@material-ui/icons/Lock'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import EmailIcon from '@mui/icons-material/Email'
+import LockIcon from '@mui/icons-material/Lock'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 import { CommonInput } from './login'
 import { useCustomerCreate } from 'gql/mutation'
 
