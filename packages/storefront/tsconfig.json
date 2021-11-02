@@ -13,9 +13,8 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "baseUrl": ".",
-
         "jsx": "preserve"
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "apollo.config.js"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

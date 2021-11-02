@@ -1,10 +1,9 @@
-import Layout from 'components/Layout'
+import Layout from 'src/components/Layout'
 import { Grid, Typography, Box } from '@mui/material'
-import {makeStyles} from '@mui/styles';
-import ProductItem from 'components/ProductItem'
-import { gql } from '@apollo/client'
-import client from 'client'
-import { PRODUCT_LIST } from 'gql/query'
+import { makeStyles } from '@mui/styles'
+import ProductItem from 'src/components/ProductItem'
+import client from 'src/client'
+import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
 const useStyles = makeStyles({

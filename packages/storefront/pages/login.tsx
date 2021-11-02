@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 
 import { Email as EmailIcon, Lock as LockIcon } from '@mui/icons-material'
-import { useCustomerLogin } from 'gql/mutation'
+import { useCustomerLogin } from 'src/gql/mutation'
 
 const useStyles = makeStyles((theme) => ({
     margin: {

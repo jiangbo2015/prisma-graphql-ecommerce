@@ -7,6 +7,6 @@ module.exports = {
                     ? 'http://localhost:4000'
                     : 'https://pgfe-server.herokuapp.com',
         },
-        includes: ['./gql/**.ts'],
+        includes: ['./src/gql/**.ts'],
     },
 }

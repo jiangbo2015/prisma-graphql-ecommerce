@@ -1,14 +1,13 @@
 import React from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import { Box, Card, Paper, Typography, Button } from '@mui/material'
-import Link from 'next/link'
 import { omit } from 'lodash'
 
 import EmailIcon from '@mui/icons-material/Email'
 import LockIcon from '@mui/icons-material/Lock'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import { CommonInput } from './login'
-import { useCustomerCreate } from 'gql/mutation'
+import { useCustomerCreate } from 'src/gql/mutation'
 
 const useStyles = makeStyles((theme) => ({
     margin: {
