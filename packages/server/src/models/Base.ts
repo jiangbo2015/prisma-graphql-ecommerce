@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { ObjectType, Field, Int } from 'type-graphql'
 
-@ObjectType()
-export default abstract class Base {
+@ObjectType({ isAbstract: true })
+export default class Base {
     @Field((type) => Int)
     id: number
 
