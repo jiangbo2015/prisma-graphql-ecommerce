@@ -10,7 +10,6 @@ export default class User extends Base {
     @Field()
     email: string
 
-    @Field()
     password: string
 
     @Field()
