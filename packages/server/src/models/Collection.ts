@@ -1,18 +1,10 @@
 import 'reflect-metadata'
 import { ObjectType, Field, Int } from 'type-graphql'
 import Product from './Product'
+import Base from './Base'
 
 @ObjectType()
-export default class Collection {
-    @Field((type) => Int)
-    id: number
-
-    @Field((type) => Date)
-    createdAt: Date
-
-    @Field((type) => Date)
-    updatedAt: Date
-
+export default class Collection extends Base {
     @Field()
     title: string
 
