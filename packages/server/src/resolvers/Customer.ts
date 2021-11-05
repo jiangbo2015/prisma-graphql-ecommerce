@@ -47,7 +47,7 @@ export default class CustomerResolver {
     }
 
     @Query(() => [Customer])
-    async getCustomers(@Ctx() ctx: Context) {
+    async customerList(@Ctx() ctx: Context) {
         return ctx.prisma.customer.findMany()
     }
 
@@ -85,7 +85,7 @@ export default class CustomerResolver {
     }
 
     @Mutation(() => Customer)
-    async updateCustomer(
+    async customerUpdate(
         @Arg('id', (type) => Int) id: number,
         @Arg('data') data: CustomerBaseInput,
         @Ctx() ctx: Context
@@ -99,7 +99,7 @@ export default class CustomerResolver {
     }
 
     @Mutation(() => Customer)
-    async delCustomer(@Arg('id') id: number, @Ctx() ctx: Context) {
+    async customerDelete(@Arg('id') id: number, @Ctx() ctx: Context) {
         return ctx.prisma.customer.delete({
             where: {
                 id,

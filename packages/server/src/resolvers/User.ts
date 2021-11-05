@@ -49,7 +49,7 @@ export default class UserResolver {
     }
 
     @Query(() => [User])
-    async getUsers(@Ctx() ctx: Context) {
+    async userList(@Ctx() ctx: Context) {
         return ctx.prisma.user.findMany()
     }
 

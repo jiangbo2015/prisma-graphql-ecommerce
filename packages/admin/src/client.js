@@ -30,15 +30,18 @@ const errorLink = onError(
                     }
                 }
             )
-            return Observable.of(operation)
+            // this line will catch the errors, mutation query can't catch
+            return operation
         }
 
         if (networkError) {
             console.log(`[Network error]: ${networkError}`)
-            toastVar({ open: true, message: networkError })
+            toastVar({ open: true, message: 'networkError' })
             return Observable.of(operation)
         }
-        return forward(operation)
+
+        // Retry the request, returning the new observable
+        // return forward(operation)
     }
 )
 

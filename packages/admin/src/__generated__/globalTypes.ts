@@ -7,16 +7,19 @@
 // START Enums and Input Objects
 //==============================================================
 
-export interface CollectionBaseInput {
+export interface CollectionInput {
   title: string;
   description?: string | null;
+  id?: number | null;
 }
 
-export interface ProductBaseInput {
+export interface ProductInput {
   title: string;
   description?: string | null;
   price: number;
   image: string;
+  id?: number | null;
+  collectionId?: number | null;
 }
 
 export interface UserLoginInput {

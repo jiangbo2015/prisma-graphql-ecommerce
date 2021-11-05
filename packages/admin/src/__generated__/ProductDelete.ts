@@ -11,6 +11,7 @@ export interface ProductDelete_productDelete_collections {
   __typename: "Collection";
   id: number;
   title: string;
+  description: string | null;
 }
 
 export interface ProductDelete_productDelete {

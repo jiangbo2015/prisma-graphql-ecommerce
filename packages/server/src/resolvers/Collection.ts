@@ -13,12 +13,15 @@ import Collection from '../models/Collection'
 import { Context } from 'src/context'
 import { createSlug } from '../utils/slug'
 @InputType()
-class CollectionBaseInput {
+class CollectionInput {
     @Field()
     title: string
 
     @Field({ nullable: true })
     description: string
+
+    @Field((type) => Int, { nullable: true })
+    id: number
 }
 
 @Resolver(Collection)
@@ -44,7 +47,7 @@ export default class CollectionResolver {
 
     @Mutation(() => Collection)
     async collectionCreate(
-        @Arg('data') data: CollectionBaseInput,
+        @Arg('data') data: CollectionInput,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.collection.create({
@@ -57,13 +60,13 @@ export default class CollectionResolver {
 
     @Mutation(() => Collection)
     async collectionUpdate(
-        @Arg('id', (type) => Int) id: number,
-        @Arg('data') data: CollectionBaseInput,
+        // @Arg('id', (type) => Int) id: number,
+        @Arg('data') data: CollectionInput,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.collection.update({
             where: {
-                id,
+                id: data.id,
             },
             data: {
                 ...data,

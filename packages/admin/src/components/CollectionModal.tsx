@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import {
     Button,
     TextField,
@@ -8,54 +8,35 @@ import {
     DialogContent,
     DialogTitle,
 } from '@mui/material'
-import { CollectionBaseInput } from 'src/__generated__/globalTypes'
+import { CollectionInput } from 'src/__generated__/globalTypes'
+import { CollectionModalProps } from 'types'
 
-type ModalProps = {
-    open: boolean
-    editData: CollectionBaseInput & { id?: number }
-    handleClose: DialogProps['onClose']
-    handleConfirm: Function
-    handleConfirmUpdate: Function
-}
-
-type ErrorProps = {
-    [P in keyof any]: boolean
-}
-
-export default function FormDialog({
+export default function CollectionModal({
     open,
     handleClose,
-    handleConfirm,
-    handleConfirmUpdate,
+    handleCreate,
+    handleUpdate,
     editData,
-}: ModalProps) {
-    const [title, setTitle] = useState(editData.title || '')
-    const [description, setDescription] = useState(editData.description || '')
-    const [errors, setErrors] = useState<ErrorProps>({
-        title: false,
-        description: false,
-    })
-    const handleSubmit = () => {
-        if (!title || !description) {
-            setErrors({
-                title: Boolean(title),
-                description: Boolean(description),
-            })
+}: CollectionModalProps) {
+    const [data, setData] = useState(editData)
+
+    const handleChange = (field: keyof CollectionInput) => (e) => {
+        setData({
+            ...data,
+            [field]: e.target.value,
+        })
+    }
+
+    const handleSubmit = (e: FormEvent) => {
+        if (!data.title || !data.description) {
             return
         }
 
         if (editData.id) {
-            handleConfirmUpdate(editData.id, {
-                title,
-                description,
-            })
-            return
+            handleUpdate(data)
+        } else {
+            handleCreate(data)
         }
-
-        handleConfirm({
-            title,
-            description,
-        })
     }
     return (
         <div>
@@ -66,29 +47,27 @@ export default function FormDialog({
             >
                 <DialogTitle id="form-dialog-title">Collection Add</DialogTitle>
                 <DialogContent>
-                    <form action="">
+                    <form action="" onSubmit={handleSubmit}>
                         <TextField
                             autoFocus
-                            error={errors['title']}
                             margin="dense"
                             label="Title"
-                            value={title}
+                            value={data.title}
                             required
                             fullWidth
                             variant="outlined"
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={handleChange('title')}
                         />
                         <TextField
                             margin="normal"
                             label="Description"
-                            value={description}
-                            error={errors['description']}
+                            value={data.description}
                             required={false}
                             fullWidth
                             multiline
                             minRows={3}
                             variant="outlined"
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={handleChange('description')}
                         />
                     </form>
                 </DialogContent>

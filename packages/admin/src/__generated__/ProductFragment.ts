@@ -11,6 +11,7 @@ export interface ProductFragment_collections {
   __typename: "Collection";
   id: number;
   title: string;
+  description: string | null;
 }
 
 export interface ProductFragment {

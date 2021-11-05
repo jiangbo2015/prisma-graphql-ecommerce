@@ -14,24 +14,16 @@ import {
 } from '@mui/material'
 
 import { omit } from 'lodash'
-import { ProductBaseInput } from 'src/__generated__/globalTypes'
 import { useCollectionList } from 'src/graphql/Collection'
-
-type ModalProps = {
-    open: boolean
-    editData: ProductBaseInput & { id?: number; collectionId?: number }
-    handleClose: DialogProps['onClose']
-    handleConfirm: Function
-    handleConfirmUpdate: Function
-}
+import { ProductModalProps } from 'types'
 
 export default function FormDialog({
     open,
     handleClose,
-    handleConfirm,
-    handleConfirmUpdate,
+    handleCreate,
+    handleUpdate,
     editData,
-}: ModalProps) {
+}: ProductModalProps) {
     const { data: collectionsData } = useCollectionList()
 
     const [fields, setFields] = useState(editData || {})
@@ -39,15 +31,10 @@ export default function FormDialog({
         fields.price = Number(fields.price)
         e.preventDefault()
         if (editData.id) {
-            handleConfirmUpdate(
-                editData.id,
-                fields.collectionId,
-                omit(fields, ['collectionId', 'id', '__typename'])
-            )
-            return
+            handleUpdate(fields)
+        } else {
+            handleCreate(fields)
         }
-
-        handleConfirm(omit(fields, 'collectionId'), fields.collectionId)
     }
 
     // select is not a normal select element, should be care about

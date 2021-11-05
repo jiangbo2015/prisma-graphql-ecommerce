@@ -9,21 +9,21 @@ import { useGlobalContext } from 'src/context'
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
-    const marginTransition = theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    })
+    // const marginTransition = theme.transitions.create('margin', {
+    //     easing: theme.transitions.easing.sharp,
+    //     duration: theme.transitions.duration.leavingScreen,
+    // })
     return {
         content: {
             flexGrow: 1,
-            backgroundColor: theme.palette.background.default,
-            padding: theme.spacing(3),
+            // backgroundColor: theme.palette.background.default,
+            // padding: theme.spacing(3),
             marginLeft: '0',
-            transition: marginTransition,
+            // transition: marginTransition,
         },
         contentShift: {
             marginLeft: '240px',
-            transition: marginTransition,
+            // transition: marginTransition,
         },
     }
 })

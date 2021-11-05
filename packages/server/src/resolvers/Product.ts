@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import 'reflect-metadata'
 import {
     Resolver,
@@ -12,9 +13,13 @@ import {
 import Product from '../models/Product'
 import { Context } from 'src/context'
 import { createSlug } from '../utils/slug'
+import { omit } from 'lodash'
+
+const omitId = <T extends { id?: number }>(data: T): Omit<T, 'id'> =>
+    omit(data, 'id')
 
 @InputType()
-export class ProductBaseInput {
+export class ProductInput {
     @Field()
     title: string
 
@@ -26,12 +31,12 @@ export class ProductBaseInput {
 
     @Field()
     image: string
-}
 
-@InputType()
-export class ProductUpdateInput extends ProductBaseInput {
-    @Field()
+    @Field((type) => Int, { nullable: true })
     id: number
+
+    @Field((type) => Int, { nullable: true })
+    collectionId: number
 }
 
 @Resolver(Product)
@@ -53,18 +58,14 @@ export default class ProductResolver {
     }
 
     @Mutation(() => Product)
-    async productCreate(
-        @Arg('data') data: ProductBaseInput,
-        @Arg('collectionId') collectionId: number,
-        @Ctx() ctx: Context
-    ) {
+    async productCreate(@Arg('data') data: ProductInput, @Ctx() ctx: Context) {
         return ctx.prisma.product.create({
             data: {
-                ...data,
+                ...omitId(data),
                 slug: createSlug(data.title),
                 collections: {
                     connect: {
-                        id: collectionId,
+                        id: data.collectionId,
                     },
                 },
             },
@@ -75,22 +76,17 @@ export default class ProductResolver {
     }
 
     @Mutation(() => Product)
-    async productUpdate(
-        @Arg('id', (type) => Int!) id: number,
-        @Arg('data') data: ProductBaseInput,
-        @Arg('collectionId') collectionId: number,
-        @Ctx() ctx: Context
-    ) {
+    async productUpdate(@Arg('data') data: ProductInput, @Ctx() ctx: Context) {
         return ctx.prisma.product.update({
             where: {
-                id,
+                id: data.id,
             },
             data: {
-                ...data,
+                ...omitId(data),
                 slug: createSlug(data.title),
                 collections: {
                     connect: {
-                        id: collectionId,
+                        id: data.collectionId,
                     },
                 },
             },

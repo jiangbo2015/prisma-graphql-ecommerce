@@ -13,8 +13,9 @@ type Collection {
   updatedAt: DateTime!
 }
 
-input CollectionBaseInput {
+input CollectionInput {
   description: String
+  id: Int
   title: String!
 }
 
@@ -23,7 +24,6 @@ type Customer {
   email: String!
   id: Int!
   name: String!
-  password: String!
   token: String!
   updatedAt: DateTime!
 }
@@ -45,16 +45,16 @@ input LoginInput {
 }
 
 type Mutation {
-  collectionCreate(data: CollectionBaseInput!): Collection!
+  collectionCreate(data: CollectionInput!): Collection!
   collectionDelete(id: Int!): Collection!
-  collectionUpdate(data: CollectionBaseInput!, id: Int!): Collection!
+  collectionUpdate(data: CollectionInput!): Collection!
   customerCreate(data: CustomerBaseInput!): Customer!
+  customerDelete(id: Float!): Customer!
   customerLogin(data: LoginInput!): Customer!
-  delCustomer(id: Float!): Customer!
-  productCreate(collectionId: Float!, data: ProductBaseInput!): Product!
+  customerUpdate(data: CustomerBaseInput!, id: Int!): Customer!
+  productCreate(data: ProductInput!): Product!
   productDelete(id: Int!): Product!
-  productUpdate(collectionId: Float!, data: ProductBaseInput!, id: Int!): Product!
-  updateCustomer(data: CustomerBaseInput!, id: Int!): Customer!
+  productUpdate(data: ProductInput!): Product!
   userCreate(data: UserBaseInput!): User!
   userDelete(id: Float!): User!
   userLogin(data: UserLoginInput!): User!
@@ -73,16 +73,10 @@ type Product {
   updatedAt: DateTime!
 }
 
-input ProductBaseInput {
+input ProductInput {
+  collectionId: Int
   description: String
-  image: String!
-  price: Float!
-  title: String!
-}
-
-input ProductUpdateInput {
-  description: String
-  id: Float!
+  id: Int
   image: String!
   price: Float!
   title: String!
@@ -92,11 +86,11 @@ type Query {
   collectionById(id: Int!): Collection!
   collectionList: [Collection!]!
   customerById(id: Float!): Customer!
-  getCustomers: [Customer!]!
-  getUsers: [User!]!
+  customerList: [Customer!]!
   productById(id: Float!): Product!
   productList: [Product!]!
   userById(id: Float!): User!
+  userList: [User!]!
 }
 
 type User {
@@ -104,7 +98,6 @@ type User {
   email: String!
   id: Int!
   name: String!
-  password: String!
   role: String!
   token: String!
   updatedAt: DateTime!

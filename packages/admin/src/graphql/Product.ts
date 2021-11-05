@@ -38,8 +38,8 @@ export const PRODUCT_LIST = gql`
 `
 
 export const PRODUCT_CREATE = gql`
-    mutation ProductCreate($data: ProductBaseInput!, $collectionId: Float!) {
-        productCreate(data: $data, collectionId: $collectionId) {
+    mutation ProductCreate($data: ProductInput!) {
+        productCreate(data: $data) {
             ...ProductFragment
         }
     }
@@ -47,12 +47,8 @@ export const PRODUCT_CREATE = gql`
 `
 
 export const PRODUCT_UPDATE = gql`
-    mutation ProductUpdate(
-        $id: Int!
-        $collectionId: Float!
-        $data: ProductBaseInput!
-    ) {
-        productUpdate(collectionId: $collectionId, data: $data, id: $id) {
+    mutation ProductUpdate($data: ProductInput!) {
+        productUpdate(data: $data) {
             ...ProductFragment
         }
     }

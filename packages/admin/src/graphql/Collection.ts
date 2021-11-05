@@ -21,7 +21,7 @@ export const COLLECTION_LIST = gql`
 `
 
 export const COLLECTION_CREATE = gql`
-    mutation CollectionCreate($data: CollectionBaseInput!) {
+    mutation CollectionCreate($data: CollectionInput!) {
         collectionCreate(data: $data) {
             id
             title
@@ -31,8 +31,8 @@ export const COLLECTION_CREATE = gql`
 `
 
 export const COLLECTION_UPDATE = gql`
-    mutation CollectionUpdate($id: Int!, $data: CollectionBaseInput!) {
-        collectionUpdate(data: $data, id: $id) {
+    mutation CollectionUpdate($data: CollectionInput!) {
+        collectionUpdate(data: $data) {
             id
             title
             description

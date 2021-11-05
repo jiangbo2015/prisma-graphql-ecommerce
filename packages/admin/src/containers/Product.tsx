@@ -20,8 +20,8 @@ import {
     useUpdateProduct,
     useDeleteProduct,
 } from 'src/graphql/Product'
-import { ProductBaseInput } from 'src/__generated__/globalTypes'
-import { ProductUpdate_productUpdate } from 'src/__generated__/ProductUpdate'
+import { ProductInput } from 'src/__generated__/globalTypes'
+import { ProductList_productList } from 'src/__generated__/ProductList'
 
 const useStyles = makeStyles({
     table: {
@@ -35,36 +35,26 @@ const useStyles = makeStyles({
 export default function BasicTable() {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [editData, setEditData] = useState<ProductBaseInput>(
-        {} as ProductBaseInput
-    )
+    const [editData, setEditData] = useState<ProductInput>({} as ProductInput)
 
     const { mutate: mutateCreate } = useCreateProduct()
     const { mutate: mutateDelete } = useDeleteProduct()
     const { mutate: mutateUpdate } = useUpdateProduct()
-    // const { data } = useProductList()
-    const data: any = {}
+    const { data } = useProductList()
 
-    const handleConfim = (values: ProductBaseInput, collectionId: number) => {
+    const handleCreate = (values: ProductInput) => {
         setOpen(false)
         mutateCreate({
             variables: {
-                collectionId,
                 data: values,
             },
         })
     }
 
-    const handleConfirmUpdate = (
-        id: number,
-        collectionId: number,
-        values: ProductBaseInput
-    ) => {
+    const handleUpdate = (values: ProductInput) => {
         setOpen(false)
         mutateUpdate({
             variables: {
-                id,
-                collectionId,
                 data: values,
             },
         })
@@ -78,18 +68,22 @@ export default function BasicTable() {
         })
     }
 
-    const handleUpdate = (row: ProductUpdate_productUpdate) => {
+    const handleOpenUpdate = (row: ProductList_productList) => () => {
         const updateProps = {
             ...omit(row, ['collections']),
             collectionId: row.collections?.[0]?.id,
         }
-        setEditData(updateProps as ProductBaseInput)
+        setEditData(updateProps as ProductInput)
         setOpen(true)
     }
 
     const handleAdd = () => {
-        setEditData({} as ProductBaseInput)
+        setEditData({} as ProductInput)
         setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
     }
 
     return (
@@ -97,9 +91,9 @@ export default function BasicTable() {
             {open && (
                 <ProductModal
                     open={open}
-                    handleClose={() => setOpen(false)}
-                    handleConfirm={handleConfim}
-                    handleConfirmUpdate={handleConfirmUpdate}
+                    handleClose={handleClose}
+                    handleCreate={handleCreate}
+                    handleUpdate={handleUpdate}
                     editData={editData}
                 ></ProductModal>
             )}
@@ -154,7 +148,7 @@ export default function BasicTable() {
                                     </Button>
                                     <Button
                                         style={{ marginLeft: '5px' }}
-                                        onClick={() => handleUpdate(row)}
+                                        onClick={handleOpenUpdate(row)}
                                         variant="outlined"
                                     >
                                         Edit

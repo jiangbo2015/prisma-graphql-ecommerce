@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Grid,
+    Button,
+} from '@mui/material'
 import CollectionModal from 'src/components/CollectionModal'
 import Layout from 'src/components/Layout'
 
@@ -18,33 +19,21 @@ import {
     useDelCollection,
     useCollectionList,
 } from 'src/graphql/Collection'
-import { CollectionBaseInput } from 'src/__generated__/globalTypes'
-
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-    operation: {
-        marginBottom: '20px',
-    },
-})
+import { CollectionInput } from 'src/__generated__/globalTypes'
+import { CollectionModalProps } from 'types'
 
 export default function BasicTable() {
-    const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [editData, setEditData] = useState<CollectionBaseInput>(
-        {} as CollectionBaseInput
+    const [editData, setEditData] = useState<CollectionInput>(
+        {} as CollectionInput
     )
 
     const { mutate: mutateCreate } = useCreateCollection()
     const { mutate: mutateDelete } = useDelCollection()
     const { mutate: mutateUpdate } = useUpdateCollection()
-    // const { data } = useCollectionList()
-    const data: any = {
-        collectionList: [],
-    }
+    const { data } = useCollectionList()
 
-    const handleConfim = (values) => {
+    const handleCreate: CollectionModalProps['handleCreate'] = (values) => {
         setOpen(false)
         mutateCreate({
             variables: {
@@ -53,17 +42,16 @@ export default function BasicTable() {
         })
     }
 
-    const handleConfirmUpdate = (id, values) => {
+    const handleUpdate: CollectionModalProps['handleUpdate'] = (values) => {
         setOpen(false)
         mutateUpdate({
             variables: {
-                id,
                 data: values,
             },
         })
     }
 
-    const handleDel = (id: number) => {
+    const handleDelete = (id: number) => {
         mutateDelete({
             variables: {
                 id,
@@ -71,14 +59,18 @@ export default function BasicTable() {
         })
     }
 
-    const handleUpdate = (row) => {
+    const handleOpenEdit = (row) => () => {
         setEditData(row)
         setOpen(true)
     }
 
-    const handleAdd = () => {
-        setEditData({} as CollectionBaseInput)
+    const handleOpenAdd = () => {
         setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+        setEditData({} as CollectionInput)
     }
 
     return (
@@ -86,23 +78,23 @@ export default function BasicTable() {
             {open && (
                 <CollectionModal
                     open={open}
-                    handleClose={() => setOpen(false)}
-                    handleConfirm={handleConfim}
-                    handleConfirmUpdate={handleConfirmUpdate}
+                    handleClose={handleClose}
+                    handleCreate={handleCreate}
+                    handleUpdate={handleUpdate}
                     editData={editData}
                 ></CollectionModal>
             )}
-            <Grid
-                container
-                justifyContent="flex-end"
-                className={classes.operation}
-            >
-                <Button variant="contained" color="primary" onClick={handleAdd}>
+            <Grid container justifyContent="flex-end" mb={4}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleOpenAdd}
+                >
                     Add
                 </Button>
             </Grid>
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
+                <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
@@ -120,10 +112,12 @@ export default function BasicTable() {
                                     {row.description}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Button onClick={() => handleDel(row.id)}>
+                                    <Button
+                                        onClick={() => handleDelete(row.id)}
+                                    >
                                         Delete
                                     </Button>
-                                    <Button onClick={() => handleUpdate(row)}>
+                                    <Button onClick={handleOpenEdit}>
                                         Edit
                                     </Button>
                                 </TableCell>

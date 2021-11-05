@@ -1,32 +1,36 @@
-import React, { useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
-import { Card, CardContent, Typography, Button, Box } from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
+import React, { ChangeEvent, useState } from 'react'
+import {
+    Card,
+    CardContent,
+    Typography,
+    InputAdornment,
+    Box,
+    TextField,
+    Button,
+} from '@mui/material'
+
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LockIcon from '@mui/icons-material/Lock'
 import { useHistory } from 'react-router-dom'
 
 import { useLogin } from 'src/graphql/User'
-
-const useStyles = makeStyles((theme) => ({
-    margin: {
-        margin: theme.spacing(1),
-    },
-    wrapper: {
-        maxWidth: '600px',
-        marginTop: '5%',
-        padding: '20px',
-    },
-}))
+import { UserLoginInput } from 'src/__generated__/globalTypes'
 
 export default function InputWithIcon() {
-    const classes = useStyles()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
 
-    const { mutate, data, loading } = useLogin()
+    const [input, setInput] = useState<UserLoginInput>({
+        password: '',
+        email: '',
+    })
+
+    const handleChange = (field: keyof UserLoginInput) => (e: ChangeEvent<HTMLInputElement>) => {
+        setInput({
+            ...input,
+            [field]: e.target.value,
+        })
+    }
+
+    const { mutate, data, loading, error } = useLogin()
 
     const history = useHistory()
 
@@ -36,45 +40,46 @@ export default function InputWithIcon() {
         history.push('/collection')
     }
 
-    const handleLogin = () => {
+    
+
+    const handleSubmit = () => {
         mutate({
             variables: {
-                data: {
-                    email,
-                    password,
-                },
+                data: input,
             },
         })
     }
 
-    const handleSubmit = (e: React.SyntheticEvent) => {
-        e.preventDefault()
-        console.log(email, password)
-        handleLogin()
-    }
-
     return (
-        <Grid container justifyContent="center">
-            <Card className={classes.wrapper}>
-                <CardContent>
-                    <Typography
-                        gutterBottom
-                        variant="h3"
-                        component="h2"
-                        align="center"
-                    >
+        <Box
+            display={'flex'}
+            height={'100vh'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            sx={{
+                backgroundImage: ({ palette }) => {
+                    return `linear-gradient(${palette.primary?.main}, ${palette.secondary?.main})`
+                },
+            }}
+        >
+            <Card
+                sx={{
+                    maxWidth: 'sm',
+                    p: 3,
+                    mx: [3, 0],
+                }}
+            >
+                <CardContent component="form" onSubmit={handleSubmit}>
+                    <Typography gutterBottom variant="h4" align="center">
                         Login
                     </Typography>
-                </CardContent>
-                <form onSubmit={handleSubmit}>
+
                     <TextField
-                        className={classes.margin}
                         label="Email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={input.email}
+                        onChange={handleChange('email')}
                         required
-                        helperText="required email"
                         fullWidth
                         InputProps={{
                             startAdornment: (
@@ -85,11 +90,10 @@ export default function InputWithIcon() {
                         }}
                     />
                     <TextField
-                        className={classes.margin}
                         label="Password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={input.password}
+                        onChange={handleChange('password')}
                         required
                         fullWidth
                         InputProps={{
@@ -104,14 +108,14 @@ export default function InputWithIcon() {
                         <Button
                             variant="contained"
                             color="primary"
-                            type="submit"
+                            onClick={handleSubmit}
                             disabled={loading}
                         >
                             Submit
                         </Button>
                     </Box>
-                </form>
+                </CardContent>
             </Card>
-        </Grid>
+        </Box>
     )
 }

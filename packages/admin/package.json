@@ -10,7 +10,7 @@
     "fix": "eslint ./src/components/*.tsx --fix",
     "schema": "apollo client:codegen --target typescript --outputFlat src/__generated__/",
     "download": "apollo service:download",
-    "generate": "yarn download && apollo codegen:generate --localSchemaFile=schema.json ./src/__generated__/ --target=typescript --tagName=gql --outputFlat  --watch --includes=./src/graphql/*"
+    "generate": "NODE_ENV=development yarn download && apollo codegen:generate --localSchemaFile=schema.json ./src/__generated__/ --target=typescript --tagName=gql --outputFlat  --watch --includes=./src/graphql/*"
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",

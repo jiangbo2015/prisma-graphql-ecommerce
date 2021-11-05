@@ -21,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
 }))
-
 export default function InputWithIcon() {
     const classes = useStyles()
     const { mutate, data, error } = useCustomerCreate()
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const fd = new FormData(e.currentTarget)
+
         const data = Object.fromEntries(fd)
+
         mutate({
             variables: {
                 data: omit(data, 'confirmPwd'),

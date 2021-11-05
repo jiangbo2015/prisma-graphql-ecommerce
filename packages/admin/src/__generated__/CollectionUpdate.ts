@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CollectionBaseInput } from "./globalTypes";
+import { CollectionInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: CollectionUpdate
@@ -21,6 +21,5 @@ export interface CollectionUpdate {
 }
 
 export interface CollectionUpdateVariables {
-  id: number;
-  data: CollectionBaseInput;
+  data: CollectionInput;
 }
