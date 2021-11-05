@@ -15,7 +15,7 @@ import Customer from '../models/Customer'
 import { Context } from 'src/context'
 
 @InputType()
-export class CustomerBaseInput {
+export class CustomerInput {
     @Field()
     name: string
 
@@ -25,10 +25,13 @@ export class CustomerBaseInput {
 
     @Field()
     password: string
+
+    @Field({ nullable: true })
+    id: number
 }
 
 @InputType()
-export class LoginInput {
+export class CustomerLoginInput {
     @Field()
     @IsEmail()
     email: string
@@ -52,7 +55,10 @@ export default class CustomerResolver {
     }
 
     @Mutation(() => Customer)
-    async customerLogin(@Arg('data') data: LoginInput, @Ctx() ctx: Context) {
+    async customerLogin(
+        @Arg('data') data: CustomerLoginInput,
+        @Ctx() ctx: Context
+    ) {
         const res = await ctx.prisma.customer.findFirst({
             where: data,
         })
@@ -76,7 +82,7 @@ export default class CustomerResolver {
 
     @Mutation(() => Customer)
     async customerCreate(
-        @Arg('data') data: CustomerBaseInput,
+        @Arg('data') data: CustomerInput,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.customer.create({
@@ -86,13 +92,12 @@ export default class CustomerResolver {
 
     @Mutation(() => Customer)
     async customerUpdate(
-        @Arg('id', (type) => Int) id: number,
-        @Arg('data') data: CustomerBaseInput,
+        @Arg('data') data: CustomerInput,
         @Ctx() ctx: Context
     ) {
         return ctx.prisma.customer.update({
             where: {
-                id,
+                id: data.id,
             },
             data,
         })

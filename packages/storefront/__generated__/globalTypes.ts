@@ -7,15 +7,16 @@
 // START Enums and Input Objects
 //==============================================================
 
-export interface CustomerBaseInput {
-  name: string;
-  email: string;
-  password: string;
+export interface CustomerInput {
+    name: string
+    email: string
+    password: string
+    id?: number | null
 }
 
-export interface LoginInput {
-  email: string;
-  password: string;
+export interface CustomerLoginInput {
+    email: string
+    password: string
 }
 
 //==============================================================

@@ -28,9 +28,15 @@ type Customer {
   updatedAt: DateTime!
 }
 
-input CustomerBaseInput {
+input CustomerInput {
   email: String!
+  id: Float
   name: String!
+  password: String!
+}
+
+input CustomerLoginInput {
+  email: String!
   password: String!
 }
 
@@ -39,19 +45,14 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
-input LoginInput {
-  email: String!
-  password: String!
-}
-
 type Mutation {
   collectionCreate(data: CollectionInput!): Collection!
   collectionDelete(id: Int!): Collection!
   collectionUpdate(data: CollectionInput!): Collection!
-  customerCreate(data: CustomerBaseInput!): Customer!
+  customerCreate(data: CustomerInput!): Customer!
   customerDelete(id: Float!): Customer!
-  customerLogin(data: LoginInput!): Customer!
-  customerUpdate(data: CustomerBaseInput!, id: Int!): Customer!
+  customerLogin(data: CustomerLoginInput!): Customer!
+  customerUpdate(data: CustomerInput!): Customer!
   productCreate(data: ProductInput!): Product!
   productDelete(id: Int!): Product!
   productUpdate(data: ProductInput!): Product!
