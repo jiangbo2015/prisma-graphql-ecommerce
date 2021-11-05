@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles'
-import { Table, CardMedia, Box } from '@mui/material'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+import { useState } from 'react'
+import {
+    Table,
+    CardMedia,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Grid,
+    Button,
+} from '@mui/material'
 import ProductModal from 'src/components/ProductModel'
 import Layout from 'src/components/Layout'
-
 import { omit } from 'lodash'
-
 import {
     useProductList,
     useCreateProduct,
@@ -23,17 +23,7 @@ import {
 import { ProductInput } from 'src/__generated__/globalTypes'
 import { ProductList_productList } from 'src/__generated__/ProductList'
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-    operation: {
-        marginBottom: '20px',
-    },
-})
-
 export default function BasicTable() {
-    const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [editData, setEditData] = useState<ProductInput>({} as ProductInput)
 
@@ -97,17 +87,13 @@ export default function BasicTable() {
                     editData={editData}
                 ></ProductModal>
             )}
-            <Grid
-                container
-                justifyContent="flex-end"
-                className={classes.operation}
-            >
+            <Grid container justifyContent="flex-end" mb={5}>
                 <Button variant="contained" color="primary" onClick={handleAdd}>
                     Add
                 </Button>
             </Grid>
             <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
+                <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>

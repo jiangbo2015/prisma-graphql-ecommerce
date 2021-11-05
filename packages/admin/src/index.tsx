@@ -5,9 +5,7 @@ import { CssBaseline } from '@mui/material'
 import {
     createTheme,
     ThemeProvider,
-    Theme,
     StyledEngineProvider,
-    PaletteColor,
 } from '@mui/material/styles'
 
 import App from './App'
@@ -20,7 +18,6 @@ declare module '@mui/material/styles' {
             danger: string
         }
     }
-    // allow configuration using `createTheme`
     interface ThemeOptions {
         status?: {
             danger?: string

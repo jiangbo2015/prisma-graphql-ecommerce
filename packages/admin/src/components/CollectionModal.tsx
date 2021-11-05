@@ -3,7 +3,6 @@ import {
     Button,
     TextField,
     Dialog,
-    DialogProps,
     DialogActions,
     DialogContent,
     DialogTitle,

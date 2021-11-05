@@ -5,15 +5,12 @@ import {
     InputLabel,
     TextField,
     Dialog,
-    DialogProps,
     DialogActions,
     DialogContent,
     DialogTitle,
     Select,
     MenuItem,
 } from '@mui/material'
-
-import { omit } from 'lodash'
 import { useCollectionList } from 'src/graphql/Collection'
 import { ProductModalProps } from 'types'
 

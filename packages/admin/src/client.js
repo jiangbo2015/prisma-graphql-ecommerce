@@ -31,7 +31,7 @@ const errorLink = onError(
                 }
             )
             // this line will catch the errors, mutation query can't catch
-            return operation
+            // return Observable.of(operation)
         }
 
         if (networkError) {

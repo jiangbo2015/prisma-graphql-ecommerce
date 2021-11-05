@@ -11,7 +11,7 @@ export const USER_LOGIN = gql`
 
 export const useLogin = () => {
     const [mutate, { data, error, loading }] = useMutation(USER_LOGIN, {
-        // onError: () => {},
+        onError: () => {},
     })
     return { mutate, data, error, loading }
 }

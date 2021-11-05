@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -17,20 +17,20 @@ import { useLogin } from 'src/graphql/User'
 import { UserLoginInput } from 'src/__generated__/globalTypes'
 
 export default function InputWithIcon() {
-
     const [input, setInput] = useState<UserLoginInput>({
         password: '',
         email: '',
     })
 
-    const handleChange = (field: keyof UserLoginInput) => (e: ChangeEvent<HTMLInputElement>) => {
-        setInput({
-            ...input,
-            [field]: e.target.value,
-        })
-    }
+    const handleChange =
+        (field: keyof UserLoginInput) => (e: ChangeEvent<HTMLInputElement>) => {
+            setInput({
+                ...input,
+                [field]: e.target.value,
+            })
+        }
 
-    const { mutate, data, loading, error } = useLogin()
+    const { mutate, data, loading } = useLogin()
 
     const history = useHistory()
 
@@ -39,8 +39,6 @@ export default function InputWithIcon() {
         localStorage.email = data.login.email
         history.push('/collection')
     }
-
-    
 
     const handleSubmit = () => {
         mutate({
@@ -77,6 +75,7 @@ export default function InputWithIcon() {
                     <TextField
                         label="Email"
                         type="email"
+                        sx={{ mt: 4 }}
                         value={input.email}
                         onChange={handleChange('email')}
                         required
@@ -92,6 +91,7 @@ export default function InputWithIcon() {
                     <TextField
                         label="Password"
                         type="password"
+                        sx={{ mt: 4 }}
                         value={input.password}
                         onChange={handleChange('password')}
                         required
