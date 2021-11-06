@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import {
     AppBar,
     Toolbar,
@@ -6,26 +6,16 @@ import {
     MenuItem,
     Typography,
     Badge,
-    Menu,
     IconButton,
-    ClickAwayListener,
 } from '@mui/material'
 
 import { ShoppingCart, AccountCircle } from '@mui/icons-material'
 import Dropdown from './Dropdown'
 
-import Link from 'next/link'
 import { useState } from 'react'
 
 export default function MenuAppBar() {
-    const [anchorEl, setAnchorEl] = useState()
     const [email, setEmail] = useState()
-    const handleOpen = (e) => {
-        setAnchorEl(e.currentTarget)
-    }
-    const handleClickAway = () => {
-        setAnchorEl(null)
-    }
 
     useEffect(() => {
         const { email } = localStorage

@@ -14,7 +14,7 @@ export default ({ item }) => {
     return (
         <Grid item md={4} sm={6} xs={12}>
             <Card elevation={3}>
-                <CardActionArea>
+                <CardActionArea href={`/product/${item.id}`}>
                     <CardMedia
                         sx={{ pt: '100%' }}
                         image={item.image}

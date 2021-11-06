@@ -20,8 +20,8 @@ export default function MyApp(props) {
     } = props
 
     return (
-        <CacheProvider value={emotionCache}>
-            <ApolloProvider client={client}>
+        <ApolloProvider client={client}>
+            <CacheProvider value={emotionCache}>
                 <Head>
                     <title>My page</title>
                     <meta
@@ -34,8 +34,8 @@ export default function MyApp(props) {
                     <CssBaseline />
                     <Component {...pageProps} />
                 </ThemeProvider>
-            </ApolloProvider>
-        </CacheProvider>
+            </CacheProvider>
+        </ApolloProvider>
     )
 }
 
