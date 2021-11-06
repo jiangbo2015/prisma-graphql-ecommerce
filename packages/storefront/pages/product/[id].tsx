@@ -87,27 +87,27 @@ export default function Detail({ params }) {
     )
 }
 
-// export async function getStaticPaths() {
-//     console.log('getStaticPaths.......')
-//     const paths = [
-//         {
-//             params: { id: '1' },
-//         },
-//         {
-//             params: { id: '2' },
-//         },
-//     ]
-//     return {
-//         paths,
-//         fallback: false,
-//     }
-// }
+export async function getStaticPaths() {
+    // mock serve data
+    const paths = [
+        {
+            params: { id: '1' },
+        },
+        {
+            params: { id: '2' },
+        },
+    ]
+    return {
+        paths,
+        fallback: false,
+    }
+}
 
-// export async function getStaticProps({ params }) {
-//     console.log(params, 'params')
-//     return {
-//         props: {
-//             params,
-//         },
-//     }
-// }
+export async function getStaticProps({ params }) {
+    console.log(params, 'params')
+    return {
+        props: {
+            params,
+        },
+    }
+}
