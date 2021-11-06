@@ -11,7 +11,8 @@ import {
     ClickAwayListener,
 } from '@mui/material'
 
-import {ShoppingCart, AccountCircle} from '@mui/icons-material'
+import { ShoppingCart, AccountCircle } from '@mui/icons-material'
+import Dropdown from './Dropdown'
 
 import Link from 'next/link'
 import { useState } from 'react'
@@ -40,10 +41,17 @@ export default function MenuAppBar() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6">PGE</Typography>
+                <Typography
+                    variant="h6"
+                    component={'a'}
+                    color={'white'}
+                    href="/"
+                >
+                    PGE
+                </Typography>
                 <Box
-                    flexGrow="1"
                     display="flex"
+                    flexGrow={1}
                     flexDirection="row"
                     justifyContent="flex-end"
                 >
@@ -60,45 +68,34 @@ export default function MenuAppBar() {
                             </Badge>
                         </IconButton>
                     </MenuItem>
-                    <ClickAwayListener onClickAway={handleClickAway}>
-                        <MenuItem onClick={handleOpen}>
+                    <Dropdown
+                        trigger={
                             <IconButton color="inherit" size="large">
                                 <AccountCircle />
                             </IconButton>
-                        </MenuItem>
-                    </ClickAwayListener>
+                        }
+                    >
+                        {email ? (
+                            <>
+                                <MenuItem>{email}</MenuItem>,
+                                <MenuItem onClick={handleLogout}>
+                                    Logout
+                                </MenuItem>
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem component={'a'} href="/login">
+                                    Sign in
+                                </MenuItem>
+                                ,
+                                <MenuItem component={'a'} href="/register">
+                                    Sign up
+                                </MenuItem>
+                            </>
+                        )}
+                    </Dropdown>
                 </Box>
-                <Menu
-                    id="demo-positioned-menu"
-                    aria-labelledby="demo-positioned-button"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                >
-                    {email ? (
-                        <>
-                            <MenuItem>{email}</MenuItem>
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                        </>
-                    ) : (
-                        <>
-                            <MenuItem component={'a'} href="/login">
-                                Sign in
-                            </MenuItem>
-                            <MenuItem component={'a'} href="/register">
-                                Sign up
-                            </MenuItem>
-                        </>
-                    )}
-                </Menu>
             </Toolbar>
         </AppBar>
-    );
+    )
 }

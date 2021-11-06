@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { makeStyles } from '@mui/styles'
+import React, { useEffect, useState } from 'react'
 import {
     Box,
     Card,
@@ -8,32 +7,19 @@ import {
     InputAdornment,
     TextField,
     TextFieldProps,
+    Container,
 } from '@mui/material'
 
 import { Email as EmailIcon, Lock as LockIcon } from '@mui/icons-material'
 import { useCustomerLogin } from 'src/gql/mutation'
-
-const useStyles = makeStyles((theme) => ({
-    margin: {
-        margin: theme.spacing(2),
-    },
-    root: {
-        maxWidth: '500px',
-        margin: '0 auto',
-        padding: '20px',
-        marginTop: '100px',
-        textAlign: 'center',
-    },
-}))
+import CardWrapper from 'src/components/CardWrapper'
 
 export const CommonInput = ({
-    label,
     icon,
     ...props
 }: TextFieldProps & { icon: React.ReactNode }) => {
     return (
         <TextField
-            label={label}
             margin="normal"
             fullWidth
             variant="outlined"
@@ -48,7 +34,6 @@ export const CommonInput = ({
 }
 
 export default function InputWithIcon() {
-    const classes = useStyles()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const { mutate, data, error } = useCustomerLogin()
@@ -60,55 +45,55 @@ export default function InputWithIcon() {
                     password,
                 },
             },
-        }).catch((e) => {
-            console.log(e)
         })
     }
 
-    if (data) {
-        localStorage.token = data.customerLogin.token
-        localStorage.email = data.customerLogin.email
-        location.assign('/')
-    }
+    useEffect(() => {
+        if (data) {
+            localStorage.token = data.customerLogin.token
+            localStorage.email = data.customerLogin.email
+            location.assign('/')
+        }
+    }, [data])
 
     return (
-        <Card className={classes.root}>
-            <Typography component="h1" variant="h5">
-                Sign In
-            </Typography>
+        <CardWrapper>
+            <Card sx={{ p: 5, maxWidth: 'sm', textAlign: 'center' }}>
+                <Typography variant="h3">Sign In</Typography>
 
-            <CommonInput
-                label="Email"
-                icon={<EmailIcon />}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <CommonInput
-                label="Password"
-                icon={<LockIcon />}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                <CommonInput
+                    label="Email"
+                    icon={<EmailIcon />}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <CommonInput
+                    label="Password"
+                    icon={<LockIcon />}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-            <Box sx={{ mt: 3, width: '100%' }}>
                 <Button
                     variant="contained"
                     color="primary"
+                    sx={{ mt: 2 }}
                     fullWidth
                     onClick={handleLogin}
                 >
                     Submit
                 </Button>
-            </Box>
-            {error?.message && (
-                <Typography component="h1" variant="h5" color="error">
-                    {error.message}
-                </Typography>
-            )}
 
-            <Box mt="20px">
-                <Button href="/register">Sign Up</Button>
-            </Box>
-        </Card>
+                {error?.message && (
+                    <Typography component="h1" variant="h5" color="error">
+                        {error.message}
+                    </Typography>
+                )}
+
+                <Box mt={2} textAlign={'center'}>
+                    <Button href="/register">Sign Up</Button>
+                </Box>
+            </Card>
+        </CardWrapper>
     )
 }

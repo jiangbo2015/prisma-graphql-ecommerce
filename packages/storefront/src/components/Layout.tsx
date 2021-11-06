@@ -1,7 +1,7 @@
 import Header from './Header'
 import { Container } from '@mui/material'
 
-export default ({ children }) => {
+export default function App({ children }) {
     return (
         <>
             <Header></Header>

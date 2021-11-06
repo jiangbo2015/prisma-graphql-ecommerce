@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "download": "apollo service:download",
     "schema": "apollo client:codegen --target typescript --outputFlat __generated__/"
   },

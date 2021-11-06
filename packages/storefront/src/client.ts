@@ -1,4 +1,10 @@
-import { ApolloClient, HttpLink, InMemoryCache, from, Observable } from '@apollo/client'
+import {
+    ApolloClient,
+    HttpLink,
+    InMemoryCache,
+    from,
+    Observable,
+} from '@apollo/client'
 
 import { onError } from '@apollo/client/link/error'
 
@@ -30,15 +36,15 @@ const errorLink = onError(
 )
 
 const httpLink = new HttpLink({
-        uri:
-            process.env.NODE_ENV === 'development'
-                ? 'http://localhost:4000'
-                : 'https://pgfe-server.herokuapp.com',
-    })
+    uri: 'http://localhost:4000',
+    // process.env.NODE_ENV === 'development'
+    //     ? 'http://localhost:4000'
+    //     : 'https://pgfe-server.herokuapp.com',
+})
 
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    ssrMode: true,
+    ssrMode: typeof window === 'undefined',
     link: from([errorLink, httpLink]),
 
     connectToDevTools: true,

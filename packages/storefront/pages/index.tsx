@@ -1,23 +1,11 @@
-import Layout from 'src/components/Layout'
 import { Grid, Typography, Box } from '@mui/material'
-import { makeStyles } from '@mui/styles'
+import Layout from 'src/components/Layout'
 import ProductItem from 'src/components/ProductItem'
 import client from 'src/client'
 import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
-const useStyles = makeStyles({
-    root: {},
-    media: {
-        paddingTop: '60%',
-    },
-    actions: {
-        justifyContent: 'center',
-    },
-})
-
 export default ({ productList = [] }: ProductList) => {
-    const classes = useStyles()
     return (
         <Layout>
             <Box py="20px">
@@ -32,7 +20,7 @@ export default ({ productList = [] }: ProductList) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     try {
         const { data } = await client.query<ProductList>({
             query: PRODUCT_LIST,
@@ -44,8 +32,8 @@ export async function getServerSideProps() {
         }
     } catch (e) {
         console.log(e, 'errors')
-    }
-    return {
-        props: {},
+        return {
+            props: {},
+        }
     }
 }
