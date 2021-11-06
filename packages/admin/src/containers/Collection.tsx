@@ -1,17 +1,8 @@
 import { useState } from 'react'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Grid,
-    Button,
-} from '@mui/material'
+import { Box, Button } from '@mui/material'
 import CollectionModal from 'src/components/CollectionModal'
 import Layout from 'src/components/Layout'
+import Table, { Column } from 'src/components/Table'
 
 import {
     useCreateCollection,
@@ -73,6 +64,29 @@ export default function BasicTable() {
         setEditData({} as CollectionInput)
     }
 
+    const columns: Column[] = [
+        {
+            title: 'Title',
+            field: 'title',
+        },
+        {
+            title: 'Description',
+            field: 'description',
+        },
+        {
+            title: 'Action',
+            field: 'action',
+            render: (record) => (
+                <>
+                    <Button onClick={() => handleDelete(record.id)}>
+                        Delete
+                    </Button>
+                    <Button onClick={handleOpenEdit(record)}>Edit</Button>
+                </>
+            ),
+        },
+    ]
+
     return (
         <Layout>
             {open && (
@@ -84,7 +98,7 @@ export default function BasicTable() {
                     editData={editData}
                 ></CollectionModal>
             )}
-            <Grid container justifyContent="flex-end" mb={4}>
+            <Box display={'flex'} justifyContent="flex-end" mb={4}>
                 <Button
                     variant="contained"
                     color="primary"
@@ -92,40 +106,8 @@ export default function BasicTable() {
                 >
                     Add
                 </Button>
-            </Grid>
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Description</TableCell>
-                            <TableCell align="right">Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data?.collectionList?.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell component="th" scope="row">
-                                    {row.title}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {row.description}
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button
-                                        onClick={() => handleDelete(row.id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                    <Button onClick={handleOpenEdit}>
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            </Box>
+            <Table columns={columns} dataSource={data?.collectionList || []} />
         </Layout>
     )
 }

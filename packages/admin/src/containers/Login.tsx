@@ -56,7 +56,7 @@ export default function InputWithIcon() {
             justifyContent={'center'}
             sx={{
                 backgroundImage: ({ palette }) => {
-                    return `linear-gradient(${palette.primary?.main}, ${palette.secondary?.main})`
+                    return `linear-gradient(45deg, ${palette.primary?.main}, ${palette.secondary?.main})`
                 },
             }}
         >
