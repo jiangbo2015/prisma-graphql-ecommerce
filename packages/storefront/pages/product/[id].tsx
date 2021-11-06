@@ -9,7 +9,12 @@ import {
     Button,
     Rating,
     Stack,
+    Radio,
+    FormControl,
+    FormControlLabel,
+    RadioGroup,
 } from '@mui/material'
+import { CircleRounded, CheckCircleRounded } from '@mui/icons-material'
 
 export default function Detail({ params }) {
     return (
@@ -26,11 +31,42 @@ export default function Detail({ params }) {
                     </Grid>
                     <Grid item md={6}>
                         <Stack spacing={3}>
-                            <Typography variant="h3">produc title</Typography>
+                            <Typography variant="h3">product title</Typography>
                             <Box>
                                 <Rating value={4} />
                             </Box>
                             <Typography variant="h5">$200</Typography>
+                            <Box display={'flex'} alignItems={'center'}>
+                                <Typography variant="h6">Color</Typography>
+                                <RadioGroup row sx={{ ml: 2 }}>
+                                    {['red', 'green', 'yellow'].map((x) => (
+                                        <FormControlLabel
+                                            label=""
+                                            key={x}
+                                            control={
+                                                <Radio
+                                                    value={x}
+                                                    sx={{
+                                                        color: x,
+                                                        '&.Mui-checked': {
+                                                            color: x,
+                                                        },
+                                                        width: '30px',
+                                                        height: '30px',
+                                                        '& .MuiSvgIcon-root': {
+                                                            fontSize: '1.8rem',
+                                                        },
+                                                    }}
+                                                    icon={<CircleRounded />}
+                                                    checkedIcon={
+                                                        <CheckCircleRounded />
+                                                    }
+                                                />
+                                            }
+                                        />
+                                    ))}
+                                </RadioGroup>
+                            </Box>
                             <Stack direction={'row'} spacing={2}>
                                 <Button variant="contained" fullWidth>
                                     Add to cart
