@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {
     Button,
     FormControl,
@@ -10,9 +10,23 @@ import {
     DialogTitle,
     Select,
     MenuItem,
+    TextFieldProps,
+    SelectChangeEvent,
+    SelectProps,
 } from '@mui/material'
 import { useCollectionList } from 'src/graphql/Collection'
 import { ProductModalProps } from 'types'
+
+const CommonTextField = (props: TextFieldProps) => (
+    <TextField
+        margin="normal"
+        required
+        fullWidth
+        size="small"
+        variant="outlined"
+        {...props}
+    />
+)
 
 export default function FormDialog({
     open,
@@ -34,10 +48,8 @@ export default function FormDialog({
         }
     }
 
-    // select is not a normal select element, should be care about
     const handleFields =
-        (type: any) =>
-        (e: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
+        (type: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
             setFields({
                 ...fields,
                 [type]: e.target.value,
@@ -54,45 +66,38 @@ export default function FormDialog({
                 <DialogTitle id="form-dialog-title">Product Add</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
-                        <TextField
+                        <CommonTextField
                             autoFocus
-                            margin="dense"
                             label="Title"
                             value={fields.title}
-                            required
-                            fullWidth
-                            variant="outlined"
                             onChange={handleFields('title')}
                         />
-                        <TextField
-                            margin="dense"
+                        <CommonTextField
                             label="Description"
                             multiline
                             minRows={3}
                             value={fields.description}
-                            required
-                            fullWidth
-                            variant="outlined"
                             onChange={handleFields('description')}
                         />
-                        <TextField
-                            margin="dense"
+                        <CommonTextField
                             label="Price"
                             type="number"
                             value={fields.price}
-                            required
-                            fullWidth
-                            variant="outlined"
                             onChange={handleFields('price')}
                         />
-                        <FormControl fullWidth>
+                        <FormControl fullWidth margin="normal">
                             <InputLabel>Collection</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={fields.collectionId}
                                 placeholder="please select collection"
-                                // onChange={handleFields('collectionId')}
+                                size="small"
+                                onChange={
+                                    handleFields(
+                                        'collectionId'
+                                    ) as SelectProps['onChange']
+                                }
                                 variant="outlined"
                             >
                                 {collectionsData?.collectionList?.map(
@@ -104,13 +109,9 @@ export default function FormDialog({
                                 )}
                             </Select>
                         </FormControl>
-                        <TextField
-                            margin="dense"
+                        <CommonTextField
                             label="Image"
                             value={fields.image}
-                            required
-                            fullWidth
-                            variant="outlined"
                             onChange={handleFields('image')}
                         />
                         <DialogActions>

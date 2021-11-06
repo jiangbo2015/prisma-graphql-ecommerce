@@ -14,6 +14,7 @@ export type Column = {
     title: string
     field: string
     align?: TableCellProps['align']
+    maxWidth?: string | number
     render?: (record: any) => React.ReactNode
 }
 
@@ -49,6 +50,9 @@ export default function MyTable({
                                 <TableCell
                                     align={item.align || 'left'}
                                     scope="row"
+                                    sx={{
+                                        maxWidth: item.maxWidth,
+                                    }}
                                 >
                                     {item.render
                                         ? item.render(row)

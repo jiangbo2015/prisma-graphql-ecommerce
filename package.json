@@ -22,12 +22,6 @@
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "*.{ts,js,tsx,jsx,md,css}": [
       "prettier --write"

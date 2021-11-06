@@ -1,18 +1,20 @@
 import { useState } from 'react'
 import {
-    Table,
+    // Table,
+    // TableBody,
+    // TableCell,
+    // TableContainer,
+    // TableHead,
+    // TableRow,
+    // Paper,
     CardMedia,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
     Grid,
     Button,
 } from '@mui/material'
 import ProductModal from 'src/components/ProductModel'
 import Layout from 'src/components/Layout'
+import Table, { Column } from 'src/components/Table'
+
 import { omit } from 'lodash'
 import {
     useProductList,
@@ -50,7 +52,7 @@ export default function BasicTable() {
         })
     }
 
-    const handleDel = (id: number) => {
+    const handleDelete = (id: number) => () => {
         mutateDelete({
             variables: {
                 id,
@@ -76,6 +78,56 @@ export default function BasicTable() {
         setOpen(false)
     }
 
+    const columns: Column[] = [
+        {
+            title: 'Title',
+            field: 'title',
+        },
+        {
+            title: 'Description',
+            field: 'description',
+            maxWidth: '250px',
+        },
+        {
+            title: 'Price',
+            field: 'price',
+        },
+        {
+            title: 'Image',
+            field: 'image',
+            render: (row) => (
+                <CardMedia
+                    component="img"
+                    height="100"
+                    image={row.image}
+                    alt={row.title}
+                />
+            ),
+        },
+        {
+            title: 'Action',
+            field: 'action',
+            render: (row) => (
+                <>
+                    <Button
+                        onClick={handleDelete(row.id)}
+                        variant="outlined"
+                        color="secondary"
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        style={{ marginLeft: '5px' }}
+                        onClick={handleOpenUpdate(row)}
+                        variant="outlined"
+                    >
+                        Edit
+                    </Button>
+                </>
+            ),
+        },
+    ]
+
     return (
         <Layout>
             {open && (
@@ -92,7 +144,8 @@ export default function BasicTable() {
                     Add
                 </Button>
             </Grid>
-            <TableContainer component={Paper}>
+            <Table columns={columns} dataSource={data?.productList || []} />
+            {/* <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -144,7 +197,7 @@ export default function BasicTable() {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> */}
         </Layout>
     )
 }
