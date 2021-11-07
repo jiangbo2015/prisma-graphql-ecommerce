@@ -15,8 +15,20 @@ import {
     RadioGroup,
 } from '@mui/material'
 import { CircleRounded, CheckCircleRounded } from '@mui/icons-material'
+import { initializeApollo } from 'src/client'
+import { PRODUCT_BY_ID, PRODUCT_LIST } from 'src/gql/query'
+import {
+    ProductById,
+    ProductByIdVariables,
+    ProductById_productById,
+} from '__generated__/ProductById'
+import { GetStaticPropsContext } from 'next'
+import { ProductList } from '__generated__/ProductList'
 
-export default function Detail({ params }) {
+const fallbackImage =
+    'https://dev-to-uploads.s3.amazonaws.com/i/oxuuoibjpl1pb0ukgxjj.png'
+
+export default function Detail({ data }: { data: ProductById_productById }) {
     return (
         <Layout>
             <Container sx={{ pt: 4 }}>
@@ -25,19 +37,21 @@ export default function Detail({ params }) {
                         <Card>
                             <CardMedia
                                 sx={{ pt: '100%' }}
-                                image="https://dev-to-uploads.s3.amazonaws.com/i/oxuuoibjpl1pb0ukgxjj.png"
+                                image={data.image || fallbackImage}
                             ></CardMedia>
                         </Card>
                     </Grid>
                     <Grid item md={6}>
                         <Stack spacing={3}>
-                            <Typography variant="h3">product title</Typography>
+                            <Typography variant="h4">{data.title}</Typography>
                             <Box>
                                 <Rating value={4} />
                             </Box>
-                            <Typography variant="h5">$200</Typography>
+                            <Typography variant="h5">
+                                Price: ${data.price}
+                            </Typography>
                             <Box display={'flex'} alignItems={'center'}>
-                                <Typography variant="h6">Color</Typography>
+                                <Typography variant="h6">Color: </Typography>
                                 <RadioGroup row sx={{ ml: 2 }}>
                                     {['red', 'green', 'yellow'].map((x) => (
                                         <FormControlLabel
@@ -89,25 +103,48 @@ export default function Detail({ params }) {
 
 export async function getStaticPaths() {
     // mock serve data
-    const paths = [
-        {
-            params: { id: '1' },
-        },
-        {
-            params: { id: '2' },
-        },
-    ]
-    return {
-        paths,
-        fallback: false,
+    const apolloClient = initializeApollo()
+    try {
+        const { data } = await apolloClient.query<ProductList>({
+            query: PRODUCT_LIST,
+        })
+        return {
+            paths: data.productList.map((x) => ({
+                params: { id: String(x.id) },
+            })),
+            fallback: false,
+        }
+    } catch (e) {
+        return {
+            paths: [],
+        }
     }
 }
 
-export async function getStaticProps({ params }) {
-    console.log(params, 'params')
-    return {
-        props: {
-            params,
-        },
+export async function getStaticProps({
+    params,
+}: GetStaticPropsContext<{ id: string }>) {
+    const apolloClient = initializeApollo()
+    try {
+        const { data } = await apolloClient.query<
+            ProductById,
+            ProductByIdVariables
+        >({
+            query: PRODUCT_BY_ID,
+            variables: {
+                id: parseInt(params.id),
+            },
+        })
+        return {
+            props: {
+                data: data.productById,
+            },
+        }
+    } catch (e) {
+        return {
+            props: {
+                data: {},
+            },
+        }
     }
 }
