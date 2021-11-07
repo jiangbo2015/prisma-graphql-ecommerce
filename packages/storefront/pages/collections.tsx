@@ -2,7 +2,7 @@ import Layout from 'src/components/Layout'
 import { Grid, Typography, Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import CollectionItem from 'src/components/CollectionItem'
-import client from 'src/client'
+import { initializeApollo } from 'src/client'
 import { COLLECTION_LIST } from 'src/gql/query'
 import { CollectionList } from '__generated__/CollectionList'
 
@@ -35,8 +35,9 @@ export default ({ collectionList = [] }: CollectionList) => {
 }
 
 export async function getServerSideProps() {
+    const apolloClient = initializeApollo()
     try {
-        const { data } = await client.query<CollectionList>({
+        const { data } = await apolloClient.query<CollectionList>({
             query: COLLECTION_LIST,
         })
         return {

@@ -1,7 +1,7 @@
 import Layout from 'src/components/Layout'
 import { Grid, Box } from '@mui/material'
 import ProductItem from 'src/components/ProductItem'
-import client from 'src/client'
+import { initializeApollo } from 'src/client'
 import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
@@ -20,8 +20,9 @@ export default ({ productList = [] }: ProductList) => {
 }
 
 export async function getServerSideProps() {
+    const apolloClient = initializeApollo()
     try {
-        const { data } = await client.query<ProductList>({
+        const { data } = await apolloClient.query<ProductList>({
             query: PRODUCT_LIST,
         })
         return {

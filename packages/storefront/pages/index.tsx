@@ -1,11 +1,11 @@
 import { Grid, Typography, Box } from '@mui/material'
 import Layout from 'src/components/Layout'
 import ProductItem from 'src/components/ProductItem'
-import client from 'src/client'
+import { initializeApollo } from 'src/client'
 import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
-export default function Home({ productList = [] }: ProductList) {
+export default function Home({ productList = [], ...others }: ProductList) {
     return (
         <Layout>
             {/* <Box py="20px">
@@ -21,13 +21,16 @@ export default function Home({ productList = [] }: ProductList) {
 }
 
 export async function getStaticProps() {
+    const apolloClient = initializeApollo()
+    console.log('get...')
     try {
-        const { data } = await client.query<ProductList>({
+        const { data } = await apolloClient.query<ProductList>({
             query: PRODUCT_LIST,
         })
         return {
             props: {
                 productList: data.productList,
+                // initialApolloState: apolloClient.cache.extract(),
             },
         }
     } catch (e) {

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "export http_proxy=http://127.0.0.1:1087 && next dev",
     "build": "next build",
     "start": "next start",
     "download": "apollo service:download",

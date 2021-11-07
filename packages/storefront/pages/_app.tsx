@@ -7,7 +7,7 @@ import { CacheProvider } from '@emotion/react'
 import theme from 'src/theme'
 import createEmotionCache from 'src/emotionCache'
 import { ApolloProvider } from '@apollo/client'
-import client from 'src/client'
+import { useApollo } from 'src/client'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -18,9 +18,11 @@ export default function MyApp(props) {
         emotionCache = clientSideEmotionCache,
         pageProps,
     } = props
+    console.log(pageProps.initialApolloState, 'pageProps.initialApolloState')
+    const apolloClient = useApollo(pageProps.initialApolloState)
 
     return (
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
             <CacheProvider value={emotionCache}>
                 <Head>
                     <title>Material UI Ecommerce Template</title>
