@@ -5,12 +5,12 @@ import client from 'src/client'
 import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
-export default ({ productList = [] }: ProductList) => {
+export default function Home({ productList = [] }: ProductList) {
     return (
         <Layout>
-            <Box py="20px">
+            {/* <Box py="20px">
                 <Typography variant="h3">Hot Product</Typography>
-            </Box>
+            </Box> */}
             <Grid container spacing={4}>
                 {productList?.map((item) => (
                     <ProductItem key={item.id} item={item}></ProductItem>

@@ -8,7 +8,6 @@ import {
     Badge,
     IconButton,
 } from '@mui/material'
-
 import { ShoppingCart, AccountCircle } from '@mui/icons-material'
 import Dropdown from './Dropdown'
 
@@ -29,7 +28,7 @@ export default function MenuAppBar() {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Toolbar>
                 <Typography
                     variant="h6"
@@ -65,24 +64,30 @@ export default function MenuAppBar() {
                             </IconButton>
                         }
                     >
-                        {email ? (
-                            <>
-                                <MenuItem>{email}</MenuItem>,
-                                <MenuItem onClick={handleLogout}>
-                                    Logout
-                                </MenuItem>
-                            </>
-                        ) : (
-                            <>
-                                <MenuItem component={'a'} href="/login">
-                                    Sign in
-                                </MenuItem>
-                                ,
-                                <MenuItem component={'a'} href="/register">
-                                    Sign up
-                                </MenuItem>
-                            </>
-                        )}
+                        {email
+                            ? [
+                                  <MenuItem key={email}>{email}</MenuItem>,
+                                  <MenuItem key="logout" onClick={handleLogout}>
+                                      Logout
+                                  </MenuItem>,
+                              ]
+                            : [
+                                  <MenuItem
+                                      key="sign in"
+                                      component={'a'}
+                                      href="/login"
+                                  >
+                                      Sign in
+                                  </MenuItem>,
+
+                                  <MenuItem
+                                      key="sign out"
+                                      component={'a'}
+                                      href="/register"
+                                  >
+                                      Sign up
+                                  </MenuItem>,
+                              ]}
                     </Dropdown>
                 </Box>
             </Toolbar>

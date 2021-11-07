@@ -23,7 +23,7 @@ export default function MyApp(props) {
         <ApolloProvider client={client}>
             <CacheProvider value={emotionCache}>
                 <Head>
-                    <title>My page</title>
+                    <title>Material UI Ecommerce Template</title>
                     <meta
                         name="viewport"
                         content="initial-scale=1, width=device-width"

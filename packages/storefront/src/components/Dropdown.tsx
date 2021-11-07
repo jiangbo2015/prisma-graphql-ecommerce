@@ -1,14 +1,20 @@
-import { ClickAwayListener, Menu, MenuItem, MenuProps } from '@mui/material'
-import { useState } from 'react'
+import {
+    ClickAwayListener,
+    Menu,
+    MenuItem,
+    MenuProps,
+    Box,
+} from '@mui/material'
+import { MouseEventHandler, useState } from 'react'
 
 type DropDownProps = {
     trigger: React.ReactNode
     children: React.ReactNode
-    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void
+    onClick?: MouseEventHandler<HTMLDivElement>
     menuProps?: MenuProps
 }
 
-export default function ({
+export default function Dropdown({
     trigger,
     children,
     onClick,
