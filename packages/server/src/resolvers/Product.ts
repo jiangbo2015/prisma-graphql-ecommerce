@@ -11,7 +11,7 @@ import {
     Int,
 } from 'type-graphql'
 import Product from '../models/Product'
-import { Context } from 'src/context'
+import { Context } from '../context'
 import { createSlug } from '../utils/slug'
 import { omit } from 'lodash'
 

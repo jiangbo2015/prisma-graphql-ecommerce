@@ -5,7 +5,7 @@ import { initializeApollo } from 'src/client'
 import { PRODUCT_LIST } from 'src/gql/query'
 import { ProductList } from '__generated__/ProductList'
 
-export default ({ productList = [] }: ProductList) => {
+export default function Products({ productList = [] }: ProductList) {
     return (
         <Layout>
             <Box pt="50px">

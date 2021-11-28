@@ -10,7 +10,7 @@ import {
     Int,
 } from 'type-graphql'
 import Collection from '../models/Collection'
-import { Context } from 'src/context'
+import { Context } from '../context'
 import { createSlug } from '../utils/slug'
 @InputType()
 class CollectionInput {

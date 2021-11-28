@@ -13,7 +13,7 @@ import {
 } from 'type-graphql'
 import jwt from 'jsonwebtoken'
 import User from '../models/User'
-import { Context } from 'src/context'
+import { Context } from '../context'
 
 @InputType()
 export class UserBaseInput {

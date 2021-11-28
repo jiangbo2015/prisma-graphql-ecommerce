@@ -102,7 +102,6 @@ export default function Detail({ data }: { data: ProductById_productById }) {
 }
 
 export async function getStaticPaths() {
-    // mock serve data
     const apolloClient = initializeApollo()
     try {
         const { data } = await apolloClient.query<ProductList>({

@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { AddShoppingCart } from '@mui/icons-material'
 
-export default ({ item }) => {
+export default function ProductItem({ item }) {
     return (
         <Grid item md={4} sm={6} xs={12}>
             <Card elevation={3}>

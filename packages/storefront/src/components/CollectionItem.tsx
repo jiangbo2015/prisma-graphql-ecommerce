@@ -8,7 +8,7 @@ import {
     CardActions,
 } from '@mui/material'
 
-export default ({ item }) => {
+export default function CollectionItem({ item }) {
     return (
         <Grid item md={4} sm={6} xs={12}>
             <Card elevation={3}>

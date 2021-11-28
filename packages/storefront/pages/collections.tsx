@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default ({ collectionList = [] }: CollectionList) => {
+export default function Collections({ collectionList = [] }: CollectionList) {
     const classes = useStyles()
     return (
         <Layout>

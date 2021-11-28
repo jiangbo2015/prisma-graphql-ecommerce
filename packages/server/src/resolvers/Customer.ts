@@ -12,7 +12,7 @@ import {
 import jwt from 'jsonwebtoken'
 import { IsEmail } from 'class-validator'
 import Customer from '../models/Customer'
-import { Context } from 'src/context'
+import { Context } from '../context'
 
 @InputType()
 export class CustomerInput {

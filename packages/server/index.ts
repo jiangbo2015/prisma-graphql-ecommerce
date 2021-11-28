@@ -1,4 +1,3 @@
-import 'module-alias'
 import 'reflect-metadata'
 import * as tq from 'type-graphql'
 import { ApolloServer } from 'apollo-server'
