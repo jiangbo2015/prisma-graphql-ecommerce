@@ -6,44 +6,27 @@ import {
     Button,
     InputAdornment,
     TextField,
-    TextFieldProps,
-    Container,
 } from '@mui/material'
-
+import { useForm } from 'react-hook-form'
 import { Email as EmailIcon, Lock as LockIcon } from '@mui/icons-material'
+
 import { useCustomerLogin } from 'src/gql/mutation'
 import CardWrapper from 'src/components/CardWrapper'
-
-export const CommonInput = ({
-    icon,
-    ...props
-}: TextFieldProps & { icon: React.ReactNode }) => {
-    return (
-        <TextField
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">{icon}</InputAdornment>
-                ),
-            }}
-            {...props}
-        />
-    )
-}
+import { CustomerLoginInput } from '__generated__/globalTypes'
 
 export default function InputWithIcon() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const { mutate, data, error } = useCustomerLogin()
-    const handleLogin = () => {
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+        ...other
+    } = useForm<CustomerLoginInput>()
+
+    const handleLogin = (data: CustomerLoginInput) => {
         mutate({
             variables: {
-                data: {
-                    email,
-                    password,
-                },
+                data,
             },
         })
     }
@@ -61,17 +44,41 @@ export default function InputWithIcon() {
             <Card sx={{ p: 5, maxWidth: 'sm', textAlign: 'center' }}>
                 <Typography variant="h3">Sign In</Typography>
 
-                <CommonInput
+                <TextField
+                    name="email"
                     label="Email"
-                    icon={<EmailIcon />}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    margin="normal"
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.email}
+                    helperText={errors?.email?.message}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                {<EmailIcon />}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...register('email', { required: 'email is required' })}
                 />
-                <CommonInput
-                    label="Password"
-                    icon={<LockIcon />}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                <TextField
+                    name="password"
+                    label="password"
+                    margin="normal"
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.password}
+                    helperText={errors?.password?.message}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                {<LockIcon />}
+                            </InputAdornment>
+                        ),
+                    }}
+                    {...register('password', {
+                        required: 'password is required',
+                    })}
                 />
 
                 <Button
@@ -79,7 +86,7 @@ export default function InputWithIcon() {
                     color="primary"
                     sx={{ mt: 2 }}
                     fullWidth
-                    onClick={handleLogin}
+                    onClick={handleSubmit(handleLogin)}
                 >
                     Submit
                 </Button>
