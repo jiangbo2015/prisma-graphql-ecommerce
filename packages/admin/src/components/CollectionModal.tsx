@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react'
+import React from 'react'
 import {
     Button,
     TextField,
@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { CollectionInput } from 'src/__generated__/globalTypes'
 import { CollectionModalProps } from 'types'
+import { useForm } from 'react-hook-form'
 
 export default function CollectionModal({
     open,
@@ -17,16 +18,15 @@ export default function CollectionModal({
     handleUpdate,
     editData,
 }: CollectionModalProps) {
-    const [data, setData] = useState(editData)
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm<CollectionInput>({
+        defaultValues: editData,
+    })
 
-    const handleChange = (field: keyof CollectionInput) => (e) => {
-        setData({
-            ...data,
-            [field]: e.target.value,
-        })
-    }
-
-    const handleSubmit = (e: FormEvent) => {
+    const handleUpsert = (data: CollectionInput) => {
         if (!data.title || !data.description) {
             return
         }
@@ -46,29 +46,29 @@ export default function CollectionModal({
             >
                 <DialogTitle id="form-dialog-title">Collection Add</DialogTitle>
                 <DialogContent>
-                    <form action="" onSubmit={handleSubmit}>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            label="Title"
-                            value={data.title}
-                            required
-                            fullWidth
-                            variant="outlined"
-                            onChange={handleChange('title')}
-                        />
-                        <TextField
-                            margin="normal"
-                            label="Description"
-                            value={data.description}
-                            required={false}
-                            fullWidth
-                            multiline
-                            minRows={3}
-                            variant="outlined"
-                            onChange={handleChange('description')}
-                        />
-                    </form>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Title"
+                        required
+                        fullWidth
+                        size="small"
+                        variant="outlined"
+                        error={!!errors.title}
+                        helperText={errors.title?.message}
+                        {...register('title', {
+                            required: 'please input title',
+                        })}
+                    />
+                    <TextField
+                        margin="normal"
+                        label="Description"
+                        fullWidth
+                        multiline
+                        minRows={3}
+                        variant="outlined"
+                        {...register('description')}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button
@@ -77,7 +77,10 @@ export default function CollectionModal({
                     >
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit} color="primary">
+                    <Button
+                        onClick={handleSubmit(handleUpsert)}
+                        color="primary"
+                    >
                         Confirm
                     </Button>
                 </DialogActions>

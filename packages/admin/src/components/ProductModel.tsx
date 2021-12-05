@@ -1,32 +1,49 @@
-import React, { ChangeEvent, useState } from 'react'
+import React from 'react'
 import {
     Button,
-    FormControl,
-    InputLabel,
     TextField,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Select,
     MenuItem,
-    TextFieldProps,
-    SelectChangeEvent,
-    SelectProps,
 } from '@mui/material'
 import { useCollectionList } from 'src/graphql/Collection'
 import { ProductModalProps } from 'types'
+import { RegisterOptions, useForm } from 'react-hook-form'
+import { ProductInput } from 'src/__generated__/globalTypes'
 
-const CommonTextField = (props: TextFieldProps) => (
-    <TextField
-        margin="normal"
-        required
-        fullWidth
-        size="small"
-        variant="outlined"
-        {...props}
-    />
-)
+const datas: {
+    label: string
+    name: keyof ProductInput
+    rule: RegisterOptions
+}[] = [
+    {
+        label: 'Title',
+        name: 'title',
+        rule: { required: 'please input product title' },
+    },
+    {
+        label: 'Description',
+        name: 'description',
+        rule: { required: 'please input product description' },
+    },
+    {
+        label: 'Price',
+        name: 'price',
+        rule: { required: 'please input product price' },
+    },
+    {
+        label: 'Collection',
+        name: 'collectionId',
+        rule: { required: 'please select product collection' },
+    },
+    {
+        label: 'Image',
+        name: 'image',
+        rule: { required: 'please input product image http link' },
+    },
+]
 
 export default function FormDialog({
     open,
@@ -37,24 +54,22 @@ export default function FormDialog({
 }: ProductModalProps) {
     const { data: collectionsData } = useCollectionList()
 
-    const [fields, setFields] = useState(editData || {})
-    const handleSubmit = (e: React.FormEvent) => {
-        fields.price = Number(fields.price)
-        e.preventDefault()
+    const handleUpsert = (data: ProductInput) => {
+        console.log(data)
         if (editData.id) {
-            handleUpdate(fields)
+            handleUpdate(data)
         } else {
-            handleCreate(fields)
+            handleCreate(data)
         }
     }
 
-    const handleFields =
-        (type: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
-            setFields({
-                ...fields,
-                [type]: e.target.value,
-            })
-        }
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm<ProductInput>({
+        defaultValues: editData,
+    })
 
     return (
         <div>
@@ -65,55 +80,35 @@ export default function FormDialog({
             >
                 <DialogTitle id="form-dialog-title">Product Add</DialogTitle>
                 <DialogContent>
-                    <form onSubmit={handleSubmit}>
-                        <CommonTextField
-                            autoFocus
-                            label="Title"
-                            value={fields.title}
-                            onChange={handleFields('title')}
-                        />
-                        <CommonTextField
-                            label="Description"
-                            multiline
-                            minRows={3}
-                            value={fields.description}
-                            onChange={handleFields('description')}
-                        />
-                        <CommonTextField
-                            label="Price"
-                            type="number"
-                            value={fields.price}
-                            onChange={handleFields('price')}
-                        />
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel>Collection</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={fields.collectionId}
-                                placeholder="please select collection"
+                    <form>
+                        {datas.map((x) => (
+                            <TextField
+                                margin="normal"
+                                label={x.label}
+                                required
+                                fullWidth
+                                {...(x.name === 'collectionId' && {
+                                    select: true,
+                                    defaultValue: editData.collectionId,
+                                })}
                                 size="small"
-                                onChange={
-                                    handleFields(
-                                        'collectionId'
-                                    ) as SelectProps['onChange']
-                                }
                                 variant="outlined"
+                                error={!!errors[x.name]}
+                                helperText={errors[x.name]?.message}
+                                key={x.name}
+                                {...register(x.name, x.rule)}
                             >
-                                {collectionsData?.collectionList?.map(
-                                    (item) => (
-                                        <MenuItem value={item.id}>
-                                            {item.title}
-                                        </MenuItem>
-                                    )
-                                )}
-                            </Select>
-                        </FormControl>
-                        <CommonTextField
-                            label="Image"
-                            value={fields.image}
-                            onChange={handleFields('image')}
-                        />
+                                {x.name === 'collectionId' &&
+                                    collectionsData?.collectionList?.map(
+                                        (item) => (
+                                            <MenuItem value={item.id}>
+                                                {item.title}
+                                            </MenuItem>
+                                        )
+                                    )}
+                            </TextField>
+                        ))}
+
                         <DialogActions>
                             <Button
                                 onClick={handleClose as React.MouseEventHandler}
@@ -121,7 +116,10 @@ export default function FormDialog({
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary">
+                            <Button
+                                onClick={handleSubmit(handleUpsert)}
+                                color="primary"
+                            >
                                 Confirm
                             </Button>
                         </DialogActions>

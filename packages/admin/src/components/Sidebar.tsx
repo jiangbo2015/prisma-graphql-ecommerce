@@ -41,8 +41,6 @@ const SubMenuItem = ({ item, depth }: SubMenuItemProps) => {
     const history = useHistory()
     const active = item.path === window.location.pathname
 
-    console.log(item.path, window.location.pathname)
-
     return (
         <>
             <ListItem

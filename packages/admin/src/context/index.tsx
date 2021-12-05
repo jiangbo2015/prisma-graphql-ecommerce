@@ -30,7 +30,6 @@ const Context = createContext<GlobalContext>({
 export const useGlobalContext = () => useContext<GlobalContext>(Context)
 
 const reducer = (state: State, action: Action) => {
-    console.log(action, 'action')
     switch (action.type) {
         case 'start':
             return {
