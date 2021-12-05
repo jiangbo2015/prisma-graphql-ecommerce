@@ -1,9 +1,23 @@
-import React, { ChangeEvent, useState } from 'react'
-import { Box, Card, Typography, Button } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email'
-import LockIcon from '@mui/icons-material/Lock'
-import AccountCircle from '@mui/icons-material/AccountCircle'
-import { CommonInput } from './login'
+import React, { ChangeEvent, useState, useCallback } from 'react'
+import {
+    Box,
+    Card,
+    Typography,
+    Button,
+    InputAdornment,
+    TextField,
+    IconButton,
+} from '@mui/material'
+import {
+    Email as EmailIcon,
+    Lock,
+    AccountCircle,
+    Visibility,
+    VisibilityOff,
+} from '@mui/icons-material'
+
+import { useForm } from 'react-hook-form'
+
 import { useCustomerCreate } from 'src/gql/mutation'
 import { CustomerInput } from '__generated__/globalTypes'
 import router from 'next/router'
@@ -11,60 +25,104 @@ import CardWrapper from 'src/components/CardWrapper'
 
 export default function Register() {
     const { mutate, data, error } = useCustomerCreate()
-    const [input, setInput] = useState<CustomerInput>({
-        email: '',
-        password: '',
-        name: '',
-    })
-    const handleSubmit = () => {
+    const [showPassword, setShowPassword] = useState(false)
+
+    const handleRegister = (data: CustomerInput) => {
         mutate({
             variables: {
-                data: input,
+                data,
             },
         }).catch((e) => {})
     }
 
-    const handleChange =
-        (field: keyof CustomerInput) => (e: ChangeEvent<HTMLInputElement>) => {
-            setInput({
-                ...input,
-                [field]: e.target.value,
-            })
-        }
+    const toggleShowPassword = useCallback(() => {
+        setShowPassword(!showPassword)
+    }, [showPassword])
 
     if (data) {
         router.push('/login')
     }
+
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm<CustomerInput>()
 
     return (
         <CardWrapper>
             <Card sx={{ p: 5, maxWidth: 'sm', textAlign: 'center' }}>
                 <Typography variant="h3">Sign Up</Typography>
                 <Box>
-                    <CommonInput
+                    <TextField
                         label="Name"
-                        name="name"
-                        icon={<AccountCircle />}
-                        required
-                        value={input.name}
-                        onChange={handleChange('name')}
+                        margin="normal"
+                        fullWidth
+                        variant="outlined"
+                        error={!!errors.name}
+                        helperText={errors?.name?.message}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    {<AccountCircle />}
+                                </InputAdornment>
+                            ),
+                        }}
+                        {...register('name', {
+                            required: 'name is required',
+                        })}
                     />
-                    <CommonInput
+                    <TextField
                         label="Email"
-                        name="email"
-                        type={'email'}
-                        icon={<EmailIcon />}
-                        required
-                        value={input.email}
-                        onChange={handleChange('email')}
+                        margin="normal"
+                        fullWidth
+                        variant="outlined"
+                        error={!!errors.email}
+                        helperText={errors?.email?.message}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    {<EmailIcon />}
+                                </InputAdornment>
+                            ),
+                        }}
+                        {...register('email', {
+                            required: 'email is required',
+                        })}
                     />
-                    <CommonInput
+                    <TextField
                         label="Password"
-                        name="password"
-                        required
-                        icon={<LockIcon />}
-                        value={input.password}
-                        onChange={handleChange('password')}
+                        margin="normal"
+                        fullWidth
+                        variant="outlined"
+                        type={showPassword ? 'text' : 'password'}
+                        error={!!errors.password}
+                        helperText={errors?.password?.message}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    {<Lock />}
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={toggleShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        {...register('password', {
+                            required: 'password is required',
+                        })}
                     />
 
                     <Button
@@ -72,7 +130,7 @@ export default function Register() {
                         color="primary"
                         fullWidth
                         sx={{ mt: 2 }}
-                        onClick={handleSubmit}
+                        onClick={handleSubmit(handleRegister)}
                     >
                         Submit
                     </Button>
