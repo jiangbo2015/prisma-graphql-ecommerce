@@ -1,4 +1,3 @@
-import { ChangeEvent, useState } from 'react'
 import {
     Card,
     CardContent,
@@ -8,6 +7,7 @@ import {
     TextField,
     Button,
 } from '@mui/material'
+import { useForm } from 'react-hook-form'
 
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LockIcon from '@mui/icons-material/Lock'
@@ -17,20 +17,12 @@ import { useLogin } from 'src/graphql/User'
 import { UserLoginInput } from 'src/__generated__/globalTypes'
 
 export default function InputWithIcon() {
-    const [input, setInput] = useState<UserLoginInput>({
-        password: '',
-        email: '',
-    })
-
-    const handleChange =
-        (field: keyof UserLoginInput) => (e: ChangeEvent<HTMLInputElement>) => {
-            setInput({
-                ...input,
-                [field]: e.target.value,
-            })
-        }
-
     const { mutate, data, loading } = useLogin()
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm<UserLoginInput>()
 
     const history = useHistory()
 
@@ -40,10 +32,10 @@ export default function InputWithIcon() {
         history.push('/collection')
     }
 
-    const handleSubmit = () => {
+    const handleLogin = (data: UserLoginInput) => {
         mutate({
             variables: {
-                data: input,
+                data,
             },
         })
     }
@@ -67,7 +59,7 @@ export default function InputWithIcon() {
                     mx: [3, 0],
                 }}
             >
-                <CardContent component="form" onSubmit={handleSubmit}>
+                <CardContent>
                     <Typography gutterBottom variant="h4" align="center">
                         Login
                     </Typography>
@@ -76,10 +68,9 @@ export default function InputWithIcon() {
                         label="Email"
                         type="email"
                         sx={{ mt: 4 }}
-                        value={input.email}
-                        onChange={handleChange('email')}
-                        required
                         fullWidth
+                        error={!!errors.email}
+                        helperText={errors?.email?.message}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -87,15 +78,17 @@ export default function InputWithIcon() {
                                 </InputAdornment>
                             ),
                         }}
+                        {...register('email', {
+                            required: 'please input email',
+                        })}
                     />
                     <TextField
                         label="Password"
                         type="password"
                         sx={{ mt: 4 }}
-                        value={input.password}
-                        onChange={handleChange('password')}
-                        required
                         fullWidth
+                        error={!!errors.password}
+                        helperText={errors?.password?.message}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -103,12 +96,15 @@ export default function InputWithIcon() {
                                 </InputAdornment>
                             ),
                         }}
+                        {...register('password', {
+                            required: 'please input password',
+                        })}
                     />
                     <Box display="flex" justifyContent="center" mt={3}>
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={handleSubmit}
+                            onClick={handleSubmit(handleLogin)}
                             disabled={loading}
                         >
                             Submit

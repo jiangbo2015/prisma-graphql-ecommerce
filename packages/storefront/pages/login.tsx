@@ -45,11 +45,9 @@ export default function InputWithIcon() {
                 <Typography variant="h3">Sign In</Typography>
 
                 <TextField
-                    name="email"
                     label="Email"
                     margin="normal"
                     fullWidth
-                    variant="outlined"
                     error={!!errors.email}
                     helperText={errors?.email?.message}
                     InputProps={{
@@ -62,11 +60,9 @@ export default function InputWithIcon() {
                     {...register('email', { required: 'email is required' })}
                 />
                 <TextField
-                    name="password"
                     label="password"
                     margin="normal"
                     fullWidth
-                    variant="outlined"
                     error={!!errors.password}
                     helperText={errors?.password?.message}
                     InputProps={{

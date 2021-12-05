@@ -58,7 +58,6 @@ export default function Register() {
                         label="Name"
                         margin="normal"
                         fullWidth
-                        variant="outlined"
                         error={!!errors.name}
                         helperText={errors?.name?.message}
                         InputProps={{
@@ -76,7 +75,6 @@ export default function Register() {
                         label="Email"
                         margin="normal"
                         fullWidth
-                        variant="outlined"
                         error={!!errors.email}
                         helperText={errors?.email?.message}
                         InputProps={{
@@ -94,7 +92,6 @@ export default function Register() {
                         label="Password"
                         margin="normal"
                         fullWidth
-                        variant="outlined"
                         type={showPassword ? 'text' : 'password'}
                         error={!!errors.password}
                         helperText={errors?.password?.message}
